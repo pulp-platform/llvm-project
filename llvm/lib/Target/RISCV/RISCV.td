@@ -401,9 +401,16 @@ def FeatureStdExtZvfh
                        [FeatureStdExtZve32f]>;
 
 // TODO We should remove the "V2" part, since this is handled specially now.
+def FeaturePULPExtMacsi
+    : SubtargetFeature<"xpulpmacsi", "HasPULPExtMacsi",
+                       "true", "'Xpulpmacsi' (PULP extensions for mac)">;
+def HasPULPExtMacsi : Predicate<"Subtarget->hasPULPExtMacsi()">,
+                             AssemblerPredicate<(all_of FeaturePULPExtMacsi)>;
+
 def FeaturePULPExtV2
     : SubtargetFeature<"xpulpv", "HasPULPExtV2",
-                       "true", "'pulpv2' (PULP extensions version 2)">;
+                       "true", "'pulpv2' (PULP extensions version 2)",
+                       [FeaturePULPExtMacsi]>;
 def HasPULPExtV2 : Predicate<"Subtarget->hasPULPExtV2()">,
                              AssemblerPredicate<(all_of FeaturePULPExtV2)>;
 

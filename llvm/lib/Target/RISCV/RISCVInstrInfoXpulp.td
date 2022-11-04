@@ -791,10 +791,15 @@ def P_SUBURNR : Pulp_ALU_rr_wb<0b1100000, 0b111, OPC_PULP_OP, "p.suburnr">;
 // Instructions: immediate branches
 def P_BEQIMM : Pulp_Immediate_Branch<0b010, "p.beqimm">;
 def P_BNEIMM : Pulp_Immediate_Branch<0b011, "p.bneimm">;
+} // Predicates = [IsRV32, HasPULPExtV2], DecoderNamespace = "RV32Xpulp"
 
+let Predicates = [IsRV32, HasPULPExtMacsi], DecoderNamespace = "RV32Xpulpmacsi" in {
 // Instructions: MAC operations
 def P_MAC :      Pulp_ALU_rr_wb<0b0100001, 0b000, OPC_OP, "p.mac">;
 def P_MSU :      Pulp_ALU_rr_wb<0b0100001, 0b001, OPC_OP, "p.msu">;
+} // Predicates = [IsRV32, HasPULPExtMacsi], DecoderNamespace = "RV32Xpulpmacsi"
+
+let Predicates = [IsRV32, HasPULPExtV2], DecoderNamespace = "RV32Xpulp" in {
 
 def P_MULS :     Pulp_ALU_rr   <0b1000000, 0b000, OPC_PULP_OP, "p.muls">;
 def P_MULHHS :   Pulp_ALU_rr   <0b1100000, 0b000, OPC_PULP_OP, "p.mulhhs">;
@@ -1312,12 +1317,16 @@ def : Pat<(brcond (XLenVT (seteq GPR:$rs1, simm5:$imm5)), bb:$imm12),
           (P_BEQIMM GPR:$rs1, simm5:$imm5, simm13_lsb0:$imm12)>;
 def : Pat<(brcond (XLenVT (setne GPR:$rs1, simm5:$imm5)), bb:$imm12),
           (P_BNEIMM GPR:$rs1, simm5:$imm5, simm13_lsb0:$imm12)>;
+} // Predicates = [IsRV32, HasPULPExtV2]
 
+let Predicates = [IsRV32, HasPULPExtMacsi] in {
 def : Pat<(add GPR:$rd, (mul GPR:$rs1, GPR:$rs2)),
           (P_MAC GPR:$rd, GPR:$rs1, GPR:$rs2)>;
 def : Pat<(sub GPR:$rd, (mul GPR:$rs1, GPR:$rs2)),
           (P_MSU GPR:$rd, GPR:$rs1, GPR:$rs2)>;
+} // Predicates = [IsRV32, HasPULPExtMacsi]
 
+let Predicates = [IsRV32, HasPULPExtV2] in {
 def : Pat<(muls GPR:$rs1, GPR:$rs2),
           (P_MULS GPR:$rs1, GPR:$rs2)>;
 def : Pat<(mulhhs GPR:$rs1, GPR:$rs2),
@@ -1682,9 +1691,14 @@ def : UnaryBuiltin<int_riscv_pulp_clb, P_CLB>;
 def : UnaryBuiltin<int_riscv_pulp_cnt, P_CNT>;
 def : Pat<(int_riscv_pulp_parity GPR:$rs1), (P_BCLR (P_CNT GPR:$rs1), 30, 1)>;
 def : UnaryBuiltin<int_riscv_pulp_abs, P_ABS>;
+} // Predicates = [IsRV32, HasPULPExtV2]
 
+let Predicates = [IsRV32, HasPULPExtMacsi] in {
 def : Pat<(int_riscv_pulp_mac GPR:$rs1, GPR:$rs2, GPR:$rd), (P_MAC GPR:$rd, GPR:$rs1, GPR:$rs2)>;
 def : Pat<(int_riscv_pulp_msu GPR:$rs1, GPR:$rs2, GPR:$rd), (P_MSU GPR:$rd, GPR:$rs1, GPR:$rs2)>;
+} // Predicates = [IsRV32, HasPULPExtMacsi]
+
+let Predicates = [IsRV32, HasPULPExtV2] in {
 
 def : Pat<(int_riscv_pulp_macs GPR:$rs1, GPR:$rs2, GPR:$rd), (P_MACS GPR:$rd, GPR:$rs1, GPR:$rs2)>;
 def : Pat<(int_riscv_pulp_macu GPR:$rs1, GPR:$rs2, GPR:$rd), (P_MACU GPR:$rd, GPR:$rs1, GPR:$rs2)>;

@@ -125,6 +125,7 @@ static const RISCVSupportedExtension SupportedExtensions[] = {
     {"xfexpauxvecaltquarter", RISCVExtensionVersion{0, 1}},
     // PULP extensions
     {"xpulpv", RISCVExtensionVersion{2, 0}},
+    {"xpulpmacsi", RISCVExtensionVersion{0, 1}},
 };
 
 static const RISCVSupportedExtension SupportedExperimentalExtensions[] = {

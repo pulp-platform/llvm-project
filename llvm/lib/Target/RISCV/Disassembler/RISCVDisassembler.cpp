@@ -467,6 +467,16 @@ DecodeStatus RISCVDisassembler::getInstruction(MCInst &MI, uint64_t &Size,
       }
     }
 
+    if (STI.getFeatureBits()[RISCV::FeaturePULPExtMacsi]) {
+      LLVM_DEBUG(dbgs() << "Trying RV32Xpulpmacsi table (PULP extensions):\n");
+      Result = decodeInstruction(DecoderTableRV32Xpulpmacsi32, MI, Insn, Address, this,
+                                 STI);
+      if (Result != MCDisassembler::Fail) {
+        Size = 4;
+        return Result;
+      }
+    }
+
     if (STI.getFeatureBits()[RISCV::FeatureStdExtZdinx] &&
         !STI.getFeatureBits()[RISCV::Feature64Bit]) {
       LLVM_DEBUG(dbgs() << "Trying RV32Zdinx table (Double in Integer and"
