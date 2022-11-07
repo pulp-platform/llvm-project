@@ -517,7 +517,7 @@ RISCVTargetLowering::RISCVTargetLowering(const TargetMachine &TM,
 
   // If this is PULP with PULPv2 extensions, then we support post-incrementing
   // load/stores for 8-bit, 16-bit, and 32-bit values.
-  if (Subtarget.hasPULPExtV2()) {
+  if (Subtarget.hasPULPExtPostmod()) {
     setIndexedLoadAction(ISD::POST_INC, MVT::i8, Legal);
     setIndexedLoadAction(ISD::POST_INC, MVT::i16, Legal);
     setIndexedLoadAction(ISD::POST_INC, MVT::i32, Legal);

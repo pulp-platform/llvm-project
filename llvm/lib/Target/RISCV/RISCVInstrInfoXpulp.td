@@ -894,7 +894,10 @@ defm PV_CMPGTU : SC_SCI_H_B<0b00110, 1, uimm6, "cmpgtu">;
 defm PV_CMPGEU : SC_SCI_H_B<0b00111, 1, uimm6, "cmpgeu">;
 defm PV_CMPLTU : SC_SCI_H_B<0b01000, 1, uimm6, "cmpltu">;
 defm PV_CMPLEU : SC_SCI_H_B<0b01001, 1, uimm6, "cmpleu">;
+} // Predicates = [IsRV32, HasPULPExtV2], DecoderNamespace = "RV32Xpulp"
 
+let Predicates = [IsRV32, HasPULPExtPostmod], DecoderNamespace = "RV32Xpulppostmod" in {
+// Instructions: Postmod load and store instructions
 defm P_LB  : Pulp_Load<0b0000000, 0b000, "p.lb">,  Sched<[WriteLDB, ReadMemBase]>;
 defm P_LBU : Pulp_Load<0b0100000, 0b100, "p.lbu">, Sched<[WriteLDB, ReadMemBase]>;
 defm P_LH  : Pulp_Load<0b0001000, 0b001, "p.lh">,  Sched<[WriteLDH, ReadMemBase]>;
@@ -904,6 +907,9 @@ defm P_LW  : Pulp_Load<0b0010000, 0b010, "p.lw">,  Sched<[WriteLDW, ReadMemBase]
 defm P_SB : Pulp_Store<0b00, "p.sb">, Sched<[WriteSTB, ReadStoreData, ReadMemBase]>;
 defm P_SH : Pulp_Store<0b01, "p.sh">, Sched<[WriteSTH, ReadStoreData, ReadMemBase]>;
 defm P_SW : Pulp_Store<0b10, "p.sw">, Sched<[WriteSTW, ReadStoreData, ReadMemBase]>;
+} // Predicates = [IsRV32, HasPULPExtPostmod], DecoderNamespace = "RV32Xpulppostmod"
+
+let Predicates = [IsRV32, HasPULPExtV2], DecoderNamespace = "RV32Xpulp" in {
 
 let isCodeGenOnly = 1 in { // Helper for Patterns
   def P_INSERTR_v2 : Pulp_ALU_rr_wb<0b1000000, 0b010, OPC_OP, "p.insertr", GPR, GPR, PulpV2>;
@@ -1634,6 +1640,9 @@ def : Pat<(v4i8 (bitconvert GPR:$rs1)), (v4i8 PulpV4:$rs1)>;
 def : Pat<(i32 (bitconvert PulpV2:$rs1)), (i32 GPR:$rs1)>;
 def : Pat<(i32 (bitconvert PulpV4:$rs1)), (i32 GPR:$rs1)>;
 
+} // Predicates = [IsRV32, HasPULPExtV2]
+
+let Predicates = [IsRV32, HasPULPExtPostmod] in {
 // Patterns for load/store instructions
 
 // post increment loads need custom selection, because tablegen can't deal with
@@ -1670,10 +1679,13 @@ def : Pat<(truncstorei16 GPR:$val, (add GPR:$base, GPR:$offset)),
     (P_SH_rr GPR:$val, GPR:$base, GPR:$offset)>;
 def : Pat<(store GPR:$val, (add GPR:$base, GPR:$offset)),
     (P_SW_rr GPR:$val, GPR:$base, GPR:$offset)>;
+} // Predicates = [IsRV32, HasPULPExtPostmod]
 
 //===----------------------------------------------------------------------===//
 // Pseudo-instructions and codegen patterns
 //===----------------------------------------------------------------------===//
+
+let Predicates = [IsRV32, HasPULPExtV2] in {
 
 def : Pat<(int_riscv_pulp_event_unit_read GPR:$rs, simm12:$simm12),
           (PULP_ELW GPR:$rs, simm12:$simm12)>;
@@ -1871,6 +1883,9 @@ def : Pat<(int_riscv_pulp_clipu GPR:$rs1, 0, powerOf2Minus1:$upperBound),
           (P_CLIPU GPR:$rs1, (trailing1sPlus1 imm:$upperBound))>;
 def : PatGprGpr<int_riscv_pulp_clipu_r, P_CLIPUR>;
 
+} // Predicates = [IsRV32, HasPULPExtV2]
+
+let Predicates = [IsRV32, HasPULPExtPostmod] in {
 def : Pat<(int_riscv_pulp_OffsetedRead GPR:$rs1, GPR:$rs2), (P_LW_rr GPR:$rs1, GPR:$rs2)>;
 def : Pat<(int_riscv_pulp_OffsetedReadHalf GPR:$rs1, GPR:$rs2), (P_LH_rr GPR:$rs1, GPR:$rs2)>;
 def : Pat<(int_riscv_pulp_OffsetedReadByte GPR:$rs1, GPR:$rs2), (P_LB_rr GPR:$rs1, GPR:$rs2)>;
@@ -1881,6 +1896,9 @@ def : Pat<(int_riscv_pulp_OffsetedWriteByte GPR:$rs2, GPR:$rs1, GPR:$rs3), (P_SB
 
 def : Pat<(int_riscv_pulp_read_base_off GPR:$rs1, GPR:$rs2), (P_LW_rr GPR:$rs1, GPR:$rs2)>;
 def : Pat<(int_riscv_pulp_write_base_off GPR:$rs2, GPR:$rs1, GPR:$rs3), (P_SW_rr GPR:$rs2, GPR:$rs1, GPR:$rs3)>;
+} // Predicates = [IsRV32, HasPULPExtPostmod]
+
+let Predicates = [IsRV32, HasPULPExtV2] in {
 
 def : Pat<(int_riscv_pulp_spr_read tuimm12:$csr),
           (CSRRS csr_sysreg:$csr, X0)>;

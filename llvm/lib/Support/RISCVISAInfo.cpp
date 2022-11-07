@@ -126,6 +126,7 @@ static const RISCVSupportedExtension SupportedExtensions[] = {
     // PULP extensions
     {"xpulpv", RISCVExtensionVersion{2, 0}},
     {"xpulpmacsi", RISCVExtensionVersion{0, 1}},
+    {"xpulppostmod", RISCVExtensionVersion{0, 1}},
 };
 
 static const RISCVSupportedExtension SupportedExperimentalExtensions[] = {

@@ -407,10 +407,16 @@ def FeaturePULPExtMacsi
 def HasPULPExtMacsi : Predicate<"Subtarget->hasPULPExtMacsi()">,
                              AssemblerPredicate<(all_of FeaturePULPExtMacsi)>;
 
+def FeaturePULPExtPostmod
+    : SubtargetFeature<"xpulppostmod", "HasPULPExtPostmod",
+                       "true", "'Xpulppostmod' (PULP extensions for postmod load store)">;
+def HasPULPExtPostmod : Predicate<"Subtarget->hasPULPExtPostmod()">,
+                             AssemblerPredicate<(all_of FeaturePULPExtPostmod)>;
+
 def FeaturePULPExtV2
     : SubtargetFeature<"xpulpv", "HasPULPExtV2",
                        "true", "'pulpv2' (PULP extensions version 2)",
-                       [FeaturePULPExtMacsi]>;
+                       [FeaturePULPExtMacsi, FeaturePULPExtPostmod]>;
 def HasPULPExtV2 : Predicate<"Subtarget->hasPULPExtV2()">,
                              AssemblerPredicate<(all_of FeaturePULPExtV2)>;
 

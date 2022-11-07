@@ -62,6 +62,7 @@ private:
 
   bool HasPULPExtV2 = false;
   bool HasPULPExtMacsi = false;
+  bool HasPULPExtPostmod = false;
   bool HasStdExtM = false;
   bool HasStdExtA = false;
   bool HasStdExtF = false;
@@ -229,6 +230,7 @@ public:
   bool hasExtXmempool() const { return HasExtXmempool; }
   bool hasPULPExtV2() const { return HasPULPExtV2; }
   bool hasPULPExtMacsi() const { return HasPULPExtMacsi; }
+  bool hasPULPExtPostmod() const { return HasPULPExtPostmod; }
   bool hasExtXsmallfloat() const {
     return HasExtXfalthalf || HasExtXfquarter || HasExtXfaltquarter ||
            HasExtXfvecsingle || HasExtXfvechalf || HasExtXfvecalthalf ||
