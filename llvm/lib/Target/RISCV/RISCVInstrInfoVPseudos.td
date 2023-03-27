@@ -4584,6 +4584,7 @@ defm PseudoVFNMSUB : VPseudoVMAC_VV_VF_AAXA;
 //===----------------------------------------------------------------------===//
 // 14.7. Vector Widening Floating-Point Fused Multiply-Add Instructions
 //===----------------------------------------------------------------------===//
+defm PseudoVFWDOTP  : VPseudoVWMAC_VV_VF;
 defm PseudoVFWMACC  : VPseudoVWMAC_VV_VF;
 defm PseudoVFWNMACC : VPseudoVWMAC_VV_VF;
 defm PseudoVFWMSAC  : VPseudoVWMAC_VV_VF;

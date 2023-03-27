@@ -1161,6 +1161,7 @@ defm VFNMSUB_V : VMAC_FV_V_F<"vfnmsub", 0b101011>;
 
 // Vector Widening Floating-Point Fused Multiply-Add Instructions
 let Constraints = "@earlyclobber $vd", RVVConstraint = WidenV in {
+defm VFWDOTP_V : VWMAC_FV_V_F<"vfwdotp", 0b111011>;
 defm VFWMACC_V : VWMAC_FV_V_F<"vfwmacc", 0b111100>;
 defm VFWNMACC_V : VWMAC_FV_V_F<"vfwnmacc", 0b111101>;
 defm VFWMSAC_V : VWMAC_FV_V_F<"vfwmsac", 0b111110>;
