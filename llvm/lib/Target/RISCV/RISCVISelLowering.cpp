@@ -92,7 +92,8 @@ RISCVTargetLowering::RISCVTargetLowering(const TargetMachine &TM,
     addRegisterClass(MVT::f32, &RISCV::FPR32RegClass);
   if (Subtarget.hasStdExtD())
     addRegisterClass(MVT::f64, &RISCV::FPR64RegClass);
-  if (Subtarget.hasPULPExtV2()) {
+  if (Subtarget.hasPULPExtV2() || Subtarget.hasPULPExtVect() ||
+    Subtarget.hasPULPExtVectshufflepack() || Subtarget.hasPULPExtVectcomplex()) {
     addRegisterClass(MVT::v2i16, &RISCV::PulpV2RegClass);
     addRegisterClass(MVT::v4i8, &RISCV::PulpV4RegClass);
   }
@@ -463,7 +464,6 @@ RISCVTargetLowering::RISCVTargetLowering(const TargetMachine &TM,
       setOperationAction(ISD::UMIN, VT, Legal);
       setOperationAction(ISD::SMAX, VT, Legal);
       setOperationAction(ISD::UMAX, VT, Legal);
-
     }
     setOperationAction(ISD::SIGN_EXTEND_INREG, MVT::i8, Legal);
     setOperationAction(ISD::SIGN_EXTEND_INREG, MVT::i16, Legal);

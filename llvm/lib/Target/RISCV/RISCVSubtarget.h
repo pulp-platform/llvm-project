@@ -61,8 +61,27 @@ private:
   RISCVProcFamilyEnum RISCVProcFamily = Others;
 
   bool HasPULPExtV2 = false;
-  bool HasPULPExtMacsi = false;
+  bool HasPULPExtHwloop = false;
   bool HasPULPExtPostmod = false;
+  bool HasPULPExtIndregreg = false;
+  bool HasPULPExtElw = false;
+  bool HasPULPExtAbs = false;
+  bool HasPULPExtSlet = false;
+  bool HasPULPExtMacsi = false;
+  bool HasPULPExtMulrnhi = false;
+  bool HasPULPExtMacrnhi = false;
+  bool HasPULPExtPartmac = false;
+  bool HasPULPExtMinmax = false;
+  bool HasPULPExtBitop = false;
+  bool HasPULPExtVect = false;
+  bool HasPULPExtVectshufflepack = false;
+  bool HasPULPExtVectcomplex = false;
+  bool HasPULPExtClip = false;
+  bool HasPULPExtAddsubrn = false;
+  bool HasPULPExtBr = false;
+  bool HasPULPExtBitrev = false;
+  bool HasPULPExtVectgap8 = false;
+  bool HasPULPExtVectgap9 = false;
   bool HasStdExtM = false;
   bool HasStdExtA = false;
   bool HasStdExtF = false;
@@ -229,8 +248,27 @@ public:
   bool hasExtXcopift() const { return HasExtXcopift; }
   bool hasExtXmempool() const { return HasExtXmempool; }
   bool hasPULPExtV2() const { return HasPULPExtV2; }
-  bool hasPULPExtMacsi() const { return HasPULPExtMacsi; }
+  bool hasPULPExtHwloop() const { return HasPULPExtHwloop; }
   bool hasPULPExtPostmod() const { return HasPULPExtPostmod; }
+  bool hasPULPExtIndregreg() const { return HasPULPExtIndregreg; }
+  bool hasPULPExtElw() const { return HasPULPExtElw; }
+  bool hasPULPExtAbs() const { return HasPULPExtAbs; }
+  bool hasPULPExtSlet() const { return HasPULPExtSlet; }
+  bool hasPULPExtMacsi() const { return HasPULPExtMacsi; }
+  bool hasPULPExtMulrnhi() const { return HasPULPExtMulrnhi; }
+  bool hasPULPExtMacrnhi() const { return HasPULPExtMacrnhi; }
+  bool hasPULPExtPartmac() const { return HasPULPExtPartmac; }
+  bool hasPULPExtMinmax() const { return HasPULPExtMinmax; }
+  bool hasPULPExtBitop() const { return HasPULPExtBitop; }
+  bool hasPULPExtVect() const { return HasPULPExtVect; }
+  bool hasPULPExtVectshufflepack() const { return HasPULPExtVectshufflepack; }
+  bool hasPULPExtVectcomplex() const { return HasPULPExtVectcomplex; }
+  bool hasPULPExtClip() const { return HasPULPExtClip; }
+  bool hasPULPExtAddsubrn() const { return HasPULPExtAddsubrn; }
+  bool hasPULPExtBr() const { return HasPULPExtBr; }
+  bool hasPULPExtBitrev() const { return HasPULPExtBitrev; }
+  bool hasPULPExtVectgap8() const { return HasPULPExtVectgap8; }
+  bool hasPULPExtVectgap9() const { return HasPULPExtVectgap9; }
   bool hasExtXsmallfloat() const {
     return HasExtXfalthalf || HasExtXfquarter || HasExtXfaltquarter ||
            HasExtXfvecsingle || HasExtXfvechalf || HasExtXfvecalthalf ||

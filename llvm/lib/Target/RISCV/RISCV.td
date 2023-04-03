@@ -401,11 +401,12 @@ def FeatureStdExtZvfh
                        [FeatureStdExtZve32f]>;
 
 // TODO We should remove the "V2" part, since this is handled specially now.
-def FeaturePULPExtMacsi
-    : SubtargetFeature<"xpulpmacsi", "HasPULPExtMacsi",
-                       "true", "'Xpulpmacsi' (PULP extensions for mac)">;
-def HasPULPExtMacsi : Predicate<"Subtarget->hasPULPExtMacsi()">,
-                             AssemblerPredicate<(all_of FeaturePULPExtMacsi)>;
+// XPULP Extensions
+def FeaturePULPExtHwloop
+    : SubtargetFeature<"xpulphwloop", "HasPULPExtHwloop",
+                       "true", "'Xpulphwloop' (PULP extensions for hardware loops)">;
+def HasPULPExtHwloop : Predicate<"Subtarget->hasPULPExtHwloop()">,
+                             AssemblerPredicate<(all_of FeaturePULPExtHwloop)>;
 
 def FeaturePULPExtPostmod
     : SubtargetFeature<"xpulppostmod", "HasPULPExtPostmod",
@@ -413,12 +414,133 @@ def FeaturePULPExtPostmod
 def HasPULPExtPostmod : Predicate<"Subtarget->hasPULPExtPostmod()">,
                              AssemblerPredicate<(all_of FeaturePULPExtPostmod)>;
 
+def FeaturePULPExtIndregreg
+    : SubtargetFeature<"xpulpindregreg", "HasPULPExtIndregreg",
+                       "true", "'Xpulpindregreg' (PULP extensions for register indirect stores and loads)">;
+def HasPULPExtIndregreg : Predicate<"Subtarget->hasPULPExtIndregreg()">,
+                             AssemblerPredicate<(all_of FeaturePULPExtIndregreg)>;
+
+def FeaturePULPExtElw
+    : SubtargetFeature<"xpulpelw", "HasPULPExtElw",
+                       "true", "'Xpulpelw' (PULP extensions for event unit load)">;
+def HasPULPExtElw : Predicate<"Subtarget->hasPULPExtElw()">,
+                             AssemblerPredicate<(all_of FeaturePULPExtElw)>;
+
+def FeaturePULPExtAbs
+    : SubtargetFeature<"xpulpabs", "HasPULPExtAbs",
+                       "true", "'Xpulpabs' (PULP extensions for abs)">;
+def HasPULPExtAbs : Predicate<"Subtarget->hasPULPExtAbs()">,
+                             AssemblerPredicate<(all_of FeaturePULPExtAbs)>;
+
+def FeaturePULPExtSlet
+    : SubtargetFeature<"xpulpslet", "HasPULPExtSlet",
+                       "true", "'Xpulpslet' (PULP extensions for comparison)">;
+def HasPULPExtSlet : Predicate<"Subtarget->hasPULPExtSlet()">,
+                             AssemblerPredicate<(all_of FeaturePULPExtSlet)>;
+
+def FeaturePULPExtMacsi
+    : SubtargetFeature<"xpulpmacsi", "HasPULPExtMacsi",
+                       "true", "'Xpulpmacsi' (PULP extensions for mac)">;
+def HasPULPExtMacsi : Predicate<"Subtarget->hasPULPExtMacsi()">,
+                             AssemblerPredicate<(all_of FeaturePULPExtMacsi)>;
+
+def FeaturePULPExtMulrnhi
+    : SubtargetFeature<"xpulpmulrnhi", "HasPULPExtMulrnhi",
+                       "true", "'Xpulpmulrnhi' (PULP extensions for partial mul (16x16 into 32))">;
+def HasPULPExtMulrnhi : Predicate<"Subtarget->hasPULPExtMulrnhi()">,
+                             AssemblerPredicate<(all_of FeaturePULPExtMulrnhi)>;
+
+def FeaturePULPExtMacrnhi
+    : SubtargetFeature<"xpulpmacrnhi", "HasPULPExtMacrnhi",
+                       "true", "'Xpulpmacrnhi' (PULP extensions for partial mac (16x16 into 32) with rounding and norm)">;
+def HasPULPExtMacrnhi : Predicate<"Subtarget->hasPULPExtMacrnhi()">,
+                             AssemblerPredicate<(all_of FeaturePULPExtMacrnhi)>;
+
+def FeaturePULPExtPartmac
+    : SubtargetFeature<"xpulppartmac", "HasPULPExtPartmac",
+                       "true", "'Xpulppartmac' (PULP extensions for partial mac 16x16 into 32)">;
+def HasPULPExtPartmac : Predicate<"Subtarget->hasPULPExtPartmac()">,
+                             AssemblerPredicate<(all_of FeaturePULPExtPartmac)>;
+
+def FeaturePULPExtMinmax
+    : SubtargetFeature<"xpulpminmax", "HasPULPExtMinmax",
+                       "true", "'Xpulpminmax' (PULP extensions for min/max functions)">;
+def HasPULPExtMinmax : Predicate<"Subtarget->hasPULPExtMinmax()">,
+                             AssemblerPredicate<(all_of FeaturePULPExtMinmax)>;
+
+def FeaturePULPExtBitop
+    : SubtargetFeature<"xpulpbitop", "HasPULPExtBitop",
+                       "true", "'Xpulpbitop' (PULP extensions for bit manipulation)">;
+def HasPULPExtBitop : Predicate<"Subtarget->hasPULPExtBitop()">,
+                             AssemblerPredicate<(all_of FeaturePULPExtBitop)>;
+
+def FeaturePULPExtVect
+    : SubtargetFeature<"xpulpvect", "HasPULPExtVect",
+                       "true", "'Xpulpvect' (PULP extensions for integer SIMD instructions)">;
+def HasPULPExtVect : Predicate<"Subtarget->hasPULPExtVect()">,
+                             AssemblerPredicate<(all_of FeaturePULPExtVect)>;
+
+def FeaturePULPExtVectshufflepack
+    : SubtargetFeature<"xpulpvectshufflepack", "HasPULPExtVectshufflepack",
+                       "true", "'Xpulpvectshufflepack' (PULP extensions for SIMD shuffle and pack)">;
+def HasPULPExtVectshufflepack : Predicate<"Subtarget->hasPULPExtVectshufflepack()">,
+                             AssemblerPredicate<(all_of FeaturePULPExtVectshufflepack)>;
+
+def FeaturePULPExtVectcomplex
+    : SubtargetFeature<"xpulpvectcomplex", "HasPULPExtVectcomplex",
+                       "true", "'Xpulpvectcomplex' (PULP extensions for SIMD complex instructions)">;
+def HasPULPExtVectcomplex : Predicate<"Subtarget->hasPULPExtVectcomplex()">,
+                             AssemblerPredicate<(all_of FeaturePULPExtVectcomplex)>;
+
+def FeaturePULPExtClip
+    : SubtargetFeature<"xpulpclip", "HasPULPExtClip",
+                       "true", "'Xpulpclip' (PULP extensions for clip)">;
+def HasPULPExtClip : Predicate<"Subtarget->hasPULPExtClip()">,
+                             AssemblerPredicate<(all_of FeaturePULPExtClip)>;
+
+def FeaturePULPExtAddsubrn
+    : SubtargetFeature<"xpulpaddsubrn", "HasPULPExtAddsubrn",
+                       "true", "'Xpulpaddsubrn' (PULP extensions for add/sub with norm/round)">;
+def HasPULPExtAddsubrn : Predicate<"Subtarget->hasPULPExtAddsubrn()">,
+                             AssemblerPredicate<(all_of FeaturePULPExtAddsubrn)>;
+
+def FeaturePULPExtBr
+    : SubtargetFeature<"xpulpbr", "HasPULPExtBr",
+                       "true", "'Xpulpbr' (PULP extensions for immediate branching)">;
+def HasPULPExtBr : Predicate<"Subtarget->hasPULPExtBr()">,
+                             AssemblerPredicate<(all_of FeaturePULPExtBr)>;
+
+def FeaturePULPExtBitrev
+    : SubtargetFeature<"xpulpbitrev", "HasPULPExtBitrev",
+                       "true", "'Xpulpbitrev' (PULP extensions for bitreversal)">;
+def HasPULPExtBitrev : Predicate<"Subtarget->hasPULPExtBitrev()">,
+                             AssemblerPredicate<(all_of FeaturePULPExtBitrev)>;
+
+def FeaturePULPExtVectgap8
+    : SubtargetFeature<"xpulpvectgap8", "HasPULPExtVectgap8",
+                       "true", "'Xpulpvectgap8' (PULP extensions for SIMD instructions in gap8)">;
+def HasPULPExtVectgap8 : Predicate<"Subtarget->hasPULPExtVectgap8()">,
+                             AssemblerPredicate<(all_of FeaturePULPExtVectgap8)>;
+
+def FeaturePULPExtVectgap9
+    : SubtargetFeature<"xpulpvectgap9", "HasPULPExtVectgap9",
+                       "true", "'Xpulpvectgap9' (PULP extensions for SIMD instructions in gap9)">;
+def HasPULPExtVectgap9 : Predicate<"Subtarget->hasPULPExtVectgap9()">,
+                             AssemblerPredicate<(all_of FeaturePULPExtVectgap9)>;
+
 def FeaturePULPExtV2
     : SubtargetFeature<"xpulpv", "HasPULPExtV2",
                        "true", "'pulpv2' (PULP extensions version 2)",
-                       [FeaturePULPExtMacsi, FeaturePULPExtPostmod]>;
+                       [FeaturePULPExtHwloop, FeaturePULPExtPostmod, FeaturePULPExtIndregreg,
+                        FeaturePULPExtElw, FeaturePULPExtAbs, FeaturePULPExtSlet,
+                        FeaturePULPExtMacsi, FeaturePULPExtMulrnhi, FeaturePULPExtMacrnhi,
+                        FeaturePULPExtPartmac, FeaturePULPExtMinmax, FeaturePULPExtBitop,
+                        FeaturePULPExtVect, FeaturePULPExtVectshufflepack, FeaturePULPExtVectcomplex,
+                        FeaturePULPExtClip, FeaturePULPExtAddsubrn, FeaturePULPExtBr,
+                        FeaturePULPExtBitrev, FeaturePULPExtVectgap8, FeaturePULPExtVectgap9]>;
 def HasPULPExtV2 : Predicate<"Subtarget->hasPULPExtV2()">,
                              AssemblerPredicate<(all_of FeaturePULPExtV2)>;
+// END XPULP extensions
 
 def Feature64Bit
     : SubtargetFeature<"64bit", "HasRV64", "true", "Implements RV64">;

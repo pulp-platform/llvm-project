@@ -18,8 +18,14 @@ def SiFive7Model : SchedMachineModel {
   let UnsupportedFeatures = [HasStdExtZbkb, HasStdExtZbkc, HasStdExtZbkx,
                              HasStdExtZknd, HasStdExtZkne, HasStdExtZknh,
                              HasStdExtZksed, HasStdExtZksh, HasStdExtZkr,
-                             HasVInstructions, HasPULPExtV2, HasPULPExtMacsi,
-                             HasPULPExtPostmod];
+                             HasVInstructions, HasPULPExtV2,
+                             HasPULPExtHwloop, HasPULPExtPostmod, HasPULPExtIndregreg,
+                             HasPULPExtElw, HasPULPExtAbs, HasPULPExtSlet,
+                             HasPULPExtMacsi, HasPULPExtMulrnhi, HasPULPExtMacrnhi,
+                             HasPULPExtPartmac, HasPULPExtMinmax, HasPULPExtBitop,
+                             HasPULPExtVect, HasPULPExtVectshufflepack, HasPULPExtVectcomplex,
+                             HasPULPExtClip, HasPULPExtAddsubrn, HasPULPExtBr,
+                             HasPULPExtBitrev, HasPULPExtVectgap8, HasPULPExtVectgap9];
 }
 
 // The SiFive7 microarchitecture has two pipelines: A and B.

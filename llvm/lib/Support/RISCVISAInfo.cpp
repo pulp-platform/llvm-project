@@ -125,8 +125,27 @@ static const RISCVSupportedExtension SupportedExtensions[] = {
     {"xfexpauxvecaltquarter", RISCVExtensionVersion{0, 1}},
     // PULP extensions
     {"xpulpv", RISCVExtensionVersion{2, 0}},
-    {"xpulpmacsi", RISCVExtensionVersion{0, 1}},
+    {"xpulphwloop", RISCVExtensionVersion{0, 1}},
     {"xpulppostmod", RISCVExtensionVersion{0, 1}},
+    {"xpulpindregreg", RISCVExtensionVersion{0, 1}},
+    {"xpulpelw", RISCVExtensionVersion{0, 1}},
+    {"xpulpabs", RISCVExtensionVersion{0, 1}},
+    {"xpulpslet", RISCVExtensionVersion{0, 1}},
+    {"xpulpmacsi", RISCVExtensionVersion{0, 1}},
+    {"xpulpmulrnhi", RISCVExtensionVersion{0, 1}},
+    {"xpulpmacrnhi", RISCVExtensionVersion{0, 1}},
+    {"xpulppartmac", RISCVExtensionVersion{0, 1}},
+    {"xpulpminmax", RISCVExtensionVersion{0, 1}},
+    {"xpulpbitop", RISCVExtensionVersion{0, 1}},
+    {"xpulpvect", RISCVExtensionVersion{0, 1}},
+    {"xpulpvectshufflepack", RISCVExtensionVersion{0, 1}},
+    {"xpulpvectcomplex", RISCVExtensionVersion{0, 1}},
+    {"xpulpclip", RISCVExtensionVersion{0, 1}},
+    {"xpulpaddsubrn", RISCVExtensionVersion{0, 1}},
+    {"xpulpbr", RISCVExtensionVersion{0, 1}},
+    {"xpulpbitrev", RISCVExtensionVersion{0, 1}},
+    {"xpulpvectgap8", RISCVExtensionVersion{0, 1}},
+    {"xpulpvectgap9", RISCVExtensionVersion{0, 1}},
 };
 
 static const RISCVSupportedExtension SupportedExperimentalExtensions[] = {

@@ -457,9 +457,69 @@ DecodeStatus RISCVDisassembler::getInstruction(MCInst &MI, uint64_t &Size,
     }
     Insn = support::endian::read32le(Bytes.data());
 
-    if (STI.getFeatureBits()[RISCV::FeaturePULPExtV2]) {
-      LLVM_DEBUG(dbgs() << "Trying RV32Xpulp table (PULP extensions):\n");
-      Result = decodeInstruction(DecoderTableRV32Xpulp32, MI, Insn, Address, this,
+    // if (STI.getFeatureBits()[RISCV::FeaturePULPExtV2]) {
+    //   LLVM_DEBUG(dbgs() << "Trying RV32Xpulp table (PULP extensions):\n");
+    //   Result = decodeInstruction(DecoderTableRV32Xpulp32, MI, Insn, Address, this,
+    //                              STI);
+    //   if (Result != MCDisassembler::Fail) {
+    //     Size = 4;
+    //     return Result;
+    //   }
+    // }
+
+    if (STI.getFeatureBits()[RISCV::FeaturePULPExtHwloop]) {
+      LLVM_DEBUG(dbgs() << "Trying RV32Xpulphwloop table (PULP extensions):\n");
+      Result = decodeInstruction(DecoderTableRV32Xpulphwloop32, MI, Insn, Address, this,
+                                 STI);
+      if (Result != MCDisassembler::Fail) {
+        Size = 4;
+        return Result;
+      }
+    }
+
+    if (STI.getFeatureBits()[RISCV::FeaturePULPExtPostmod]) {
+      LLVM_DEBUG(dbgs() << "Trying RV32Xpulppostmod table (PULP extensions):\n");
+      Result = decodeInstruction(DecoderTableRV32Xpulppostmod32, MI, Insn, Address, this,
+                                 STI);
+      if (Result != MCDisassembler::Fail) {
+        Size = 4;
+        return Result;
+      }
+    }
+
+    // if (STI.getFeatureBits()[RISCV::FeaturePULPExtIndregreg]) {
+    //   LLVM_DEBUG(dbgs() << "Trying RV32Xpulpindregreg table (PULP extensions):\n");
+    //   Result = decodeInstruction(DecoderTableRV32Xpulpindregreg32, MI, Insn, Address, this,
+    //                              STI);
+    //   if (Result != MCDisassembler::Fail) {
+    //     Size = 4;
+    //     return Result;
+    //   }
+    // }
+
+    if (STI.getFeatureBits()[RISCV::FeaturePULPExtElw]) {
+      LLVM_DEBUG(dbgs() << "Trying RV32Xpulpelw table (PULP extensions):\n");
+      Result = decodeInstruction(DecoderTableRV32Xpulpelw32, MI, Insn, Address, this,
+                                 STI);
+      if (Result != MCDisassembler::Fail) {
+        Size = 4;
+        return Result;
+      }
+    }
+
+    if (STI.getFeatureBits()[RISCV::FeaturePULPExtAbs]) {
+      LLVM_DEBUG(dbgs() << "Trying RV32Xpulpabs table (PULP extensions):\n");
+      Result = decodeInstruction(DecoderTableRV32Xpulpabs32, MI, Insn, Address, this,
+                                 STI);
+      if (Result != MCDisassembler::Fail) {
+        Size = 4;
+        return Result;
+      }
+    }
+
+    if (STI.getFeatureBits()[RISCV::FeaturePULPExtSlet]) {
+      LLVM_DEBUG(dbgs() << "Trying RV32Xpulpslet table (PULP extensions):\n");
+      Result = decodeInstruction(DecoderTableRV32Xpulpslet32, MI, Insn, Address, this,
                                  STI);
       if (Result != MCDisassembler::Fail) {
         Size = 4;
@@ -477,15 +537,145 @@ DecodeStatus RISCVDisassembler::getInstruction(MCInst &MI, uint64_t &Size,
       }
     }
 
-    if (STI.getFeatureBits()[RISCV::FeaturePULPExtPostmod]) {
-      LLVM_DEBUG(dbgs() << "Trying RV32Xpulppostmod table (PULP extensions):\n");
-      Result = decodeInstruction(DecoderTableRV32Xpulppostmod32, MI, Insn, Address, this,
+    if (STI.getFeatureBits()[RISCV::FeaturePULPExtMulrnhi]) {
+      LLVM_DEBUG(dbgs() << "Trying RV32Xpulpmulrnhi table (PULP extensions):\n");
+      Result = decodeInstruction(DecoderTableRV32Xpulpmulrnhi32, MI, Insn, Address, this,
                                  STI);
       if (Result != MCDisassembler::Fail) {
         Size = 4;
         return Result;
       }
     }
+
+    if (STI.getFeatureBits()[RISCV::FeaturePULPExtMacrnhi]) {
+      LLVM_DEBUG(dbgs() << "Trying RV32Xpulpmacrnhi table (PULP extensions):\n");
+      Result = decodeInstruction(DecoderTableRV32Xpulpmacrnhi32, MI, Insn, Address, this,
+                                 STI);
+      if (Result != MCDisassembler::Fail) {
+        Size = 4;
+        return Result;
+      }
+    }
+
+    if (STI.getFeatureBits()[RISCV::FeaturePULPExtPartmac]) {
+      LLVM_DEBUG(dbgs() << "Trying RV32Xpulppartmac table (PULP extensions):\n");
+      Result = decodeInstruction(DecoderTableRV32Xpulppartmac32, MI, Insn, Address, this,
+                                 STI);
+      if (Result != MCDisassembler::Fail) {
+        Size = 4;
+        return Result;
+      }
+    }
+
+    if (STI.getFeatureBits()[RISCV::FeaturePULPExtMinmax]) {
+      LLVM_DEBUG(dbgs() << "Trying RV32Xpulpminmax table (PULP extensions):\n");
+      Result = decodeInstruction(DecoderTableRV32Xpulpminmax32, MI, Insn, Address, this,
+                                 STI);
+      if (Result != MCDisassembler::Fail) {
+        Size = 4;
+        return Result;
+      }
+    }
+
+    if (STI.getFeatureBits()[RISCV::FeaturePULPExtBitop]) {
+      LLVM_DEBUG(dbgs() << "Trying RV32Xpulpbitop table (PULP extensions):\n");
+      Result = decodeInstruction(DecoderTableRV32Xpulpbitop32, MI, Insn, Address, this,
+                                 STI);
+      if (Result != MCDisassembler::Fail) {
+        Size = 4;
+        return Result;
+      }
+    }
+
+    if (STI.getFeatureBits()[RISCV::FeaturePULPExtVect]) {
+      LLVM_DEBUG(dbgs() << "Trying RV32Xpulpvect table (PULP extensions):\n");
+      Result = decodeInstruction(DecoderTableRV32Xpulpvect32, MI, Insn, Address, this,
+                                 STI);
+      if (Result != MCDisassembler::Fail) {
+        Size = 4;
+        return Result;
+      }
+    }
+
+    if (STI.getFeatureBits()[RISCV::FeaturePULPExtVectshufflepack]) {
+      LLVM_DEBUG(dbgs() << "Trying RV32Xpulpvectshufflepack table (PULP extensions):\n");
+      Result = decodeInstruction(DecoderTableRV32Xpulpvectshufflepack32, MI, Insn, Address, this,
+                                 STI);
+      if (Result != MCDisassembler::Fail) {
+        Size = 4;
+        return Result;
+      }
+    }
+
+    // if (STI.getFeatureBits()[RISCV::FeaturePULPExtVectcomplex]) {
+    //   LLVM_DEBUG(dbgs() << "Trying RV32Xpulpvectcomplex table (PULP extensions):\n");
+    //   Result = decodeInstruction(DecoderTableRV32Xpulpvectcomplex32, MI, Insn, Address, this,
+    //                              STI);
+    //   if (Result != MCDisassembler::Fail) {
+    //     Size = 4;
+    //     return Result;
+    //   }
+    // }
+
+    if (STI.getFeatureBits()[RISCV::FeaturePULPExtClip]) {
+      LLVM_DEBUG(dbgs() << "Trying RV32Xpulpclip table (PULP extensions):\n");
+      Result = decodeInstruction(DecoderTableRV32Xpulpclip32, MI, Insn, Address, this,
+                                 STI);
+      if (Result != MCDisassembler::Fail) {
+        Size = 4;
+        return Result;
+      }
+    }
+
+    if (STI.getFeatureBits()[RISCV::FeaturePULPExtAddsubrn]) {
+      LLVM_DEBUG(dbgs() << "Trying RV32Xpulpaddsubrn table (PULP extensions):\n");
+      Result = decodeInstruction(DecoderTableRV32Xpulpaddsubrn32, MI, Insn, Address, this,
+                                 STI);
+      if (Result != MCDisassembler::Fail) {
+        Size = 4;
+        return Result;
+      }
+    }
+
+    if (STI.getFeatureBits()[RISCV::FeaturePULPExtBr]) {
+      LLVM_DEBUG(dbgs() << "Trying RV32Xpulpbr table (PULP extensions):\n");
+      Result = decodeInstruction(DecoderTableRV32Xpulpbr32, MI, Insn, Address, this,
+                                 STI);
+      if (Result != MCDisassembler::Fail) {
+        Size = 4;
+        return Result;
+      }
+    }
+
+    // if (STI.getFeatureBits()[RISCV::FeaturePULPExtBitrev]) {
+    //   LLVM_DEBUG(dbgs() << "Trying RV32Xpulpbitrev table (PULP extensions):\n");
+    //   Result = decodeInstruction(DecoderTableRV32Xpulpbitrev32, MI, Insn, Address, this,
+    //                              STI);
+    //   if (Result != MCDisassembler::Fail) {
+    //     Size = 4;
+    //     return Result;
+    //   }
+    // }
+
+    // if (STI.getFeatureBits()[RISCV::FeaturePULPExtVectgap8]) {
+    //   LLVM_DEBUG(dbgs() << "Trying RV32Xpulpvectgap8 table (PULP extensions):\n");
+    //   Result = decodeInstruction(DecoderTableRV32Xpulpvectgap832, MI, Insn, Address, this,
+    //                              STI);
+    //   if (Result != MCDisassembler::Fail) {
+    //     Size = 4;
+    //     return Result;
+    //   }
+    // }
+
+    // if (STI.getFeatureBits()[RISCV::FeaturePULPExtVectgap9]) {
+    //   LLVM_DEBUG(dbgs() << "Trying RV32Xpulpvectgap9 table (PULP extensions):\n");
+    //   Result = decodeInstruction(DecoderTableRV32Xpulpvectgap932, MI, Insn, Address, this,
+    //                              STI);
+    //   if (Result != MCDisassembler::Fail) {
+    //     Size = 4;
+    //     return Result;
+    //   }
+    // }
 
     if (STI.getFeatureBits()[RISCV::FeatureStdExtZdinx] &&
         !STI.getFeatureBits()[RISCV::Feature64Bit]) {

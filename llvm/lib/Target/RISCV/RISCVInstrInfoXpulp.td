@@ -402,13 +402,13 @@ multiclass Pulp_Load<bits<7> funct7, bits<3> funct3, string opcodestr> {
 // Instructions
 //===----------------------------------------------------------------------===//
 
-let Predicates = [IsRV32, HasPULPExtV2], DecoderNamespace = "RV32Xpulp" in {
-
+let Predicates = [IsRV32, HasPULPExtElw], DecoderNamespace = "RV32Xpulpelw" in {
 let hasSideEffects = 1, mayStore = 1 in
   def PULP_ELW : Load_ri<0b110, "p.elw">, Sched<[WriteLDW, ReadMemBase]>;
+} // Predicates = [IsRV32, HasPULPExtElw], DecoderNamespace = "RV32Xpulpelw"
 
 // Hardware loops
-
+let Predicates = [IsRV32, HasPULPExtHwloop], DecoderNamespace = "RV32Xpulphwloop" in {
 def LOOP0setup : Instruction, Sched<[ReadIALU, WriteCSR]> {
 
     bits<32> Inst;
@@ -733,7 +733,9 @@ def LOOP1count : Instruction, Sched<[ReadIALU, WriteCSR]> {
 
     let AsmString = "lp.count\tx1, $uimmS";
 }
+} // Predicates = [IsRV32, HasPULPExtHwloop], DecoderNamespace = "RV32Xpulphwloop"
 
+let Predicates = [IsRV32, HasPULPExtBitop], DecoderNamespace = "RV32Xpulpbitop" in {
 // Bit manipulation operations
 def P_EXTRACT :   Pulp_ALU_rii   <0b11, 0b000, "p.extract">;
 def P_EXTRACTU :  Pulp_ALU_rii   <0b11, 0b001, "p.extractu">;
@@ -753,24 +755,38 @@ def P_FL1 :       Pulp_ALU_r <0b0001000, 0b001, OPC_OP, "p.fl1">;
 def P_CLB :       Pulp_ALU_r <0b0001000, 0b010, OPC_OP, "p.clb">;
 def P_CNT :       Pulp_ALU_r <0b0001000, 0b011, OPC_OP, "p.cnt">;
 
-// General ALU operations
-def P_ABS :    Pulp_ALU_r <0b0000010, 0b000, OPC_OP, "p.abs">;
-def P_SLET :   Pulp_ALU_rr<0b0000010, 0b010, OPC_OP, "p.slet">;
-def P_SLETU :  Pulp_ALU_rr<0b0000010, 0b011, OPC_OP, "p.sletu">;
-def P_MIN :    Pulp_ALU_rr<0b0000010, 0b100, OPC_OP, "p.min">;
-def P_MINU :   Pulp_ALU_rr<0b0000010, 0b101, OPC_OP, "p.minu">;
-def P_MAX :    Pulp_ALU_rr<0b0000010, 0b110, OPC_OP, "p.max">;
-def P_MAXU :   Pulp_ALU_rr<0b0000010, 0b111, OPC_OP, "p.maxu">;
 def P_EXTHS :  Pulp_ALU_r <0b0001000, 0b100, OPC_OP, "p.exths">;
 def P_EXTHZ :  Pulp_ALU_r <0b0001000, 0b101, OPC_OP, "p.exthz">;
 def P_EXTBS :  Pulp_ALU_r <0b0001000, 0b110, OPC_OP, "p.extbs">;
 def P_EXTBZ :  Pulp_ALU_r <0b0001000, 0b111, OPC_OP, "p.extbz">;
+} // Predicates = [IsRV32, HasPULPExtBitop], DecoderNamespace = "RV32Xpulpbitop"
 
+
+// General ALU operations
+let Predicates = [IsRV32, HasPULPExtAbs], DecoderNamespace = "RV32Xpulpabs" in {
+def P_ABS :    Pulp_ALU_r <0b0000010, 0b000, OPC_OP, "p.abs">;
+} // Predicates = [IsRV32, HasPULPExtAbs], DecoderNamespace = "RV32Xpulpabs"
+
+let Predicates = [IsRV32, HasPULPExtSlet], DecoderNamespace = "RV32Xpulpslet" in {
+def P_SLET :   Pulp_ALU_rr<0b0000010, 0b010, OPC_OP, "p.slet">;
+def P_SLETU :  Pulp_ALU_rr<0b0000010, 0b011, OPC_OP, "p.sletu">;
+} // Predicates = [IsRV32, HasPULPExtSlet], DecoderNamespace = "RV32Xpulpslet"
+
+let Predicates = [IsRV32, HasPULPExtMinmax], DecoderNamespace = "RV32Xpulpminmax" in {
+def P_MIN :    Pulp_ALU_rr<0b0000010, 0b100, OPC_OP, "p.min">;
+def P_MINU :   Pulp_ALU_rr<0b0000010, 0b101, OPC_OP, "p.minu">;
+def P_MAX :    Pulp_ALU_rr<0b0000010, 0b110, OPC_OP, "p.max">;
+def P_MAXU :   Pulp_ALU_rr<0b0000010, 0b111, OPC_OP, "p.maxu">;
+} // Predicates = [IsRV32, HasPULPExtMinmax], DecoderNamespace = "RV32Xpulpminmax"
+
+let Predicates = [IsRV32, HasPULPExtClip], DecoderNamespace = "RV32Xpulpclip" in {
 def P_CLIP :   Pulp_ALU_ri<0b0001010, 0b001, "p.clip">;
 def P_CLIPU :  Pulp_ALU_ri<0b0001010, 0b010, "p.clipu">;
 def P_CLIPR :  Pulp_ALU_rr<0b0001010, 0b101, OPC_OP, "p.clipr">;
 def P_CLIPUR : Pulp_ALU_rr<0b0001010, 0b110, OPC_OP, "p.clipur">;
+} // Predicates = [IsRV32, HasPULPExtClip], DecoderNamespace = "RV32Xpulpclip"
 
+let Predicates = [IsRV32, HasPULPExtAddsubrn], DecoderNamespace = "RV32Xpulpaddsubrn" in {
 def P_ADDN :    Pulp_ALU_rri<0b00, 0b010, OPC_PULP_OP, "p.addn">;
 def P_ADDUN :   Pulp_ALU_rri<0b10, 0b010, OPC_PULP_OP, "p.addun">;
 def P_ADDRN :   Pulp_ALU_rri<0b00, 0b110, OPC_PULP_OP, "p.addrn">;
@@ -787,11 +803,13 @@ def P_SUBNR :   Pulp_ALU_rr_wb<0b0100000, 0b011, OPC_PULP_OP, "p.subnr">;
 def P_SUBUNR :  Pulp_ALU_rr_wb<0b1100000, 0b011, OPC_PULP_OP, "p.subunr">;
 def P_SUBRNR :  Pulp_ALU_rr_wb<0b0100000, 0b111, OPC_PULP_OP, "p.subrnr">;
 def P_SUBURNR : Pulp_ALU_rr_wb<0b1100000, 0b111, OPC_PULP_OP, "p.suburnr">;
+} // Predicates = [IsRV32, HasPULPExtAddsubrn], DecoderNamespace = "RV32Xpulpaddsubrn"
 
+let Predicates = [IsRV32, HasPULPExtBr], DecoderNamespace = "RV32Xpulpbr" in {
 // Instructions: immediate branches
 def P_BEQIMM : Pulp_Immediate_Branch<0b010, "p.beqimm">;
 def P_BNEIMM : Pulp_Immediate_Branch<0b011, "p.bneimm">;
-} // Predicates = [IsRV32, HasPULPExtV2], DecoderNamespace = "RV32Xpulp"
+} // Predicates = [IsRV32, HasPULPExtBr], DecoderNamespace = "RV32Xpulpbr"
 
 let Predicates = [IsRV32, HasPULPExtMacsi], DecoderNamespace = "RV32Xpulpmacsi" in {
 // Instructions: MAC operations
@@ -799,8 +817,7 @@ def P_MAC :      Pulp_ALU_rr_wb<0b0100001, 0b000, OPC_OP, "p.mac">;
 def P_MSU :      Pulp_ALU_rr_wb<0b0100001, 0b001, OPC_OP, "p.msu">;
 } // Predicates = [IsRV32, HasPULPExtMacsi], DecoderNamespace = "RV32Xpulpmacsi"
 
-let Predicates = [IsRV32, HasPULPExtV2], DecoderNamespace = "RV32Xpulp" in {
-
+let Predicates = [IsRV32, HasPULPExtMulrnhi], DecoderNamespace = "RV32Xpulpmulrnhi" in {
 def P_MULS :     Pulp_ALU_rr   <0b1000000, 0b000, OPC_PULP_OP, "p.muls">;
 def P_MULHHS :   Pulp_ALU_rr   <0b1100000, 0b000, OPC_PULP_OP, "p.mulhhs">;
 def P_MULSN :    Pulp_ALU_rri       <0b10, 0b000, OPC_PULP_OP, "p.mulsn">;
@@ -813,19 +830,27 @@ def P_MULUN :    Pulp_ALU_rri       <0b00, 0b000, OPC_PULP_OP, "p.mulun">;
 def P_MULHHUN :  Pulp_ALU_rri       <0b01, 0b000, OPC_PULP_OP, "p.mulhhun">;
 def P_MULURN :   Pulp_ALU_rri       <0b00, 0b100, OPC_PULP_OP, "p.mulurn">;
 def P_MULHHURN : Pulp_ALU_rri       <0b01, 0b100, OPC_PULP_OP, "p.mulhhurn">;
-def P_MACS :     Pulp_ALU_rr_wb<0b1000000, 0b001, OPC_PULP_OP, "p.macs">;
-def P_MACHHS :   Pulp_ALU_rr_wb<0b1100000, 0b001, OPC_PULP_OP, "p.machhs">;
+} // Predicates = [IsRV32, HasPULPExtMulrnhi], DecoderNamespace = "RV32Xpulpmulrnhi"
+
+let Predicates = [IsRV32, HasPULPExtMacrnhi], DecoderNamespace = "RV32Xpulpmacrnhi" in {
 def P_MACSN :    Pulp_ALU_rri_wb    <0b10, 0b001, OPC_PULP_OP, "p.macsn">;
 def P_MACHHSN :  Pulp_ALU_rri_wb    <0b11, 0b001, OPC_PULP_OP, "p.machhsn">;
 def P_MACSRN :   Pulp_ALU_rri_wb    <0b10, 0b101, OPC_PULP_OP, "p.macsrn">;
 def P_MACHHSRN : Pulp_ALU_rri_wb    <0b11, 0b101, OPC_PULP_OP, "p.machhsrn">;
-def P_MACU :     Pulp_ALU_rr_wb<0b0000000, 0b001, OPC_PULP_OP, "p.macu">;
-def P_MACHHU :   Pulp_ALU_rr_wb<0b0100000, 0b001, OPC_PULP_OP, "p.machhu">;
 def P_MACUN :    Pulp_ALU_rri_wb    <0b00, 0b001, OPC_PULP_OP, "p.macun">;
 def P_MACHHUN :  Pulp_ALU_rri_wb    <0b01, 0b001, OPC_PULP_OP, "p.machhun">;
 def P_MACURN :   Pulp_ALU_rri_wb    <0b00, 0b101, OPC_PULP_OP, "p.macurn">;
 def P_MACHHURN : Pulp_ALU_rri_wb    <0b01, 0b101, OPC_PULP_OP, "p.machhurn">;
+} // Predicates = [IsRV32, HasPULPExtMacrnhi], DecoderNamespace = "RV32Xpulpmacrnhi"
 
+let Predicates = [IsRV32, HasPULPExtPartmac], DecoderNamespace = "RV32Xpulppartmac" in {
+def P_MACS :     Pulp_ALU_rr_wb<0b1000000, 0b001, OPC_PULP_OP, "p.macs">;
+def P_MACHHS :   Pulp_ALU_rr_wb<0b1100000, 0b001, OPC_PULP_OP, "p.machhs">;
+def P_MACU :     Pulp_ALU_rr_wb<0b0000000, 0b001, OPC_PULP_OP, "p.macu">;
+def P_MACHHU :   Pulp_ALU_rr_wb<0b0100000, 0b001, OPC_PULP_OP, "p.machhu">;
+} // Predicates = [IsRV32, HasPULPExtPartmac], DecoderNamespace = "RV32Xpulppartmac"
+
+let Predicates = [IsRV32, HasPULPExtVect], DecoderNamespace = "RV32Xpulpvect" in {
 // Instructions: packed vector ALU
 defm PV_ADD  : SC_SCI_H_B<0b00000, 0, simm6, "add">;
 defm PV_SUB  : SC_SCI_H_B<0b00001, 0, simm6, "sub">;
@@ -852,6 +877,14 @@ let hasSideEffects = 0, mayStore = 0, mayLoad = 0, rs2 = 0 in {
                          "pv.abs.b", "$rd, $rs1">, Sched<[WriteIALU, ReadIALU]>;
 }
 
+// Pseudos used to lower vector splat operations on packed SIMD data types
+let hasSideEffects = 0, mayLoad = 0, mayStore = 0 in {
+  def PseudoPV_ADD_SC_H_VL  : Pseudo<(outs PulpV2:$dst), (ins GPR:$src1, GPR:$src2, AVL:$vl),[]>;
+  def PseudoPV_ADD_SC_B_VL  : Pseudo<(outs PulpV4:$dst), (ins GPR:$src1, GPR:$src2, AVL:$vl),[]>;
+  def PseudoPV_ADD_SCI_H_VL : Pseudo<(outs PulpV2:$dst), (ins GPR:$src1, simm6:$imm, AVL:$vl),[]>;
+  def PseudoPV_ADD_SCI_B_VL : Pseudo<(outs PulpV4:$dst), (ins GPR:$src1, simm6:$imm, AVL:$vl),[]>;
+}
+
 def PV_EXTRACT_H : Pulp_ALU_vsci<0b01111, 0, 0b110, "pv.extract.h", PulpV2, uimm6, GPR>;
 def PV_EXTRACT_B : Pulp_ALU_vsci<0b01111, 0, 0b111, "pv.extract.b", PulpV4, uimm6, GPR>;
 def PV_EXTRACTU_H : Pulp_ALU_vsci<0b10010, 0, 0b110, "pv.extractu.h", PulpV2, uimm6, GPR>;
@@ -866,6 +899,27 @@ defm PV_SDOTUP  : SDOTP<0b10100, 0, uimm6, "sdotup">;
 defm PV_SDOTUSP : SDOTP<0b10101, 0, simm6, "sdotusp">;
 defm PV_SDOTSP  : SDOTP<0b10111, 0, simm6, "sdotsp">;
 
+// Vectorial comparison operations
+defm PV_CMPEQ  : SC_SCI_H_B<0b00000, 1, simm6, "cmpeq">;
+defm PV_CMPNE  : SC_SCI_H_B<0b00001, 1, simm6, "cmpne">;
+defm PV_CMPGT  : SC_SCI_H_B<0b00010, 1, simm6, "cmpgt">;
+defm PV_CMPGE  : SC_SCI_H_B<0b00011, 1, simm6, "cmpge">;
+defm PV_CMPLT  : SC_SCI_H_B<0b00100, 1, simm6, "cmplt">;
+defm PV_CMPLE  : SC_SCI_H_B<0b00101, 1, simm6, "cmple">;
+defm PV_CMPGTU : SC_SCI_H_B<0b00110, 1, uimm6, "cmpgtu">;
+defm PV_CMPGEU : SC_SCI_H_B<0b00111, 1, uimm6, "cmpgeu">;
+defm PV_CMPLTU : SC_SCI_H_B<0b01000, 1, uimm6, "cmpltu">;
+defm PV_CMPLEU : SC_SCI_H_B<0b01001, 1, uimm6, "cmpleu">;
+
+let isCodeGenOnly = 1 in { // Helper for Patterns
+  def P_INSERTR_v2 : Pulp_ALU_rr_wb<0b1000000, 0b010, OPC_OP, "p.insertr", GPR, GPR, PulpV2>;
+  def P_INSERTR_v4 : Pulp_ALU_rr_wb<0b1000000, 0b010, OPC_OP, "p.insertr", GPR, GPR, PulpV4>;
+  def PV_SHUFFLE_H_GPR : Pulp_ALU_rr<0b1100000, 0b000, OPC_OP_V, "pv.shuffle.h", PulpV2, GPR, GPR>;
+  def PV_SHUFFLE_B_GPR : Pulp_ALU_rr<0b1100000, 0b001, OPC_OP_V, "pv.shuffle.b", PulpV4, GPR, GPR>;
+}
+} // Predicates = [IsRV32, HasPULPExtVect], DecoderNamespace = "RV32Xpulpvect"
+
+let Predicates = [IsRV32, HasPULPExtVectshufflepack], DecoderNamespace = "RV32Xpulpvectshufflepack" in {
 def PV_SHUFFLE_H       : Pulp_ALU_rr<0b1100000, 0b000, OPC_OP_V, "pv.shuffle.h", PulpV2>;
 def PV_SHUFFLE_SCI_H   : Pulp_ALU_vsci<0b11000, 0, 0b110, "pv.shuffle.sci.h", PulpV2, uimm6>;
 def PV_SHUFFLE_B       : Pulp_ALU_rr<0b1100000, 0b001, OPC_OP_V, "pv.shuffle.b", PulpV4>;
@@ -882,19 +936,7 @@ def PV_PACKLO_B : Pulp_ALU_rr_wb<0b1110000, 0b001, OPC_OP_V, "pv.packlo.b", GPR,
 
 let isCodeGenOnly = 1 in
 def PV_PACKHI_B_nowb : Pulp_ALU_rr<0b1101100, 0b001, OPC_OP_V, "pv.packhi.b", GPR, GPR, PulpV4>;
-
-// Vectorial comparison operations
-defm PV_CMPEQ  : SC_SCI_H_B<0b00000, 1, simm6, "cmpeq">;
-defm PV_CMPNE  : SC_SCI_H_B<0b00001, 1, simm6, "cmpne">;
-defm PV_CMPGT  : SC_SCI_H_B<0b00010, 1, simm6, "cmpgt">;
-defm PV_CMPGE  : SC_SCI_H_B<0b00011, 1, simm6, "cmpge">;
-defm PV_CMPLT  : SC_SCI_H_B<0b00100, 1, simm6, "cmplt">;
-defm PV_CMPLE  : SC_SCI_H_B<0b00101, 1, simm6, "cmple">;
-defm PV_CMPGTU : SC_SCI_H_B<0b00110, 1, uimm6, "cmpgtu">;
-defm PV_CMPGEU : SC_SCI_H_B<0b00111, 1, uimm6, "cmpgeu">;
-defm PV_CMPLTU : SC_SCI_H_B<0b01000, 1, uimm6, "cmpltu">;
-defm PV_CMPLEU : SC_SCI_H_B<0b01001, 1, uimm6, "cmpleu">;
-} // Predicates = [IsRV32, HasPULPExtV2], DecoderNamespace = "RV32Xpulp"
+} // Predicates = [IsRV32, HasPULPExtVectshufflepack], DecoderNamespace = "RV32Xpulpvectshufflepack"
 
 let Predicates = [IsRV32, HasPULPExtPostmod], DecoderNamespace = "RV32Xpulppostmod" in {
 // Instructions: Postmod load and store instructions
@@ -908,25 +950,6 @@ defm P_SB : Pulp_Store<0b00, "p.sb">, Sched<[WriteSTB, ReadStoreData, ReadMemBas
 defm P_SH : Pulp_Store<0b01, "p.sh">, Sched<[WriteSTH, ReadStoreData, ReadMemBase]>;
 defm P_SW : Pulp_Store<0b10, "p.sw">, Sched<[WriteSTW, ReadStoreData, ReadMemBase]>;
 } // Predicates = [IsRV32, HasPULPExtPostmod], DecoderNamespace = "RV32Xpulppostmod"
-
-let Predicates = [IsRV32, HasPULPExtV2], DecoderNamespace = "RV32Xpulp" in {
-
-let isCodeGenOnly = 1 in { // Helper for Patterns
-  def P_INSERTR_v2 : Pulp_ALU_rr_wb<0b1000000, 0b010, OPC_OP, "p.insertr", GPR, GPR, PulpV2>;
-  def P_INSERTR_v4 : Pulp_ALU_rr_wb<0b1000000, 0b010, OPC_OP, "p.insertr", GPR, GPR, PulpV4>;
-  def PV_SHUFFLE_H_GPR : Pulp_ALU_rr<0b1100000, 0b000, OPC_OP_V, "pv.shuffle.h", PulpV2, GPR, GPR>;
-  def PV_SHUFFLE_B_GPR : Pulp_ALU_rr<0b1100000, 0b001, OPC_OP_V, "pv.shuffle.b", PulpV4, GPR, GPR>;
-}
-
-// Pseudos used to lower vector splat operations on packed SIMD data types
-let hasSideEffects = 0, mayLoad = 0, mayStore = 0 in {
-  def PseudoPV_ADD_SC_H_VL  : Pseudo<(outs PulpV2:$dst), (ins GPR:$src1, GPR:$src2, AVL:$vl),[]>;
-  def PseudoPV_ADD_SC_B_VL  : Pseudo<(outs PulpV4:$dst), (ins GPR:$src1, GPR:$src2, AVL:$vl),[]>;
-  def PseudoPV_ADD_SCI_H_VL : Pseudo<(outs PulpV2:$dst), (ins GPR:$src1, simm6:$imm, AVL:$vl),[]>;
-  def PseudoPV_ADD_SCI_B_VL : Pseudo<(outs PulpV4:$dst), (ins GPR:$src1, simm6:$imm, AVL:$vl),[]>;
-}
-
-} // Predicates = [IsRV32, HasPULPExtV2], DecoderNamespace = "RV32Xpulp"
 
 //===----------------------------------------------------------------------===//
 // Codegen pattern templates
