@@ -96,10 +96,10 @@ let Predicates = [HasExtXfquarter] in {
 
 // Instructions
 let hasSideEffects = 0, mayLoad = 1, mayStore = 0 in
-def FLB : RVInstI<0b000, RISCVOpcode<"FLB", 0b0000111>, (outs FPR16:$rd),
+def FLB : RVInstI<0b100, RISCVOpcode<"FLB", 0b0000111>, (outs FPR16:$rd),
              (ins GPR:$rs1, simm12:$imm12), "flb", "$rd, ${imm12}(${rs1})">, Sched<[]>;
 let hasSideEffects = 0, mayLoad = 0, mayStore = 1 in
-def FSB : RVInstS<0b000, RISCVOpcode<"FSB", 0b0100111>, (outs ),
+def FSB : RVInstS<0b100, RISCVOpcode<"FSB", 0b0100111>, (outs ),
              (ins FPR16:$rs2, GPR:$rs1, simm12:$imm12), "fsb", "$rs2, ${imm12}(${rs1})">, Sched<[]>;
 let hasSideEffects = 0, mayLoad = 0, mayStore = 0 in
 def FMADD_B : RVInstR4Frm<0b11, RISCVOpcode<"FMADD_B", 0b1000011>,
@@ -1518,5 +1518,3 @@ def : InstAlias<"vfdotpex.ah.r.ab $rd, $rs1, $rs2",   (VFDOTPEX_H_R_B FPR16:$rd,
 def : InstAlias<"vfndotpex.ah.ab $rd, $rs1, $rs2",   (VFNDOTPEX_H_B FPR16:$rd, FPR16:$rs1, FPR16:$rs2), 0>;
 def : InstAlias<"vfndotpex.ah.r.ab $rd, $rs1, $rs2",   (VFNDOTPEX_H_R_B FPR16:$rd, FPR16:$rs1, FPR16:$rs2), 0>;
 } // let Predicates = [HasExtXfexpauxvecaltquarter]
-
-
