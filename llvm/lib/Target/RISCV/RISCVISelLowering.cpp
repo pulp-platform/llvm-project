@@ -2605,10 +2605,22 @@ static MVT getContainerForFixedLengthVector(const TargetLowering &TLI, MVT VT,
           useRVVForFixedLengthVectorVT(VT, Subtarget)) &&
          "Expected legal fixed length vector!");
 
+  MVT EltVT = VT.getVectorElementType();
+
+  if (Subtarget.hasPULPExtV2()) {
+    switch (EltVT.SimpleTy) {
+    default:
+      llvm_unreachable("unexpected element type for PULP SIMD vectors");
+    case MVT::i8:
+      return MVT::v4i8;
+    case MVT::i16:
+      return MVT::v2i16;
+    }
+  }
+
   unsigned MinVLen = Subtarget.getRealMinVLen();
   unsigned MaxELen = Subtarget.getELen();
 
-  MVT EltVT = VT.getVectorElementType();
   switch (EltVT.SimpleTy) {
   default:
     llvm_unreachable("unexpected element type for RVV container");
@@ -17745,7 +17757,10 @@ bool RISCV::CC_RISCV(const DataLayout &DL, RISCVABI::ABI ABI, unsigned ValNo,
   else if (ValVT == MVT::f64 && !UseGPRForF64)
     Reg = State.AllocateReg(ArgFPR64s);
   else if (ValVT.isVector()) {
-    Reg = allocateRVVReg(ValVT, ValNo, FirstMaskArgument, State, TLI);
+    if (TLI.getSubtarget().hasPULPExtV2())
+      Reg = State.AllocateReg(ArgGPRs);
+    else
+      Reg = allocateRVVReg(ValVT, ValNo, FirstMaskArgument, State, TLI);
     if (!Reg) {
       // For return values, the vector must be passed fully via registers or
       // via the stack.
@@ -17795,7 +17810,8 @@ bool RISCV::CC_RISCV(const DataLayout &DL, RISCVABI::ABI ABI, unsigned ValNo,
   }
 
   assert((!UseGPRForF16_F32 || !UseGPRForF64 || LocVT == XLenVT ||
-          (TLI.getSubtarget().hasVInstructions() && ValVT.isVector())) &&
+          (TLI.getSubtarget().hasVInstructions() && ValVT.isVector()) ||
+	  TLI.getSubtarget().hasPULPExtV2()) &&
          "Expected an XLenVT or vector types at this stage");
 
   if (Reg) {
