@@ -14,6 +14,7 @@ if (DEFINED LLVM_HAVE_TF_AOT OR DEFINED LLVM_HAVE_TF_API)
 endif()
 
 add_llvm_component_library(LLVMAnalysis
+  AffineAccessAnalysis.cpp
   AliasAnalysis.cpp
   AliasAnalysisEvaluator.cpp
   AliasAnalysisSummary.cpp

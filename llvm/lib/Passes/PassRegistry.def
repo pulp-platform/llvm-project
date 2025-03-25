@@ -146,6 +146,7 @@ CGSCC_PASS("no-op-cgscc", NoOpCGSCCPass())
 #ifndef FUNCTION_ANALYSIS
 #define FUNCTION_ANALYSIS(NAME, CREATE_PASS)
 #endif
+FUNCTION_ANALYSIS("affine-access", AffineAccessAnalysis())
 FUNCTION_ANALYSIS("aa", AAManager())
 FUNCTION_ANALYSIS("assumptions", AssumptionAnalysis())
 FUNCTION_ANALYSIS("block-freq", BlockFrequencyAnalysis())
@@ -190,6 +191,9 @@ FUNCTION_ALIAS_ANALYSIS("tbaa", TypeBasedAA())
 #ifndef FUNCTION_PASS
 #define FUNCTION_PASS(NAME, CREATE_PASS)
 #endif
+FUNCTION_PASS("infer-ssr", SSRInferencePass())
+FUNCTION_PASS("generate-ssr", SSRGenerationPass())
+FUNCTION_PASS("affine-access-pass", AffineAccessAnalysisPass())
 FUNCTION_PASS("aa-eval", AAEvaluator())
 FUNCTION_PASS("adce", ADCEPass())
 FUNCTION_PASS("add-discriminators", AddDiscriminatorsPass())

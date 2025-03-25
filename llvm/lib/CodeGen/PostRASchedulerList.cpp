@@ -268,10 +268,12 @@ bool PostRAScheduler::enablePostRAScheduler(
     TargetSubtargetInfo::RegClassVector &CriticalPathRCs) const {
   Mode = ST.getAntiDepBreakMode();
   ST.getCriticalPathRCs(CriticalPathRCs);
-
   // Check for explicit enable/disable of post-ra scheduling.
-  if (EnablePostRAScheduler.getPosition() > 0)
+  if (EnablePostRAScheduler.getPosition() > 0) {
     return EnablePostRAScheduler;
+  }
+
+  // return true; //FIXME: Snitch does not enable this by default (and should probably)
 
   return ST.enablePostRAScheduler() &&
          OptLevel >= ST.getOptLevelToEnablePostRAScheduler();
@@ -291,7 +293,6 @@ bool PostRAScheduler::runOnMachineFunction(MachineFunction &Fn) {
   TargetSubtargetInfo::AntiDepBreakMode AntiDepMode =
     TargetSubtargetInfo::ANTIDEP_NONE;
   SmallVector<const TargetRegisterClass*, 4> CriticalPathRCs;
-
   // Check that post-RA scheduling is enabled for this target.
   // This may upgrade the AntiDepMode.
   if (!enablePostRAScheduler(Fn.getSubtarget(), PassConfig->getOptLevel(),
@@ -307,11 +308,13 @@ bool PostRAScheduler::runOnMachineFunction(MachineFunction &Fn) {
          : TargetSubtargetInfo::ANTIDEP_NONE);
   }
 
+  // AntiDepMode = TargetSubtargetInfo::ANTIDEP_ALL; //FIXME: Snitch does not enable this by default (and probably should)
+
   LLVM_DEBUG(dbgs() << "PostRAScheduler\n");
 
   SchedulePostRATDList Scheduler(Fn, MLI, AA, RegClassInfo, AntiDepMode,
                                  CriticalPathRCs);
-
+  
   // Loop over all of the basic blocks
   for (auto &MBB : Fn) {
 #ifndef NDEBUG

@@ -86,6 +86,7 @@ void RISCVInstPrinter::printOperand(const MCInst *MI, unsigned OpNo,
                                     const MCSubtargetInfo &STI, raw_ostream &O,
                                     const char *Modifier) {
   assert((Modifier == 0 || Modifier[0] == 0) && "No modifiers supported");
+
   const MCOperand &MO = MI->getOperand(OpNo);
 
   if (MO.isReg()) {

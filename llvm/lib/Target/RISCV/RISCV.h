@@ -45,6 +45,18 @@ void initializeRISCVMergeBaseOffsetOptPass(PassRegistry &);
 FunctionPass *createRISCVExpandPseudoPass();
 void initializeRISCVExpandPseudoPass(PassRegistry &);
 
+FunctionPass *createRISCVExpandSSRPostRegAllocPass();
+void initializeRISCVExpandSSRPostRegAllocPass(PassRegistry &);
+
+FunctionPass *createSNITCHAutoFrepPass();
+void initializeSNITCHAutoFrepPass(PassRegistry &);
+
+FunctionPass *createSSRReassociatePass();
+void initializeSSRReassociatePass(PassRegistry &);
+
+FunctionPass *createSSRStatisticsPass();
+void initializeSSRStatisticsPass(PassRegistry &);
+
 FunctionPass *createRISCVExpandAtomicPseudoPass();
 void initializeRISCVExpandAtomicPseudoPass(PassRegistry &);
 
@@ -53,6 +65,8 @@ void initializeRISCVCleanupVSETVLIPass(PassRegistry &);
 
 FunctionPass *createRISCVExpandSSRPass();
 void initializeRISCVExpandSSRPass(PassRegistry &);
+
+//TODO : reference function pass for auto SSR inference here (+ add to CMakeLists.txt)
 
 FunctionPass *createRISCVExpandSDMAPass();
 void initializeRISCVExpandSDMAPass(PassRegistry &);

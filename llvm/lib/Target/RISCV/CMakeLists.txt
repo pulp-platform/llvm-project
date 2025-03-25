@@ -27,6 +27,7 @@ add_llvm_target(RISCVCodeGen
   RISCVExpandAtomicPseudoInsts.cpp
   RISCVExpandPseudoInsts.cpp
   RISCVExpandSSRInsts.cpp
+  RISCVExpandSSRInstsPostRegAlloc.cpp
   RISCVExpandSDMAInsts.cpp
   RISCVFrameLowering.cpp
   RISCVInstrInfo.cpp
@@ -42,7 +43,10 @@ add_llvm_target(RISCVCodeGen
   RISCVTargetMachine.cpp
   RISCVTargetObjectFile.cpp
   RISCVTargetTransformInfo.cpp
+  RISCVSSRReassociate.cpp
+  RISCVSSRStatistics.cpp
   Snitch/SNITCHFrepLoops.cpp
+  Snitch/SNITCHAutoFrep.cpp
 
   LINK_COMPONENTS
   Analysis

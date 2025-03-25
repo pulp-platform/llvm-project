@@ -105,10 +105,26 @@ class SPseudoPush:
   let usesCustomInserter = 0;
 }
 
+class SPseudoStoreMove: //instead of using these could give isBarrier = 1 to ssr csrrsi/csrrci
+      Pseudo<(outs FPR64:$ssr), (ins FPR64:$val),[]> {
+  let mayLoad = 0;
+  let mayStore = 1;
+  let hasSideEffects = 1;
+  let usesCustomInserter = 0;
+}
+
 class SPseudoPop:
       Pseudo<(outs FPR64:$val), (ins uimm5:$ssr),[]> {
   let mayLoad = 1;
-  let mayStore = 0;
+  let mayStore = 1;
+  let hasSideEffects = 1;
+  let usesCustomInserter = 0;
+}
+
+class SPseudoLoadMove:
+      Pseudo<(outs FPR64:$val), (ins FPR64:$ssr),[]> {
+  let mayLoad = 1;
+  let mayStore = 1;
   let hasSideEffects = 1;
   let usesCustomInserter = 0;
 }
@@ -148,6 +164,8 @@ let Predicates = [HasExtXssr] in {
   def PseudoSSRSetup_1D_W : SPseudoSetup1D;
   def PseudoSSRPush  : SPseudoPush;
   def PseudoSSRPop   : SPseudoPop;
+  def PseudoStoreMove : SPseudoStoreMove;
+  def PseudoLoadMove  : SPseudoLoadMove;
 
   foreach dim = [1, 2, 3, 4] in {
     def PseudoSSRSetupBoundStride_#dim#D : SPseudoSetupBoundStride;

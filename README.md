@@ -10,7 +10,7 @@ LLVM 12 with extensions for processors and computer systems of the [PULP platfor
 - [HERO][hero]: mixed-data-model (64-bit + 32-bit) compilation and data sharing; automatic tiling of data structures and insertion of DMA transfers;
 - MemPool: Instruction scheduling model for the MemPool architecture; `Xmempool` extension to allow dynamic instruction tracing;
 - [PULPv2 RISC-V ISA extension (`Xpulpv2`)][hero]: automatic insertion of hardware loops, post-increment memory accesses, and multiply-accumulates; intrinsics, `clang` builtins , and assembly support for all instructions of the extension;
-- [Snitch RISC-V ISA extensions (`Xssr`, `Xfrep`, and `Xdma`)][snitch]: automatic insertion of `frep` hardware loops; intrinsics and `clang` builtins for `Xssr` and `Xdma` extensions; assembly support for all instructions of the extension.
+- [Snitch RISC-V ISA extensions (`Xssr`, `Xfrep`, and `Xdma`)][snitch]: automatic insertion of `frep` hardware loops; intrinsics and `clang` builtins for `Xssr` and `Xdma` extensions; assembly support for all instructions of the extension. NEW: automatic SSR inference.
 
 # HERO and PULPv2 RISC-V ISA Extension Support
 
@@ -22,6 +22,7 @@ Refer to the [HERO repository](https://github.com/pulp-platform/hero) for build 
 Refer to [snitch-toolchain-cd](https://github.com/pulp-platform/snitch-toolchain-cd) for build scripts and continuous deployment of pre-built toolchains.
 
 ## Command-line options
+Note that flags that are passed to LLVM through `clang` need to be prefaced with `-mllvm` (use `"SHELL:-mllvm <flag>"` in CMake to prevent removal of repeated `-mllvm`s).
 
 | Flag | Description |
 |---|---|
@@ -29,9 +30,16 @@ Refer to [snitch-toolchain-cd](https://github.com/pulp-platform/snitch-toolchain
 | `--debug-only=riscv-sdma` | Enable the debug output of the DMA pseudo instruction expansion pass |
 | `--debug-only=riscv-ssr` | Enable the debug output of the SSR pseudo instruction expansion pass |
 | `--debug-only=snitch-freploops` | Enable the debug output of the FREP loop inference pass |
-| `--ssr-noregmerge` | Disable the SSR register merging in the SSR pseudo instruction expansion pass. Register merging is enabled by default and can be disabled with this flag. |
+| `--ssr-no-regmerge` | Disable the SSR register merging in the SSR pseudo instruction expansion pass. Register merging is enabled by default and can be disabled with this flag. |
 | `--snitch-frep-inference` | Globally enable the FREP inference on all loops in the compiled module. |
-| `--enable-misched=false` | Disable the machine instruction scheduler. Instructions in a complex loop with multiple SSR push or pop instructions on the same data mover may not be rescheduled because the order in which the SSR are accessed is important. |
+| `-infer-ssr` | Enable automatic inference of SSR streams. |
+| `-ssr-no-intersect-check` | Do not generate intersection checks (unsafe). Use `restrict` key-word instead if possible. |
+| `-ssr-no-tcdm-check` | Assume all data of inferred streams is inside TCDM. |
+| `-ssr-no-bound-check` | Do not generate checks that make sure the inferred stream's access is executed at least once. |
+| `-ssr-conflict-free-only` | Only infer streams if they have no conflicts with other memory accesses. |
+| `-ssr-no-inline` | Prevent functions that contain SSR streams from being inlined |
+| `-ssr-barrier` | Enable the insertion of a spinning loop that waits for the stream to be done before it is disabled. |
+| `-ssr-verbose` | Write information about inferred streams to `stderr`. |
 
 ## `clang` builtins
 The following `clang` builtins can be used to directly make use of the SSR and DMA extensions.
@@ -194,6 +202,11 @@ void __builtin_ssr_setup_bound_stride_4d(uint32_t DM, uint32_t b, uint32_t s);
  */
 void __builtin_ssr_barrier(uint32_t DM);
 ```
+
+#### SSR Inference Interoperability
+Automatic SSR infernce will not infer any streams in an `ssr_enable` to `ssr_disable` region. 
+Note that SSR inference currently treats any inline asm block as if it would contain an SSR instruction. Thus it will not infer streams in any loop nests that contain inline asm somewhere.
+
 
 ### SDMA
 
