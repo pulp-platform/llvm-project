@@ -9,3 +9,11 @@ vmxdotp.wf v8, ft9, v9, ft10, v10
 vmxdotp.ww v8, v9, v10, v11, v12
 # CHECK-INST: vmxdotp.ww v8, v9, v10, v11, v12
 # CHECK-ENCODING: [0x7f,0xc4,0xa4,0x5a]
+
+vmxdotp.qf v8, ft9, v9, ft10, v10
+# CHECK-INST: vmxdotp.qf v8, ft9, v9, ft10, v10
+# CHECK-ENCODING: [0x1f,0xa4,0x9e,0xf2]
+
+vmxdotp.qq v8, v9, v10, v11, v12
+# CHECK-INST: vmxdotp.qq v8, v9, v10, v11, v12
+# CHECK-ENCODING: [0x3f,0xc4,0xa4,0x5a]

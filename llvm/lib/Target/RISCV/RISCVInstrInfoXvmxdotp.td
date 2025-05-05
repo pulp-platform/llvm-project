@@ -64,4 +64,12 @@ let hasSideEffects = 0, mayLoad = 0, mayStore = 0,
       (outs VR:$vd), (ins VR:$vs1, VR:$vs2, VR:$vs3, VR:$vs4),
       "vmxdotp.ww", "$vd, $vs1, $vs2, $vs3, $vs4">, Sched<[]>;
 
+  def VMXDOTP_QF : RVInstVVXX<RISCVOpcode<"0x1f", 0b0011111>,
+      (outs VR:$vd), (ins FPR32:$rs1, VR:$vs2, FPR32:$rs3, VR:$vs4),
+      "vmxdotp.qf", "$vd, $rs1, $vs2, $rs3, $vs4">, Sched<[]>;
+
+  def VMXDOTP_QQ : RVInstVVVV<RISCVOpcode<"0x3f", 0b0111111>,
+      (outs VR:$vd), (ins VR:$vs1, VR:$vs2, VR:$vs3, VR:$vs4),
+      "vmxdotp.qq", "$vd, $vs1, $vs2, $vs3, $vs4">, Sched<[]>;
+
 } // Constraints = "@earlyclobber $vd"
