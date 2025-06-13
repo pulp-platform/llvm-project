@@ -81,6 +81,8 @@ let Predicates = [HasExtXdma] in {
                             "dmdst", "$rs1, $rs2">, Sched<[]>;
   def DMSTR  : DMInstRs1Rs2<0b0000110, (outs), (ins GPR:$rs1, GPR:$rs2),
                             "dmstr", "$rs1, $rs2">, Sched<[]>;
+  def DMUSER : DMInstRs1Rs2<0b0001000, (outs), (ins GPR:$rs1, GPR:$rs2),
+                            "dmuser", "$rs1, $rs2">, Sched<[]>;
   def DMCPYI : DMInstRdRs1Uimm5<0b0000010, (outs GPR:$rd), (ins GPR:$rs1, uimm5:$uimm5),
                             "dmcpyi", "$rd, $rs1, $uimm5">, Sched<[]>;
   def DMCPY  : DMInstRdRs1Rs2<0b0000011, "dmcpy">, Sched<[]>;

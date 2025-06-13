@@ -36,3 +36,7 @@ dmstat t0, t1
 # CHECK-ASM: encoding: [0x2b,0x80,0x02,0x0e]
 # CHECK-DISASM: 2b 80 02 0e   dmrep t0
 dmrep t0
+# CHECK-ASM-AND-OBJ: dmuser t0, t1
+# CHECK-ASM: encoding: [0x2b,0x80,0x62,0x10]
+# CHECK-DISASM: 2b 80 62 10   dmuser t0, t1
+dmuser t0, t1
