@@ -235,8 +235,7 @@ defm FCVT_B_S : FPUnaryOp_r_frm_m<0b0100011, 0b00000, BFINX, "fcvt.b.s">, Sched<
 defm          : FPUnaryOpDynFrmAlias_m<FCVT_B_S, "fcvt.b.s", BFINX>;
 
 let hasSideEffects = 0, mayLoad = 0, mayStore = 0 in
-defm FCVT_H_B : FPUnaryOp_r_frm_m<0b0100010, 0b00011, HBINX, "fcvt.h.b">, Sched<[]>;
-defm          : FPUnaryOpDynFrmAlias_m<FCVT_H_B, "fcvt.h.b", HBINX>;
+defm FCVT_H_B : FPUnaryOp_r_m<0b0100010, 0b00011, 0b000, HBINX, "fcvt.h.b">, Sched<[]>;
 let hasSideEffects = 0, mayLoad = 0, mayStore = 0 in
 defm FCVT_B_H : FPUnaryOp_r_frm_m<0b0100011, 0b00010, BHINX, "fcvt.b.h">, Sched<[]>;
 defm          : FPUnaryOpDynFrmAlias_m<FCVT_B_H, "fcvt.b.h", BHINX>;
