@@ -488,7 +488,8 @@ int32_t __tgt_rtl_run_target_team_region(int32_t device_id, void *tgt_entry_ptr,
   const uint32_t num_miss_handler_threads = 0;
   hero_dev_mbox_write(hd, num_miss_handler_threads);
 
-  uint32_t ret[2];
+  uint32_t ret[4];
+  uint32_t perf_cycles_dev_ret[4];
   ret[0] = 0;
   while(ret[0] != MBOX_DEVICE_DONE) {
     while (hero_dev_mbox_read(hd, (unsigned int *)&ret[0], 1));
@@ -504,6 +505,17 @@ int32_t __tgt_rtl_run_target_team_region(int32_t device_id, void *tgt_entry_ptr,
   DP("Done offloading, cycles to execute kernel: %d!\n", (int)ret[1]);
   hero_device_cycles[hero_num_device_cycles++] = (uint32_t) ret[1];
 
+  while (hero_dev_mbox_read(hd, (unsigned int *)&ret[2], 1));
+  DP("DMA wait cycles: %d\n", (int)ret[2]);
+  hero_dma_cycles[hero_num_dma_cycles++] = (uint32_t) ret[2];
+
+  while (hero_dev_mbox_read(hd, (unsigned int *)&perf_cycles_dev_ret, 4));
+  // DP("Total performance cycles: %d\n", (int)ret[3]);
+  hero_perf_cycles_dev[hero_num_perf_cycles_dev].tot = perf_cycles_dev_ret[3];
+  hero_perf_cycles_dev[hero_num_perf_cycles_dev].dma = perf_cycles_dev_ret[2];
+  hero_perf_cycles_dev[hero_num_perf_cycles_dev].issue = perf_cycles_dev_ret[1];
+  hero_perf_cycles_dev[hero_num_perf_cycles_dev].compute = perf_cycles_dev_ret[0];
+  hero_num_perf_cycles_dev++;
   hero_add_timestamp("offload_return",__func__,0);
 
   return OFFLOAD_SUCCESS;
