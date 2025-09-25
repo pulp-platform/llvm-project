@@ -385,3 +385,5 @@ def SEED : SysReg<"seed", 0x015>;
 let FeaturesRequired = [{ {RISCV::FeatureExtXmempool} }] in {
 def TRACE : SysReg<"trace", 0x7D0>;
 }
+
+include "RISCVSystemOperandsSnitch.td"
