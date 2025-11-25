@@ -517,6 +517,56 @@ multiclass VSQR_FV_VS2<string opcodestr, bits<6> funct6, bits<5> vs1> {
            Sched<[WriteVFSqrtV, ReadVFSqrtV, ReadVMask]>;
 }
 
+multiclass VFRSQR_FV_VS2<string opcodestr, bits<6> funct6, bits<5> vs1> {
+  def "" : VALUVs2<funct6, vs1, OPFVV, opcodestr>,
+           Sched<[WriteVFSqrtV, ReadVFSqrtV, ReadVMask]>;
+}
+
+multiclass VEXPF_FV_VS2<string opcodestr, bits<6> funct6, bits<5> vs1> {
+  def "" : VALUVs2<funct6, vs1, OPFVV, opcodestr>,
+           Sched<[WriteVFSqrtV, ReadVFSqrtV, ReadVMask]>;
+}
+
+multiclass VEXPS_FV_VS2<string opcodestr, bits<6> funct6, bits<5> vs1> {
+  def "" : VALUVs2<funct6, vs1, OPFVV, opcodestr>,
+           Sched<[WriteVFSqrtV, ReadVFSqrtV, ReadVMask]>;
+}
+
+multiclass VCOSHF_FV_VS2<string opcodestr, bits<6> funct6, bits<5> vs1> {
+  def "" : VALUVs2<funct6, vs1, OPFVV, opcodestr>,
+           Sched<[WriteVFSqrtV, ReadVFSqrtV, ReadVMask]>;
+}
+
+multiclass VCOSHS_FV_VS2<string opcodestr, bits<6> funct6, bits<5> vs1> {
+  def "" : VALUVs2<funct6, vs1, OPFVV, opcodestr>,
+           Sched<[WriteVFSqrtV, ReadVFSqrtV, ReadVMask]>;
+}
+
+multiclass VFSIN_FV_VS2<string opcodestr, bits<6> funct6, bits<5> vs1> {
+  def "" : VALUVs2<funct6, vs1, OPFVV, opcodestr>,
+           Sched<[WriteVFSqrtV, ReadVFSqrtV, ReadVMask]>;
+}
+
+multiclass VFCOS_FV_VS2<string opcodestr, bits<6> funct6, bits<5> vs1> {
+  def "" : VALUVs2<funct6, vs1, OPFVV, opcodestr>,
+           Sched<[WriteVFSqrtV, ReadVFSqrtV, ReadVMask]>;
+}
+
+multiclass VTANHF_FV_VS2<string opcodestr, bits<6> funct6, bits<5> vs1> {
+  def "" : VALUVs2<funct6, vs1, OPFVV, opcodestr>,
+           Sched<[WriteVFSqrtV, ReadVFSqrtV, ReadVMask]>;
+}
+
+multiclass VTANHS_FV_VS2<string opcodestr, bits<6> funct6, bits<5> vs1> {
+  def "" : VALUVs2<funct6, vs1, OPFVV, opcodestr>,
+           Sched<[WriteVFSqrtV, ReadVFSqrtV, ReadVMask]>;
+}
+
+multiclass VFLOG_FV_VS2<string opcodestr, bits<6> funct6, bits<5> vs1> {
+  def "" : VALUVs2<funct6, vs1, OPFVV, opcodestr>,
+           Sched<[WriteVFSqrtV, ReadVFSqrtV, ReadVMask]>;
+}
+
 multiclass VRCP_FV_VS2<string opcodestr, bits<6> funct6, bits<5> vs1> {
   def "" : VALUVs2<funct6, vs1, OPFVV, opcodestr>,
            Sched<[WriteVFRecpV, ReadVFRecpV, ReadVMask]>;
@@ -1163,8 +1213,28 @@ defm VFWNMSAC_V : VWMAC_FV_V_F<"vfwnmsac", 0b111111>;
 
 // Vector Floating-Point Square-Root Instruction
 defm VFSQRT_V : VSQR_FV_VS2<"vfsqrt.v", 0b010011, 0b00000>;
+defm VFRSQRT_V : VFRSQR_FV_VS2<"vfrsqrt.v", 0b010011, 0b10001>;
 defm VFRSQRT7_V : VRCP_FV_VS2<"vfrsqrt7.v", 0b010011, 0b00100>;
 defm VFREC7_V : VRCP_FV_VS2<"vfrec7.v", 0b010011, 0b00101>;
+
+// Vector Floating-Point Fast-Slow exp
+defm VFEXPF_V : VEXPF_FV_VS2<"vfexpf.v", 0b010011, 0b01001>;
+defm VFEXPS_V : VEXPS_FV_VS2<"vfexps.v", 0b010011, 0b01000>;
+
+// Vector Floating-Point Fast-Slow cosh
+defm VFCOSHF_V : VCOSHF_FV_VS2<"vfcoshf.v", 0b010011, 0b11001>;
+defm VFCOSHS_V : VCOSHS_FV_VS2<"vfcoshs.v", 0b010011, 0b11000>;
+
+// Vector Floating-Point Fast-Slow tanh
+defm VFTANHF_V : VTANHF_FV_VS2<"vftanhf.v", 0b010011, 0b11101>;
+defm VFTANHS_V : VTANHS_FV_VS2<"vftanhs.v", 0b010011, 0b11100>;
+
+// Vector Floating-Point sin-cos 
+defm VFSIN_V : VFSIN_FV_VS2<"vfsin.v", 0b010011, 0b01101>;
+defm VFCOS_V : VFCOS_FV_VS2<"vfcos.v", 0b010011, 0b01100>;
+
+// Vector Floating-Point log 
+defm VFLOG_V : VFLOG_FV_VS2<"vflog.v", 0b010011, 0b10101>;
 
 // Vector Floating-Point MIN/MAX Instructions
 defm VFMIN_V : VCMP_FV_V_F<"vfmin", 0b000100>;
