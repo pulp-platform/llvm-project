@@ -112,7 +112,12 @@ class VLFSched<int n> : Sched <[!cast<SchedReadWrite>("WriteVLDFF" # n),
 let hasSideEffects = 0, mayLoad = 1, mayStore = 0 in {
 // unit-stride load vd, (rs1), vm
 class VUnitStrideLoad<RISCVWidth width, string opcodestr>
-    : RVInstVLU<0b000, width.Value{3}, LUMOPUnitStride, width.Value{2-0},
+    : RVInstVLU<0b000, 0b0, LUMOPUnitStride, width.Value{2-0},
+                (outs VR:$vd),
+                (ins GPR:$rs1, VMaskOp:$vm), opcodestr, "$vd, (${rs1})$vm">;
+
+class VUnitStrideIndexLoad<RISCVWidth width, string opcodestr>
+    : RVInstVLU<0b000, 0b1, LUMOPUnitStride, width.Value{2-0},
                 (outs VR:$vd),
                 (ins GPR:$rs1, VMaskOp:$vm), opcodestr, "$vd, (${rs1})$vm">;
 
@@ -808,6 +813,8 @@ foreach eew = [8, 16, 32] in {
   def VLE#eew#_V : VUnitStrideLoad<w, "vle"#eew#".v">, VLESched<eew>;
   def VSE#eew#_V  : VUnitStrideStore<w,  "vse"#eew#".v">, VSESched<eew>;
 
+  def VLX#eew#_V : VUnitStrideIndexLoad<w, "vlx"#eew#".v">, VLESched<eew>;
+
   // Vector Unit-Stride Fault-only-First Loads
   def VLE#eew#FF_V : VUnitStrideLoadFF<w,  "vle"#eew#"ff.v">, VLFSched<eew>;
 
@@ -852,6 +859,9 @@ def : InstAlias<"vl8r.v $vd, (${rs1})", (VL8RE8_V VRM8:$vd, GPR:$rs1)>;
 let Predicates = [HasVInstructionsI64] in {
 // Vector Unit-Stride Instructions
 def VLE64_V : VUnitStrideLoad<LSWidth64, "vle64.v">,
+              VLESched<64>;
+
+def VLX64_V : VUnitStrideIndexLoad<LSWidth64, "vlx64.v">,
               VLESched<64>;
 
 def VLE64FF_V : VUnitStrideLoadFF<LSWidth64, "vle64ff.v">,
