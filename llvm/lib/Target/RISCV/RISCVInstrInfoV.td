@@ -1154,6 +1154,7 @@ defm VFWMUL_V : VWMUL_FV_V_F<"vfwmul", 0b111000>;
 
 // Vector Single-Width Floating-Point Fused Multiply-Add Instructions
 defm VFMACC_V : VMAC_FV_V_F<"vfmacc", 0b101100>;
+defm VFXMACC_V : VMAC_FV_V_F<"vfxmacc", 0b100101>;
 defm VFNMACC_V : VMAC_FV_V_F<"vfnmacc", 0b101101>;
 defm VFMSAC_V : VMAC_FV_V_F<"vfmsac", 0b101110>;
 defm VFNMSAC_V : VMAC_FV_V_F<"vfnmsac", 0b101111>;
