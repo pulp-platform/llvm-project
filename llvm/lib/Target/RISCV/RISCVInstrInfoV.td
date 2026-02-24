@@ -152,6 +152,16 @@ class VIndexedLoad<RISCVMOP mop, RISCVWidth width, string opcodestr>
                 (ins GPR:$rs1, VR:$vs2, VMaskOp:$vm), opcodestr,
                 "$vd, (${rs1}), $vs2$vm">;
 
+// post-increment unit-stride load vd, (rs1), rs2, vm
+// rs1 is written back with rs1 + rs2
+class VUnitStrideLoadRRPost<RISCVWidth width, string opcodestr>
+    : RVInstVLURRPost<0b000, width.Value{2-0},
+                      (outs VR:$vd, GPR:$rs1_wb),
+                      (ins GPR:$rs1, GPR:$rs2, VMaskOp:$vm),
+                      opcodestr, "$vd, (${rs1}), $rs2$vm"> {
+  let Constraints = "$rs1_wb = $rs1";
+}
+
 // unit-stride segment load vd, (rs1), vm
 class VUnitStrideSegmentLoad<bits<3> nf, RISCVWidth width, string opcodestr>
     : RVInstVLU<nf, width.Value{3}, LUMOPUnitStride, width.Value{2-0},
@@ -807,6 +817,8 @@ foreach eew = [8, 16, 32] in {
   // Vector Unit-Stride Instructions
   def VLE#eew#_V : VUnitStrideLoad<w, "vle"#eew#".v">, VLESched<eew>;
   def VSE#eew#_V  : VUnitStrideStore<w,  "vse"#eew#".v">, VSESched<eew>;
+  // post-increment instructions
+  def P_VLE#eew#_V_RRPOST : VUnitStrideLoadRRPost<w, "p.vle"#eew#".v.rrpost">, VLESched<eew>;
 
   // Vector Unit-Stride Fault-only-First Loads
   def VLE#eew#FF_V : VUnitStrideLoadFF<w,  "vle"#eew#"ff.v">, VLFSched<eew>;
@@ -859,6 +871,9 @@ def VLE64FF_V : VUnitStrideLoadFF<LSWidth64, "vle64ff.v">,
 
 def VSE64_V : VUnitStrideStore<LSWidth64, "vse64.v">,
               VSESched<64>;
+
+def P_VLE64_V_RRPOST : VUnitStrideLoadRRPost<LSWidth64, "p.vle64.v.rrpost">,
+                       VLESched<64>;
 // Vector Strided Instructions
 def VLSE64_V : VStridedLoad<LSWidth64, "vlse64.v">,
                VLSSched<32>;

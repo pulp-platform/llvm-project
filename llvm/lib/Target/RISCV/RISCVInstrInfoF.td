@@ -158,6 +158,17 @@ class FPStore_r<bits<3> funct3, string opcodestr, RegisterClass rty,
               opcodestr, "$rs2, ${imm12}(${rs1})">,
       Sched<[sw, ReadStoreData, ReadFMemBase]>;
 
+let hasSideEffects = 1, mayLoad = 1, mayStore = 0 in
+class FPLoadPostRR_r<bits<3> funct3, string opcodestr, RegisterClass FTy,
+                     SchedWrite SW>
+    : RVInstRCustom0FLoad<0b1010000, funct3,
+                          (outs GPR:$rs1_wb, FTy:$rd),
+                          (ins  GPR:$rs1,    GPR:$rs2),
+                          opcodestr, "$rd, (${rs1}), $rs2">,
+      Sched<[SW, ReadFMemBase, ReadMemBase]> {
+  let Constraints = "$rs1_wb = $rs1";
+}
+
 let hasSideEffects = 0, mayLoad = 0, mayStore = 0, mayRaiseFPException = 1,
     UseNamedOperandTable = 1, hasPostISelHook = 1 in
 class FPFMA_rrr_frm<RISCVOpcode opcode, bits<2> funct2, string opcodestr,
@@ -290,6 +301,8 @@ def FLW : FPLoad_r<0b010, "flw", FPR32, WriteFLD32>;
 // reflecting the order these fields are specified in the instruction
 // encoding.
 def FSW : FPStore_r<0b010, "fsw", FPR32, WriteFST32>;
+
+def PFLW_RRPOST : FPLoadPostRR_r<0b010, "pflw.rrpost", FPR32, WriteFLD32>;
 } // Predicates = [HasStdExtF]
 
 let SchedRW = [WriteFMA32, ReadFMA32, ReadFMA32, ReadFMA32] in {

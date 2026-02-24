@@ -223,6 +223,28 @@ class RVInstVLU<bits<3> nf, bit mew, RISCVLSUMOP lumop,
   let RVVConstraint = VMConstraint;
 }
 
+class RVInstVLURRPost<bits<3> nf, bits<3> width,
+                      dag outs, dag ins, string opcodestr, string argstr>
+    : RVInst<outs, ins, opcodestr, argstr, [], InstFormatR> {
+  bits<5> rs2;
+  bits<5> rs1;
+  bits<5> vd;
+  bit vm;
+
+  let Inst{31-29} = nf;
+  let Inst{28} = 1;
+  let Inst{27-26} = MOPLDUnitStride.Value; // 00
+  let Inst{25} = vm;
+  let Inst{24-20} = rs2;
+  let Inst{19-15} = rs1;
+  let Inst{14-12} = width;
+  let Inst{11-7} = vd;
+  let Opcode = OPC_LOAD_FP.Value;
+
+  let Uses = [VTYPE, VL];
+  let RVVConstraint = VMConstraint;
+}
+
 class RVInstVLS<bits<3> nf, bit mew, bits<3> width,
                 dag outs, dag ins, string opcodestr, string argstr>
     : RVInst<outs, ins, opcodestr, argstr, [], InstFormatR> {
