@@ -267,6 +267,23 @@ class RVInstVLX<bits<3> nf, bit mew, RISCVMOP mop, bits<3> width,
   let RVVConstraint = VMConstraint;
 }
 
+class RVInstVLXBLK<bits<7> funct7, bits<3> width,
+                   dag outs, dag ins, string opcodestr, string argstr>
+    : RVInst<outs, ins, opcodestr, argstr, [], InstFormatR> {
+  bits<5> vs2;
+  bits<5> rs1;
+  bits<5> vd;
+
+  let Inst{31-25} = funct7;
+  let Inst{24-20} = vs2;
+  let Inst{19-15} = rs1;
+  let Inst{14-12} = width;
+  let Inst{11-7}  = vd;
+  let Inst{6-0}   = 0b0101011;
+
+  let Uses = [VTYPE, VL];
+}
+
 class RVInstVSU<bits<3> nf, bit mew, RISCVLSUMOP sumop,
                 bits<3> width, dag outs, dag ins, string opcodestr,
                 string argstr>

@@ -152,6 +152,13 @@ class VIndexedLoad<RISCVMOP mop, RISCVWidth width, string opcodestr>
                 (ins GPR:$rs1, VR:$vs2, VMaskOp:$vm), opcodestr,
                 "$vd, (${rs1}), $vs2$vm">;
 
+// indexed block load vd, (rs1), vs2
+class VIndexedBlockLoad<bits<7> funct7, RISCVWidth width, string opcodestr>
+    : RVInstVLXBLK<funct7, width.Value{2-0},
+                   (outs VR:$vd),
+                   (ins GPR:$rs1, VR:$vs2),
+                   opcodestr, "$vd, (${rs1}), $vs2">;
+
 // unit-stride segment load vd, (rs1), vm
 class VUnitStrideSegmentLoad<bits<3> nf, RISCVWidth width, string opcodestr>
     : RVInstVLU<nf, width.Value{3}, LUMOPUnitStride, width.Value{2-0},
@@ -817,6 +824,32 @@ foreach eew = [8, 16, 32] in {
 }
 
 defm "" : VIndexLoadStore<[8, 16, 32]>;
+
+// Custom indexed block loads
+def VLXBLK4EI8_V  : VIndexedBlockLoad<0b0001000, LSWidth8,  "vlxblk4ei8.v">,
+                    VLXSched<8, "U">;
+def VLXBLK4EI16_V : VIndexedBlockLoad<0b0001000, LSWidth16, "vlxblk4ei16.v">,
+                    VLXSched<16, "U">;
+
+def VLXBLK6EI8_V  : VIndexedBlockLoad<0b0001001, LSWidth8,  "vlxblk6ei8.v">,
+                    VLXSched<8, "U">;
+def VLXBLK6EI16_V : VIndexedBlockLoad<0b0001001, LSWidth16, "vlxblk6ei16.v">,
+                    VLXSched<16, "U">;
+
+def VLXBLK8EI8_V  : VIndexedBlockLoad<0b0001010, LSWidth8,  "vlxblk8ei8.v">,
+                    VLXSched<8, "U">;
+def VLXBLK8EI16_V : VIndexedBlockLoad<0b0001010, LSWidth16, "vlxblk8ei16.v">,
+                    VLXSched<16, "U">;
+
+def VLXBLK12EI8_V  : VIndexedBlockLoad<0b0001011, LSWidth8,  "vlxblk12ei8.v">,
+                     VLXSched<8, "U">;
+def VLXBLK12EI16_V : VIndexedBlockLoad<0b0001011, LSWidth16, "vlxblk12ei16.v">,
+                     VLXSched<16, "U">;
+
+def VLXBLK16EI8_V  : VIndexedBlockLoad<0b0001100, LSWidth8,  "vlxblk16ei8.v">,
+                     VLXSched<8, "U">;
+def VLXBLK16EI16_V : VIndexedBlockLoad<0b0001100, LSWidth16, "vlxblk16ei16.v">,
+                     VLXSched<16, "U">;
 } // Predicates = [HasVInstructions]
 
 let Predicates = [HasVInstructions] in {
