@@ -1,0 +1,101 @@
+# Copyright 2022 ETH Zurich and University of Bologna.
+# Licensed under the Apache License, Version 2.0, see LICENSE for details.
+# SPDX-License-Identifier: Apache-2.0
+
+# Build toolchain on release
+name: release
+on:
+  release:
+    types: [created]
+  push:
+      branches:
+        - snitch
+
+jobs:
+
+  release:
+    name: Build Release
+    strategy:
+      matrix:
+        os:
+        - ubuntu2204
+        - almalinux8
+    runs-on: ubuntu-22.04
+    env:
+      BUGURL: https://github.com/pulp-platform/llvm-project/issues
+      BUILDNO: ${{ github.run_number }}
+    steps:
+      ########################################
+      ## Checkout
+      ########################################
+      - name: Checkout LLVM
+        uses: actions/checkout@v3
+        with:
+          path: llvm-project
+      
+      ########################################
+      ## Build docker container
+      ########################################
+      - name: Prepare Docker
+        uses: docker/build-push-action@v2
+        with:
+          push: false
+          load: true
+          context: llvm-project/.github/pulp/docker
+          file: llvm-project/.github/pulp/docker/linux-${{ matrix.os }}.Dockerfile
+          tags: linux-${{ matrix.os }}:latest
+      
+      ########################################
+      ## Build Info
+      ########################################
+      - name: Build Info
+        run: |
+          PKGVERS=riscv32-pulp-llvm-${{ matrix.os }}-${GITHUB_REF#refs/*/}
+          echo "PKGVERS=${PKGVERS}" >> $GITHUB_ENV
+          echo "BUGURL=${BUGURL}"
+          echo "PKGVERS=${PKGVERS}"
+          docker run -v $PWD:/home/builder -w/home/builder linux-${{ matrix.os }}:latest llvm-project/.github/pulp/scripts/builder-info.sh
+          cat build-info.txt
+
+      ########################################
+      ## Build
+      ########################################
+      - name: Build
+        run: |
+          docker run -v $PWD:/home/builder -w/home/builder \
+            -e BUGURL=${BUGURL} \
+            -e PKGVERS=${PKGVERS} \
+            -e BUILDNO=${BUILDNO} \
+            linux-${{ matrix.os }}:latest \
+            llvm-project/.github/pulp/scripts/build-riscv32-llvm.sh
+
+      ########################################
+      ## Package
+      ########################################
+      - name: Package
+        run: |
+          echo "PKGVERS: ${PKGVERS}"
+          tar -czf ${PKGVERS}.tar.gz --transform s/^install/${PKGVERS}/ install
+
+      ########################################
+      ## Deploy
+      ########################################
+      - name: Get Artifact Name
+        run: |
+          ARTIFACT_PATHNAME=${PKGVERS}.tar.gz
+          ARTIFACT_NAME=$(basename $ARTIFACT_PATHNAME)
+          echo "ARTIFACT_NAME=${ARTIFACT_NAME}" >> $GITHUB_ENV
+          echo "ARTIFACT_PATHNAME=${ARTIFACT_PATHNAME}" >> $GITHUB_ENV
+        shell: bash
+
+      - name: Upload Release Asset
+        if: >
+          github.event_name == 'release'
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ github.event.release.upload_url }}
+          asset_path: ${{ env.ARTIFACT_PATHNAME }}
+          asset_name: ${{ env.ARTIFACT_NAME }}
+          asset_content_type: application/tar.gz
