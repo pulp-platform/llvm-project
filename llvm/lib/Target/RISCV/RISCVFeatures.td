@@ -783,6 +783,7 @@ def FeatureStdExtSvpbmt
 // Vendor extensions
 //===----------------------------------------------------------------------===//
 
+include "RISCVFeaturesXpulp.td"
 // Ventana Extenions
 
 def FeatureVendorXVentanaCondOps

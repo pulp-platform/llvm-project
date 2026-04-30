@@ -610,6 +610,38 @@ DecodeStatus RISCVDisassembler::getInstruction(MCInst &MI, uint64_t &Size,
                           "CORE-V SIMD extensions custom opcode table");
     TRY_TO_DECODE_FEATURE(RISCV::FeatureVendorXCVbi, DecoderTableXCVbi32,
                           "CORE-V Immediate Branching custom opcode table");
+    TRY_TO_DECODE_FEATURE(RISCV::FeatureVendorXb, DecoderTableb32,
+                          "PULP Xb custom opcode table");
+    TRY_TO_DECODE_FEATURE(RISCV::FeatureVendorXcopift, DecoderTablecopift32,
+                          "PULP Xcopift custom opcode table");
+    TRY_TO_DECODE_FEATURE(RISCV::FeatureVendorXdma, DecoderTabledma32,
+                          "PULP Xdma custom opcode table");
+    TRY_TO_DECODE_FEATURE(RISCV::FeatureVendorXfrep, DecoderTablefrep32,
+                          "PULP Xfrep custom opcode table");
+    TRY_TO_DECODE_FEATURE(RISCV::FeatureVendorXipu, DecoderTableipu32,
+                          "PULP Xipu custom opcode table");
+    TRY_TO_DECODE_FEATURE(RISCV::FeatureVendorXpulpabs, DecoderTablepulpabs32,
+                          "PULP Xpulpabs custom opcode table");
+    TRY_TO_DECODE_FEATURE(RISCV::FeatureVendorXpulpbitop, DecoderTablepulpbitop32,
+                          "PULP Xpulpbitop custom opcode table");
+    TRY_TO_DECODE_FEATURE(RISCV::FeatureVendorXpulpbr, DecoderTablepulpbr32,
+                          "PULP Xpulpbr custom opcode table");
+    TRY_TO_DECODE_FEATURE(RISCV::FeatureVendorXpulpclip, DecoderTablepulpclip32,
+                          "PULP Xpulpclip custom opcode table");
+    TRY_TO_DECODE_FEATURE(RISCV::FeatureVendorXpulpmacsi, DecoderTablepulpmacsi32,
+                          "PULP Xpulpmacsi custom opcode table");
+    TRY_TO_DECODE_FEATURE(RISCV::FeatureVendorXpulpminmax, DecoderTablepulpminmax32,
+                          "PULP Xpulpminmax custom opcode table");
+    TRY_TO_DECODE_FEATURE(RISCV::FeatureVendorXpulpslet, DecoderTablepulpslet32,
+                          "PULP Xpulpslet custom opcode table");
+    TRY_TO_DECODE_FEATURE(RISCV::FeatureVendorXpulpvectshufflepack, DecoderTablepulpvectshufflepack32,
+                          "PULP Xpulpvectshufflepack custom opcode table");
+    TRY_TO_DECODE_FEATURE(RISCV::FeatureVendorXpulpvect, DecoderTablepulpvect32,
+                          "PULP Xpulpvect custom opcode table");
+    TRY_TO_DECODE_FEATURE(RISCV::FeatureVendorXsmallfloat, DecoderTablesmallfloat32,
+                          "PULP Xsmallfloat custom opcode table");
+    TRY_TO_DECODE_FEATURE(RISCV::FeatureVendorXssr, DecoderTablessr32,
+                          "PULP Xssr custom opcode table");
     TRY_TO_DECODE(true, DecoderTable32, "RISCV32 table");
 
     return MCDisassembler::Fail;
