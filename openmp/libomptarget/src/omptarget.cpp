@@ -22,7 +22,7 @@
 
 #ifdef LIBOMPTARGET_HERO
 extern "C" {
-#include "libhero/hero_api.h"
+#include "libhero/host/hero_api.h"
 }
 #endif
 

@@ -17,7 +17,7 @@ if(NOT LIBOMPTARGET_HERO_BUILD)
   return()
 endif()
 
-if(NOT EXISTS $ENV{HERO_DEV_INC_DIR}/libhero/hero_api.h)
+if(NOT EXISTS $ENV{HERO_DEV_INC_DIR}/libhero/host/hero_api.h)
   libomptarget_say("Not building HERO offloading plugin: HERO device SDK not found (HERO_DEV_INC_DIR to the correct path)")
   return()
 endif()
