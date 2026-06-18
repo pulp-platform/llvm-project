@@ -110,7 +110,12 @@ class VLFSched<int n> : Sched <[!cast<SchedReadWrite>("WriteVLDFF" # n),
 let hasSideEffects = 0, mayLoad = 1, mayStore = 0 in {
 // unit-stride load vd, (rs1), vm
 class VUnitStrideLoad<RISCVWidth width, string opcodestr>
-    : RVInstVLU<0b000, width.Value{3}, LUMOPUnitStride, width.Value{2-0},
+    : RVInstVLU<0b000, 0b0, LUMOPUnitStride, width.Value{2-0},
+                (outs VR:$vd),
+                (ins GPR:$rs1, VMaskOp:$vm), opcodestr, "$vd, (${rs1})$vm">;
+
+class VUnitStrideIndexLoad<RISCVWidth width, string opcodestr>
+    : RVInstVLU<0b000, 0b1, LUMOPUnitStride, width.Value{2-0},
                 (outs VR:$vd),
                 (ins GPR:$rs1, VMaskOp:$vm), opcodestr, "$vd, (${rs1})$vm">;
 
@@ -142,6 +147,28 @@ class VStridedLoad<RISCVWidth width, string opcodestr>
                 (outs VR:$vd),
                 (ins GPR:$rs1, GPR:$rs2, VMaskOp:$vm), opcodestr,
                 "$vd, (${rs1}), $rs2$vm">;
+
+let hasSideEffects = 1, mayLoad = 1, mayStore = 0 in {
+// post-increment unit-stride load vd, (rs1), rs2, vm
+// rs1 is written back with rs1 + rs2
+class VUnitStrideLoadRRPost<RISCVWidth width, string opcodestr>
+    : RVInstVCustom3Load<0b110000, width.Value{2-0},
+                         (outs VR:$vd, GPR:$rs1_wb),
+                         (ins GPR:$rs1, GPR:$rs2, VMaskOp:$vm),
+                         opcodestr, "$vd, (${rs1}), $rs2$vm"> {
+  let Constraints = "$rs1_wb = $rs1";
+}
+
+// post-increment vlx-style load vd, (rs1), rs2, vm
+// rs1 is written back with rs1 + rs2
+class VUnitStrideIndexLoadRRPost<RISCVWidth width, string opcodestr>
+    : RVInstVCustom3Load<0b110001, width.Value{2-0},
+                         (outs VR:$vd, GPR:$rs1_wb),
+                         (ins GPR:$rs1, GPR:$rs2, VMaskOp:$vm),
+                         opcodestr, "$vd, (${rs1}), $rs2$vm"> {
+  let Constraints = "$rs1_wb = $rs1";
+}
+}
 
 // indexed load vd, (rs1), vs2, vm
 class VIndexedLoad<RISCVMOP mop, RISCVWidth width, string opcodestr>
@@ -330,6 +357,44 @@ class VALUVs2<bits<6> funct6, bits<5> vs1, RISCVVFormat opv, string opcodestr>
                (ins VR:$vs2, VMaskOp:$vm),
                opcodestr, "$vd, $vs2$vm">;
 } // hasSideEffects = 0, mayLoad = 0, mayStore = 0
+
+//===----------------------------------------------------------------------===//
+// Spatz VFX VRF format: custom-0 opcode, R4-style operand layout.
+//   31..27 = vs1 (index vreg)         -> rs3 field
+//   26..25 = funct2 (00=macc, 01=mul)
+//   24..20 = vs2 (weight vreg)        -> rs2 field
+//   19..15 = rs1 (FP scalar)
+//   14..12 = funct3 = 0b010
+//   11..7  = vd  (accumulator vreg)   -> rd field
+//   6..0   = opcode = 0b0001011 (custom-0)
+//===----------------------------------------------------------------------===//
+
+def OPC_VFX_VRF : RISCVOpcode<"VFX_VRF", 0b0001011>;
+
+class RVInstVFXVRF<bits<2> funct2, string opcodestr>
+    : RVInstR4<funct2, 0b010, OPC_VFX_VRF,
+               (outs VR:$rd),
+               (ins FPR32:$rs1, VR:$rs2, VR:$rs3),
+               opcodestr, "$rd, $rs1, $rs2, $rs3"> {
+  let hasSideEffects = 0;
+  let mayLoad = 0;
+  let mayStore = 0;
+}
+
+// vventclr - zero ventaglio's bank. No operands. funct2=11.
+class RVInstVventclr<string opcodestr>
+    : RVInst<(outs), (ins), opcodestr, "", [], InstFormatOther> {
+  let Opcode = OPC_VFX_VRF.Value;
+  let Inst{14-12} = 0b010;
+  let Inst{26-25} = 0b11;
+  let Inst{31-27} = 0;
+  let Inst{24-20} = 0;
+  let Inst{19-15} = 0;
+  let Inst{11-7}  = 0;
+  let hasSideEffects = 1;
+  let mayLoad = 0;
+  let mayStore = 0;
+}
 
 //===----------------------------------------------------------------------===//
 // Combination of instruction classes.
@@ -806,6 +871,12 @@ foreach eew = [8, 16, 32] in {
   def VLE#eew#_V : VUnitStrideLoad<w, "vle"#eew#".v">, VLESched<eew>;
   def VSE#eew#_V  : VUnitStrideStore<w,  "vse"#eew#".v">, VSESched<eew>;
 
+  def VLX#eew#_V : VUnitStrideIndexLoad<w, "vlx"#eew#".v">, VLESched<eew>;
+
+  // post-increment
+  def P_VLE#eew#_V_RRPOST : VUnitStrideLoadRRPost<w, "p.vle"#eew#".v.rrpost">, VLESched<eew>;
+  def P_VLX#eew#_V_RRPOST : VUnitStrideIndexLoadRRPost<w, "p.vlx"#eew#".v.rrpost">, VLESched<eew>;
+
   // Vector Unit-Stride Fault-only-First Loads
   def VLE#eew#FF_V : VUnitStrideLoadFF<w,  "vle"#eew#"ff.v">, VLFSched<eew>;
 
@@ -851,6 +922,13 @@ let Predicates = [HasVInstructionsI64] in {
 // Vector Unit-Stride Instructions
 def VLE64_V : VUnitStrideLoad<LSWidth64, "vle64.v">,
               VLESched<64>;
+
+def VLX64_V : VUnitStrideIndexLoad<LSWidth64, "vlx64.v">,
+              VLESched<64>;
+
+def P_VLE64_V_RRPOST : VUnitStrideLoadRRPost<LSWidth64, "p.vle64.v.rrpost">, VLESched<64>;
+
+def P_VLX64_V_RRPOST : VUnitStrideIndexLoadRRPost<LSWidth64, "p.vlx64.v.rrpost">, VLESched<64>;
 
 def VLE64FF_V : VUnitStrideLoadFF<LSWidth64, "vle64ff.v">,
                 VLFSched<64>;
@@ -1141,6 +1219,7 @@ defm VFWSUB_W : VWALU_FV_V_F<"vfwsub", 0b110110, "w">;
 
 // Vector Single-Width Floating-Point Multiply/Divide Instructions
 defm VFMUL_V : VMUL_FV_V_F<"vfmul", 0b100100>;
+defm VFXMUL_V : VMUL_FV_V_F<"vfxmul", 0b100110>;
 defm VFDIV_V : VDIV_FV_V_F<"vfdiv", 0b100000>;
 defm VFRDIV_V : VRDIV_FV_F<"vfrdiv", 0b100001>;
 
@@ -1151,6 +1230,12 @@ defm VFWMUL_V : VWMUL_FV_V_F<"vfwmul", 0b111000>;
 
 // Vector Single-Width Floating-Point Fused Multiply-Add Instructions
 defm VFMACC_V : VMAC_FV_V_F<"vfmacc", 0b101100>;
+defm VFXMACC_V : VMAC_FV_V_F<"vfxmacc", 0b100101>;
+// Spatz indexed FMA / multiply with explicit index vreg (custom-0 encoding).
+def VFXMACC_VRF : RVInstVFXVRF<0b00, "vfxmacc.vrf">;
+def VFXMUL_VRF  : RVInstVFXVRF<0b01, "vfxmul.vrf">;
+// Spatz ventaglio bank clear (no operands).
+def VVENTCLR    : RVInstVventclr<"vventclr">;
 defm VFNMACC_V : VMAC_FV_V_F<"vfnmacc", 0b101101>;
 defm VFMSAC_V : VMAC_FV_V_F<"vfmsac", 0b101110>;
 defm VFNMSAC_V : VMAC_FV_V_F<"vfnmsac", 0b101111>;

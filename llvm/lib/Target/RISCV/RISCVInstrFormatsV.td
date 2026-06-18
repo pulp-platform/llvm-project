@@ -201,6 +201,22 @@ class RVInstV<bits<6> funct6, bits<5> vs1, RISCVVFormat opv, dag outs,
   let RVVConstraint = VMConstraint;
 }
 
+class RVInstVCustom3Load<bits<6> funct6, bits<3> width,
+                         dag outs, dag ins, string opcodestr, string argstr>
+    : RVInst<outs, ins, opcodestr, argstr, [], InstFormatR> {
+  bits<5> vd;
+  bits<5> rs1;
+  bits<5> rs2;
+  bit vm;
+  let Inst{31-26} = funct6;
+  let Inst{25}    = vm;
+  let Inst{24-20} = rs2;
+  let Inst{19-15} = rs1;
+  let Inst{14-12} = width;
+  let Inst{11-7}  = vd;
+  let Inst{6-0}   = 0b1111011;
+}
+
 class RVInstVLU<bits<3> nf, bit mew, RISCVLSUMOP lumop,
                 bits<3> width, dag outs, dag ins, string opcodestr,
                 string argstr>
