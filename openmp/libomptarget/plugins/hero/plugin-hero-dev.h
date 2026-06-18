@@ -384,6 +384,7 @@ extern "C" bool GOMP_OFFLOAD_host2dev(int n __attribute__((unused)),
   for (int i = 0; i < size; i++) {
     dst[i] = src[i];
   }
+  hero_flush_range(dst, size);
   //memcpy((void *)vir_ptr, host_ptr, size);
 
   return 1;
@@ -408,6 +409,8 @@ extern "C" bool GOMP_OFFLOAD_dev2host(int n __attribute__((unused)),
   //        byte-copy-loop.
   char *dst = (char *)host_ptr;
   char *src = (char *)vir_ptr;
+  hero_inval_range(src, size);
+  asm volatile("fence");
   for (int i = 0; i < size; i++) {
     dst[i] = src[i];
   }

@@ -496,6 +496,7 @@ int32_t __tgt_rtl_run_target_team_region(int32_t device_id, void *tgt_entry_ptr,
     if(ret[0] == MBOX_DEVICE_PRINT) {
       while (hero_dev_mbox_read(hd, (unsigned int *)&ret[0], 1));
       printf("%c", ret[0]);
+      fflush(stdout);
     }
   }
   assert(ret[0] == MBOX_DEVICE_DONE &&
