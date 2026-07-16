@@ -264,6 +264,21 @@ class RVInstR<bits<7> funct7, bits<3> funct3, RISCVOpcode opcode, dag outs,
   let Opcode = opcode.Value;
 }
 
+class RVInstRCustom3FLoad<bits<7> funct7, bits<3> funct3,
+                          dag outs, dag ins, string opcodestr, string argstr>
+    : RVInst<outs, ins, opcodestr, argstr, [], InstFormatR> {
+  bits<5> rd;
+  bits<5> rs1;
+  bits<5> rs2;
+
+  let Inst{31-25} = funct7;
+  let Inst{24-20} = rs2;
+  let Inst{19-15} = rs1;
+  let Inst{14-12} = funct3;
+  let Inst{11-7}  = rd;
+  let Inst{6-0}   = 0b1111011; // custom-3 opcode (0x7b)
+}
+
 class RVInstR4<bits<2> funct2, bits<3> funct3, RISCVOpcode opcode, dag outs,
                dag ins, string opcodestr, string argstr>
     : RVInst<outs, ins, opcodestr, argstr, [], InstFormatR4> {

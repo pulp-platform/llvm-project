@@ -94,6 +94,7 @@ def FLH : FPLoad_r<0b001, "flh", FPR16, WriteFLD16>;
 // reflecting the order these fields are specified in the instruction
 // encoding.
 def FSH : FPStore_r<0b001, "fsh", FPR16, WriteFST16>;
+def PFLH_RRPOST : FPLoadPostRR_r<0b001, "p.flh.rrpost", FPR16, WriteFLD16>;
 } // Predicates = [HasStdExtZfhOrZfhmin]
 
 let SchedRW = [WriteFMA16, ReadFMA16, ReadFMA16, ReadFMA16] in {

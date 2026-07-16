@@ -99,6 +99,7 @@ def FLD : FPLoad_r<0b011, "fld", FPR64, WriteFLD64>;
 // reflecting the order these fields are specified in the instruction
 // encoding.
 def FSD : FPStore_r<0b011, "fsd", FPR64, WriteFST64>;
+def PFLD_RRPOST : FPLoadPostRR_r<0b011, "p.fld.rrpost", FPR64, WriteFLD64>;
 } // Predicates = [HasStdExtD]
 
 let SchedRW = [WriteFMA64, ReadFMA64, ReadFMA64, ReadFMA64] in {
