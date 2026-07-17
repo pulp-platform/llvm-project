@@ -609,6 +609,13 @@ def HasExtXmempool : Predicate<"Subtarget->hasExtXmempool()">,
                            AssemblerPredicate<(all_of FeatureExtXmempool),
                            "'Xmempool' (MemPool System)">;
 
+def FeatureVendorXTHeadMatrix
+    : SubtargetFeature<"experimental-xtheadmatrix", "HasVendorXTHeadMatrix", "true",
+                       "'xtheadmatrix' (T-Head Matrix Extensions)">;
+def HasVendorXTHeadMatrix : Predicate<"Subtarget->hasVendorXTHeadMatrix()">,
+                          AssemblerPredicate<(all_of FeatureVendorXTHeadMatrix),
+                              "'xtheadmatrix' (T-Head Matrix Extensions)">;
+
 def FeatureHasNoFdiv
     : SubtargetFeature<"nofdiv", "HasNoFdiv", "true",
                        "Disable fdiv.* and fsqrt.* instructions, delegate to libcalls",
@@ -754,7 +761,8 @@ def : ProcessorModel<"snitch", SnitchModel, [FeatureStdExtM,
                                              FeatureExtXfexpauxvechalf,
                                              FeatureExtXfexpauxvecalthalf,
                                              FeatureExtXfexpauxvecquarter,
-                                             FeatureExtXfexpauxvecaltquarter ]>;
+                                             FeatureExtXfexpauxvecaltquarter,
+                                             FeatureVendorXTHeadMatrix ]>;
 
 def : ProcessorModel<"snitch-mempool", SnitchModel, [FeatureStdExtM,
                                              FeatureStdExtA,
@@ -791,7 +799,8 @@ def : ProcessorModel<"snitch-mempool", SnitchModel, [FeatureStdExtM,
                                              FeaturePULPExtPostmod,
                                              FeaturePULPExtSlet,
                                              FeaturePULPExtVect,
-                                             FeaturePULPExtVectshufflepack ]>;
+                                             FeaturePULPExtVectshufflepack,
+                                             FeatureVendorXTHeadMatrix ]>;
 
 //===----------------------------------------------------------------------===//
 // Define the RISC-V target.

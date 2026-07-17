@@ -618,3 +618,46 @@ def AnyReg : RegisterClass<"RISCV", [untyped], 32,
                                 (sequence "V%u", 0, 31))> {
   let Size = 32;
 }
+
+// Matrices 
+// borrowed from tile definition in X86RegisterInfo.td
+let CopyCost = -1 in // Don't allow copying of matrix registers
+def MR : RegisterClass<"RISCV", [i32], 2048,
+                         (sequence "M%u", 0, 15)> {
+    let Size = 2048;
+    let DecoderMethod = "DecodeMRRegisterClass";
+}
+
+let RegAltNameIndices = [ABIRegAltName] in {
+  def M0    : RISCVReg< 0, "m0" , ["m0"]> , DwarfRegNum<[97]>;
+  def M1    : RISCVReg< 1, "m1" , ["m1"]> , DwarfRegNum<[98]>;
+  def M2    : RISCVReg< 2, "m2" , ["m2"]> , DwarfRegNum<[99]>;
+  def M3    : RISCVReg< 3, "m3" , ["m3"]> , DwarfRegNum<[100]>;
+  def M4    : RISCVReg< 4, "m4" , ["m4"]> , DwarfRegNum<[101]>;
+  def M5    : RISCVReg< 5, "m5" , ["m5"]> , DwarfRegNum<[102]>;
+  def M6    : RISCVReg< 6, "m6" , ["m6"]> , DwarfRegNum<[103]>;
+  def M7    : RISCVReg< 7, "m7" , ["m7"]> , DwarfRegNum<[104]>;
+  def M8    : RISCVReg< 8, "m8" , ["m8"]> , DwarfRegNum<[105]>;
+  def M9    : RISCVReg< 9, "m9" , ["m9"]> , DwarfRegNum<[106]>;
+  def M10   : RISCVReg<10, "m10", ["m10"]>, DwarfRegNum<[107]>;
+  def M11   : RISCVReg<11, "m11", ["m11"]>, DwarfRegNum<[108]>;
+  def M12   : RISCVReg<12, "m12", ["m12"]>, DwarfRegNum<[109]>;
+  def M13   : RISCVReg<13, "m13", ["m13"]>, DwarfRegNum<[110]>;
+  def M14   : RISCVReg<14, "m14", ["m14"]>, DwarfRegNum<[111]>;
+  def M15   : RISCVReg<15, "m15", ["m15"]>, DwarfRegNum<[112]>;
+}
+
+// Accumulators
+let CopyCost = -1 in // Don't allow copying of matrix registers
+def ACC : RegisterClass<"RISCV", [i32], 2048,
+                         (sequence "ACC%u", 0, 3)> {
+    let Size = 2048;
+    let DecoderMethod = "DecodeACCRegisterClass";
+}
+
+let RegAltNameIndices = [ABIRegAltName] in {
+  def ACC0    : RISCVReg<0, "acc0", ["acc0"]>, DwarfRegNum<[113]>;
+  def ACC1    : RISCVReg<1, "acc1", ["acc1"]>, DwarfRegNum<[114]>;
+  def ACC2    : RISCVReg<2, "acc2", ["acc2"]>, DwarfRegNum<[115]>;
+  def ACC3    : RISCVReg<3, "acc3", ["acc3"]>, DwarfRegNum<[116]>;
+}
