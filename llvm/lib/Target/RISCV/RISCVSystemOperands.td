@@ -544,10 +544,6 @@ def : SysReg<"sf.sscratchcswl", 0x149>;
 
 // Xqciint
 let FeaturesRequired = [{ {RISCV::FeatureVendorXqciint} }], isRV32Only = 1 in {
-def : SysReg<"qc.mmcr", 0x7C0>;
-def : SysReg<"qc.mntvec", 0x7C3>;
-def : SysReg<"qc.mstktopaddr", 0x7C4>;
-def : SysReg<"qc.mstkbottomaddr", 0x7C5>;
 def : SysReg<"qc.mthreadptr", 0x7C8>;
 def : SysReg<"qc.mcause", 0x7C9>;
 
@@ -566,3 +562,18 @@ foreach i = 0 - 3 in {
   def : SysReg<"qc.mwpendaddr" # i,   !add(0x7D4, i)>;
 }
 } // FeatureVendorXqciint, isRV32Only
+
+//===----------------------------------------------------------------------===//
+// Generated custom CSRs from riscv-opcodes
+//===----------------------------------------------------------------------===//
+
+def SysReg_SSR : SysReg<"ssr", 0x7C0>;
+def SysReg_FPMODE : SysReg<"fpmode", 0x7C1>;
+def SysReg_BARRIER : SysReg<"barrier", 0x7C2>;
+def SysReg_SC : SysReg<"sc", 0x7C3>;
+def SysReg_USER_LOW : SysReg<"user_low", 0x7C4>;
+def SysReg_USER_HIGH : SysReg<"user_high", 0x7C5>;
+def SysReg_COPIFT : SysReg<"copift", 0x7C6>;
+def SysReg_DUMP : SysReg<"dump", 0x7C7>;
+def SysReg_STACKLIMIT : SysReg<"stacklimit", 0x7D1>;
+def SysReg_FMODE : SysReg<"fmode", 0x800>;

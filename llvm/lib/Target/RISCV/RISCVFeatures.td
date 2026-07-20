@@ -1123,6 +1123,7 @@ def HasStdExtZbkbOrP
 // Vendor extensions
 //===----------------------------------------------------------------------===//
 
+include "RISCVFeaturesXpulp.td"
 // Ventana Extensions
 
 def FeatureVendorXVentanaCondOps
