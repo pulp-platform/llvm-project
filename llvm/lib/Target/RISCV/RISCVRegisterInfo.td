@@ -661,3 +661,35 @@ let RegAltNameIndices = [ABIRegAltName] in {
   def ACC2    : RISCVReg<2, "acc2", ["acc2"]>, DwarfRegNum<[115]>;
   def ACC3    : RISCVReg<3, "acc3", ["acc3"]>, DwarfRegNum<[116]>;
 }
+
+
+// ============================
+//  VME Matrix tile registers
+// ============================
+let RegAltNameIndices = [ABIRegAltName] in {
+  def MT0  : RISCVReg<0,  "mt0", ["mt0"]>, DwarfRegNum<[117]>;
+  def MT1  : RISCVReg<1,  "mt1", ["mt1"]>, DwarfRegNum<[118]>;
+  def MT2  : RISCVReg<2,  "mt2", ["mt2"]>, DwarfRegNum<[119]>;
+  def MT3  : RISCVReg<3,  "mt3", ["mt3"]>, DwarfRegNum<[120]>;
+  def MT4  : RISCVReg<4,  "mt4", ["mt4"]>, DwarfRegNum<[121]>;
+  def MT5  : RISCVReg<5,  "mt5", ["mt5"]>, DwarfRegNum<[122]>;
+  def MT6  : RISCVReg<6,  "mt6", ["mt6"]>, DwarfRegNum<[123]>;
+  def MT7  : RISCVReg<7,  "mt7", ["mt7"]>, DwarfRegNum<[124]>;
+  def MT8  : RISCVReg<8,  "mt8", ["mt8"]>, DwarfRegNum<[125]>;
+  def MT9  : RISCVReg<9,  "mt9", ["mt9"]>, DwarfRegNum<[126]>;
+  def MT10 : RISCVReg<10, "mt10", ["mt10"]>, DwarfRegNum<[127]>;
+  def MT11 : RISCVReg<11, "mt11", ["mt11"]>, DwarfRegNum<[128]>;
+  def MT12 : RISCVReg<12, "mt12", ["mt12"]>, DwarfRegNum<[129]>;
+  def MT13 : RISCVReg<13, "mt13", ["mt13"]>, DwarfRegNum<[130]>;
+  def MT14 : RISCVReg<14, "mt14", ["mt14"]>, DwarfRegNum<[131]>;
+  def MT15 : RISCVReg<15, "mt15", ["mt15"]>, DwarfRegNum<[132]>;
+}
+
+// Matrix tile register class.
+// Use untyped to avoid treating tiles as normal scalar i32 registers.
+let isAllocatable = 0, CopyCost = -1 in
+def MT : RegisterClass<"RISCV", [untyped], 32,
+                       (add (sequence "MT%u", 0, 15))> {
+  let Size = 256;
+  let DecoderMethod = "DecodeMTRegisterClass";
+}

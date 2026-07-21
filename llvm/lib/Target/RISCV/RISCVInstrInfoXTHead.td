@@ -201,7 +201,7 @@ class RVMCfgDT<dag outs, dag ins, string opcodestr, string argstr>
 let Predicates = [HasVendorXTHeadMatrix], DecoderNamespace = "XTHeadMatrix",hasSideEffects = 0, mayLoad = 0, mayStore = 0 in {
 
   let mayLoad = 1 in {
-    def MLD_LHS : RVMLoadStore<0b000, (outs MR:$mds3), (ins GPR:$rs1, GPR:$rs2), "mld.lhs", "$mds3, (${rs1}), $rs2">;
+    def MLD_LHS : RVMLoadStore<0b100, (outs MR:$mds3), (ins GPR:$rs1, GPR:$rs2), "mld.lhs", "$mds3, (${rs1}), $rs2">;
     def MLD_RHS : RVMLoadStore<0b001, (outs MR:$mds3), (ins GPR:$rs1, GPR:$rs2), "mld.rhs", "$mds3, (${rs1}), $rs2">;
   }
 

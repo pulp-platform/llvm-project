@@ -199,6 +199,18 @@ def simm5 : Operand<XLenVT>, ImmLeaf<XLenVT, [{return isInt<5>(Imm);}]> {
   }];
 }
 
+def simm7 : Operand<XLenVT>, ImmLeaf<XLenVT, [{return isInt<7>(Imm);}]> {
+  let ParserMatchClass = SImmAsmOperand<7>;
+  let EncoderMethod = "getImmOpValue";
+  let DecoderMethod = "decodeSImmOperand<7>";
+  let MCOperandPredicate = [{
+    int64_t Imm;
+    if (MCOp.evaluateAsConstantImm(Imm))
+      return isInt<7>(Imm);
+    return MCOp.isBareSymbolRef();
+  }];
+}
+
 def InsnDirectiveOpcode : AsmOperandClass {
   let Name = "InsnDirectiveOpcode";
   let ParserMethod = "parseInsnDirectiveOpcode";
@@ -1668,5 +1680,7 @@ include "RISCVInstrInfoXssr.td"
 include "RISCVInstrInfoXsmallfloat.td"
 include "RISCVInstrInfoXpulp.td"
 include "RISCVInstrInfoXTHead.td"
+include "RISCVInstrInfoVme.td"
+include "RISCVInstrInfoAme.td"
 include "RISCVInstrInfoXcopift.td"
 include "RISCVInstrInfoXvmxdotp.td"

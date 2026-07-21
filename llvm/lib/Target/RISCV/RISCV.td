@@ -616,6 +616,22 @@ def HasVendorXTHeadMatrix : Predicate<"Subtarget->hasVendorXTHeadMatrix()">,
                           AssemblerPredicate<(all_of FeatureVendorXTHeadMatrix),
                               "'xtheadmatrix' (T-Head Matrix Extensions)">;
 
+def FeatureExtXVme
+  : SubtargetFeature<"experimental-xvme", "HasStdExtVme", "true",
+                     "'XVme' (Vector Matrix Instructions)">;
+
+def HasStdExtVme : Predicate<"Subtarget->hasStdExtVme()">,
+                             AssemblerPredicate<(all_of FeatureExtXVme),
+                             "'XVme' (Vector Matrix Instructions)">;
+
+def FeatureExtZvAme
+  : SubtargetFeature<"experimental-zvame", "HasStdExtAme", "true",
+                     "'ZvAme' (Attached Matrix Instructions)">;
+
+def HasStdExtAme : Predicate<"Subtarget->hasStdExtAme()">,
+                             AssemblerPredicate<(all_of FeatureExtZvAme),
+                             "'ZvAme' (Attached Matrix Instructions)">;
+
 def FeatureHasNoFdiv
     : SubtargetFeature<"nofdiv", "HasNoFdiv", "true",
                        "Disable fdiv.* and fsqrt.* instructions, delegate to libcalls",
@@ -761,8 +777,7 @@ def : ProcessorModel<"snitch", SnitchModel, [FeatureStdExtM,
                                              FeatureExtXfexpauxvechalf,
                                              FeatureExtXfexpauxvecalthalf,
                                              FeatureExtXfexpauxvecquarter,
-                                             FeatureExtXfexpauxvecaltquarter,
-                                             FeatureVendorXTHeadMatrix ]>;
+                                             FeatureExtXfexpauxvecaltquarter]>;
 
 def : ProcessorModel<"snitch-mempool", SnitchModel, [FeatureStdExtM,
                                              FeatureStdExtA,
@@ -799,8 +814,7 @@ def : ProcessorModel<"snitch-mempool", SnitchModel, [FeatureStdExtM,
                                              FeaturePULPExtPostmod,
                                              FeaturePULPExtSlet,
                                              FeaturePULPExtVect,
-                                             FeaturePULPExtVectshufflepack,
-                                             FeatureVendorXTHeadMatrix ]>;
+                                             FeaturePULPExtVectshufflepack]>;
 
 //===----------------------------------------------------------------------===//
 // Define the RISC-V target.
