@@ -701,6 +701,7 @@ static constexpr DecoderListEntry DecoderList32[]{
     {DecoderTableXMIPS32, XMIPSGroup, "Mips extensions"},
     {DecoderTableXAndes32, XAndesGroup, "Andes extensions"},
     {DecoderTableXSMT32, XSMTGroup, "SpacemiT extensions"},
+    {DecoderTablerrpost32, {RISCV::FeatureVendorXrrpost}, "PULP Xrrpost extensions"},
     {DecoderTableb32, {RISCV::FeatureVendorXb}, "PULP Xb extensions"},
     {DecoderTablecopift32, {RISCV::FeatureVendorXcopift}, "PULP Xcopift extensions"},
     {DecoderTabledma32, {RISCV::FeatureVendorXdma}, "PULP Xdma extensions"},
