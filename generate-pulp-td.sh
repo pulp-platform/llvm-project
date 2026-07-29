@@ -36,8 +36,7 @@ trap 'rm -rf "${WORKDIR}"' EXIT
 (
     cd "${WORKDIR}"
     uv run --project "${RISCV_OPCODES_DIR}" \
-        python -m riscv_opcodes -llvm --warn-overlap \
-        --csr rv_xpulp --csr rv_xventaglio "${OPCODES[@]}"
+        python -m riscv_opcodes -llvm --warn-overlap --csr rv_xpulp "${OPCODES[@]}"
 )
 
 # Move generated instruction .td files into the RISCV target directory.
