@@ -2,6 +2,18 @@
 
 let Predicates = [HasVendorXsmallfloatH] in {
     let hasSideEffects = 0, mayLoad = 0, mayStore = 0, DecoderNamespace = "smallfloat_h" in
+    def SMALLFLOAT_H_FCVT_H_H : RVInstRFrm<
+                    0b0100010, // funct7
+                    OPC_OP_FP,
+                    (outs FPR16:$rd),
+                    (ins FPR16:$rs1, frmarg:$frm),
+                    "fcvt.h.h", "$rd, $rs1, $frm">,
+                    Sched<[]>
+                    { let rs2 = 0b00010; }
+    def: InstAlias<"fcvt.h.h $rd, $rs1",
+                   (SMALLFLOAT_H_FCVT_H_H FPR16:$rd, FPR16:$rs1, FRM_DYN)>;
+
+    let hasSideEffects = 0, mayLoad = 0, mayStore = 0, DecoderNamespace = "smallfloat_h" in
     def SMALLFLOAT_H_FMACEX_S_H : RVInstRFrm<
                     0b0101010, // funct7
                     OPC_OP_FP,

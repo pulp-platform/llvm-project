@@ -14,6 +14,27 @@ def HasVendorXfrep
       AssemblerPredicate<(all_of FeatureVendorXfrep),
                          "'Xfrep' (Floating-Point Repetition extension)">;
 
+def FeatureVendorXrrpost
+    : RISCVExtension<1, 0, "Spatz register-register post-increment load extension">;
+def HasVendorXrrpost
+    : Predicate<"Subtarget->hasVendorXrrpost()">,
+      AssemblerPredicate<(all_of FeatureVendorXrrpost),
+                         "'Xrrpost' (Spatz register-register post-increment load extension)">;
+
+def FeatureVendorXvfx
+    : RISCVExtension<1, 0, "Spatz Ventaglio (VFX) extension">;
+def HasVendorXvfx
+    : Predicate<"Subtarget->hasVendorXvfx()">,
+      AssemblerPredicate<(all_of FeatureVendorXvfx),
+                         "'Xvfx' (Spatz Ventaglio (VFX) extension)">;
+
+def FeatureVendorXvfwdotp
+    : RISCVExtension<1, 0, "Spatz widening floating-point dot-product extension">;
+def HasVendorXvfwdotp
+    : Predicate<"Subtarget->hasVendorXvfwdotp()">,
+      AssemblerPredicate<(all_of FeatureVendorXvfwdotp),
+                         "'Xvfwdotp' (Spatz widening floating-point dot-product extension)">;
+
 def FeatureVendorXssr
     : RISCVExtension<1, 0, "Stream Semantic Registers extension">;
 def HasVendorXssr

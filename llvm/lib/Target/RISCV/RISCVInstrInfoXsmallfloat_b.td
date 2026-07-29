@@ -24,6 +24,17 @@ let Predicates = [HasVendorXsmallfloatB] in {
     }
 
     let hasSideEffects = 0, mayLoad = 0, mayStore = 0, DecoderNamespace = "smallfloat_b" in
+    def SMALLFLOAT_B_FCVT_B_B : RVInstI<
+                    0b000, // funct3
+                    OPC_OP_FP,
+                    (outs FPR16:$rd),
+                    (ins FPR16:$rs1),
+                    "fcvt.b.b", "$rd, $rs1">,
+                    Sched<[]> {
+        let imm12 = 0b010001100011;
+    }
+
+    let hasSideEffects = 0, mayLoad = 0, mayStore = 0, DecoderNamespace = "smallfloat_b" in
     def SMALLFLOAT_B_FCVT_B_D : RVInstRFrm<
                     0b0100011, // funct7
                     OPC_OP_FP,
@@ -211,7 +222,7 @@ let Predicates = [HasVendorXsmallfloatB] in {
 
     let hasSideEffects = 0, mayLoad = 1, mayStore = 0, DecoderNamespace = "smallfloat_b" in
     def SMALLFLOAT_B_FLB : RVInstI<
-                    0b000, // funct3
+                    0b100, // funct3
                     OPC_LOAD_FP,
                     (outs FPR16:$rd),
                     (ins GPRMem:$rs1, simm12_lo:$imm12),
@@ -359,7 +370,7 @@ let Predicates = [HasVendorXsmallfloatB] in {
 
     let hasSideEffects = 0, mayLoad = 0, mayStore = 1, DecoderNamespace = "smallfloat_b" in
     def SMALLFLOAT_B_FSB : RVInstS<
-                    0b000, // funct3
+                    0b100, // funct3
                     OPC_STORE_FP,
                     (outs ),
                     (ins FPR16:$rs2, GPRMem:$rs1, simm12_lo:$imm12),
