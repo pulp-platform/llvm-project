@@ -43,9 +43,10 @@ if [ "x${PARALLEL_JOBS}" == "x" ]; then
   PARALLEL_JOBS=$(nproc)
 fi
 
-# Clone newlib
+# Fetch newlib.
 rm -rf ${NEWLIBSRC}
-git clone --depth 1 -b newlib-4.4.0 https://sourceware.org/git/newlib-cygwin.git ${NEWLIBSRC}
+mkdir -p ${NEWLIBSRC}
+wget -qO- https://mirrors.kernel.org/sourceware/newlib/newlib-4.4.0.20231231.tar.gz | tar xz --strip-components=1 -C ${NEWLIBSRC}
 ls -al
 
 ##############################
