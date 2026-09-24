@@ -65,6 +65,23 @@ let Predicates = [HasVendorXdma] in {
     }
 
     let hasSideEffects = 0, mayLoad = 0, mayStore = 0, DecoderNamespace = "dma" in
+    def DMA_DMOPC : RVInst<
+                    (outs ),
+                    (ins GPR:$rs1, GPR:$rs2),
+                    "dmopc", "$rs1, $rs2",
+                    [], InstFormatR>,
+                    Sched<[]> {
+        bits<5> rs1;
+        bits<5> rs2;
+        let Inst{31-25} = 0b0001010;
+        let Inst{24-20} = rs2;
+        let Inst{19-15} = rs1;
+        let Inst{14-12} = 0b000;
+        let Inst{11-7} = 0b00000;
+        let Inst{6-0} = 0b0101011;
+    }
+
+    let hasSideEffects = 0, mayLoad = 0, mayStore = 0, DecoderNamespace = "dma" in
     def DMA_DMREP : RVInst<
                     (outs ),
                     (ins GPR:$rs1),
