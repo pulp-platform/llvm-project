@@ -160,3 +160,10 @@ def HasVendorXpulpvectshufflepack
     : Predicate<"Subtarget->hasVendorXpulpvectshufflepack()">,
       AssemblerPredicate<(all_of FeatureVendorXpulpvectshufflepack),
                          "'Xpulpvectshufflepack' (Xpulp extension subset: shuffle & pack operations)">;
+
+def FeatureVendorXpace
+    : RISCVExtension<1, 0, "PACE extension">;
+def HasVendorXpace
+    : Predicate<"Subtarget->hasVendorXpace()">,
+      AssemblerPredicate<(all_of FeatureVendorXpace),
+                         "'Xpace' (PACE extension)">;

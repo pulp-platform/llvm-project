@@ -6,10 +6,14 @@
 name: release
 on:
   release:
-    types: [created]
+    types: [created, published]
   push:
       branches:
         - snitch
+        - pace
+
+permissions:
+  contents: write
 
 jobs:
 
@@ -50,7 +54,9 @@ jobs:
       ########################################
       - name: Build Info
         run: |
-          PKGVERS=riscv32-pulp-llvm-${{ matrix.os }}-${GITHUB_REF#refs/*/}
+          REF_NAME=${GITHUB_REF#refs/*/}
+          REF_NAME=${REF_NAME//\//-}
+          PKGVERS=riscv32-pulp-llvm-${{ matrix.os }}-${REF_NAME}
           echo "PKGVERS=${PKGVERS}" >> $GITHUB_ENV
           echo "BUGURL=${BUGURL}"
           echo "PKGVERS=${PKGVERS}"
@@ -75,7 +81,7 @@ jobs:
       - name: Package
         run: |
           echo "PKGVERS: ${PKGVERS}"
-          tar -czf ${PKGVERS}.tar.gz --transform s/^install/${PKGVERS}/ install
+          tar -czf "${PKGVERS}.tar.gz" --transform "s|^install|${PKGVERS}|" install
 
       ########################################
       ## Deploy
@@ -88,9 +94,14 @@ jobs:
           echo "ARTIFACT_PATHNAME=${ARTIFACT_PATHNAME}" >> $GITHUB_ENV
         shell: bash
 
+      - name: Debug Event
+        run: |
+          echo "event_name=${{ github.event_name }}"
+          echo "ref=${{ github.ref }}"
+          echo "ref_name=${{ github.ref_name }}"
+
       - name: Upload Release Asset
-        if: >
-          github.event_name == 'release'
+        if: ${{ github.event_name == 'release' }}
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
