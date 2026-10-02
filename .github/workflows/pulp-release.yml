@@ -10,6 +10,10 @@ on:
   push:
       branches:
         - snitch
+        - pace
+
+permissions:
+  contents: write
 
 jobs:
 

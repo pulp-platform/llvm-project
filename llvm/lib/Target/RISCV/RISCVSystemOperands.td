@@ -571,7 +571,7 @@ def SysReg_COPIFT : SysReg<"copift", 0x7C6>;
 def SysReg_DUMP : SysReg<"dump", 0x7C7>;
 def SysReg_STACKLIMIT : SysReg<"stacklimit", 0x7D1>;
 def SysReg_FMODE : SysReg<"fmode", 0x800>;
-
+def SysReg_PACE : SysReg<"pace", 0x7D2>;
 
 //===----------------------------------------------------------------------===//
 // Generated custom CSRs from riscv-opcodes
