@@ -18,6 +18,9 @@ BUILDPREFIX=${BUILDPREFIX:-${PWD}/build}
 LLVMSRC=${LLVMSRC:-${PWD}/llvm-project}
 NEWLIBSRC=${NEWLIBSRC:-${PWD}/newlib}
 
+# LLVM backends to build (e.g. "RISCV;host" to also JIT on the host)
+LLVM_TARGETS=${LLVM_TARGETS:-RISCV}
+
 # If a BUGURL and PKGVERS has been provided, set variables
 NEWLIB_EXTRA_OPTS=""
 LLVM_EXTRA_OPTS=""
@@ -59,7 +62,7 @@ cmake \
     -DCMAKE_INSTALL_PREFIX=${INSTALLPREFIX} \
     -DLLVM_ENABLE_PROJECTS="clang;lld" \
     -DLLVM_CCACHE_BUILD=${CCACHE_BUILD} \
-    -DLLVM_TARGETS_TO_BUILD="RISCV" \
+    -DLLVM_TARGETS_TO_BUILD="${LLVM_TARGETS}" \
     -DLLVM_DEFAULT_TARGET_TRIPLE="riscv32-unknown-elf" \
     -DLLVM_OPTIMIZED_TABLEGEN=True \
     -DCMAKE_C_COMPILER=$CC \
