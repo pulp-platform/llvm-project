@@ -104,7 +104,8 @@ let Predicates = [HasVendorXpulpvect, IsRV32] in {
         bits<5> rs1;
         bits<6> imm6;
         let Inst{31-26} = 0b000000;
-        let Inst{25-20} = imm6;
+        let Inst{25} = imm6{0};
+        let Inst{24-20} = imm6{5-1};
         let Inst{19-15} = rs1;
         let Inst{14-12} = 0b111;
         let Inst{11-7} = rd;
@@ -122,7 +123,8 @@ let Predicates = [HasVendorXpulpvect, IsRV32] in {
         bits<5> rs1;
         bits<6> imm6;
         let Inst{31-26} = 0b000000;
-        let Inst{25-20} = imm6;
+        let Inst{25} = imm6{0};
+        let Inst{24-20} = imm6{5-1};
         let Inst{19-15} = rs1;
         let Inst{14-12} = 0b110;
         let Inst{11-7} = rd;
@@ -180,7 +182,8 @@ let Predicates = [HasVendorXpulpvect, IsRV32] in {
         bits<5> rs1;
         bits<6> imm6;
         let Inst{31-26} = 0b011010;
-        let Inst{25-20} = imm6;
+        let Inst{25} = imm6{0};
+        let Inst{24-20} = imm6{5-1};
         let Inst{19-15} = rs1;
         let Inst{14-12} = 0b111;
         let Inst{11-7} = rd;
@@ -198,7 +201,8 @@ let Predicates = [HasVendorXpulpvect, IsRV32] in {
         bits<5> rs1;
         bits<6> imm6;
         let Inst{31-26} = 0b011010;
-        let Inst{25-20} = imm6;
+        let Inst{25} = imm6{0};
+        let Inst{24-20} = imm6{5-1};
         let Inst{19-15} = rs1;
         let Inst{14-12} = 0b110;
         let Inst{11-7} = rd;
@@ -256,7 +260,8 @@ let Predicates = [HasVendorXpulpvect, IsRV32] in {
         bits<5> rs1;
         bits<6> imm6;
         let Inst{31-26} = 0b000100;
-        let Inst{25-20} = imm6;
+        let Inst{25} = imm6{0};
+        let Inst{24-20} = imm6{5-1};
         let Inst{19-15} = rs1;
         let Inst{14-12} = 0b111;
         let Inst{11-7} = rd;
@@ -274,7 +279,8 @@ let Predicates = [HasVendorXpulpvect, IsRV32] in {
         bits<5> rs1;
         bits<6> imm6;
         let Inst{31-26} = 0b000100;
-        let Inst{25-20} = imm6;
+        let Inst{25} = imm6{0};
+        let Inst{24-20} = imm6{5-1};
         let Inst{19-15} = rs1;
         let Inst{14-12} = 0b110;
         let Inst{11-7} = rd;
@@ -332,7 +338,8 @@ let Predicates = [HasVendorXpulpvect, IsRV32] in {
         bits<5> rs1;
         bits<6> imm6;
         let Inst{31-26} = 0b000110;
-        let Inst{25-20} = imm6;
+        let Inst{25} = imm6{0};
+        let Inst{24-20} = imm6{5-1};
         let Inst{19-15} = rs1;
         let Inst{14-12} = 0b111;
         let Inst{11-7} = rd;
@@ -350,7 +357,8 @@ let Predicates = [HasVendorXpulpvect, IsRV32] in {
         bits<5> rs1;
         bits<6> imm6;
         let Inst{31-26} = 0b000110;
-        let Inst{25-20} = imm6;
+        let Inst{25} = imm6{0};
+        let Inst{24-20} = imm6{5-1};
         let Inst{19-15} = rs1;
         let Inst{14-12} = 0b110;
         let Inst{11-7} = rd;
@@ -408,7 +416,8 @@ let Predicates = [HasVendorXpulpvect, IsRV32] in {
         bits<5> rs1;
         bits<6> imm6;
         let Inst{31-26} = 0b000001;
-        let Inst{25-20} = imm6;
+        let Inst{25} = imm6{0};
+        let Inst{24-20} = imm6{5-1};
         let Inst{19-15} = rs1;
         let Inst{14-12} = 0b111;
         let Inst{11-7} = rd;
@@ -426,7 +435,8 @@ let Predicates = [HasVendorXpulpvect, IsRV32] in {
         bits<5> rs1;
         bits<6> imm6;
         let Inst{31-26} = 0b000001;
-        let Inst{25-20} = imm6;
+        let Inst{25} = imm6{0};
+        let Inst{24-20} = imm6{5-1};
         let Inst{19-15} = rs1;
         let Inst{14-12} = 0b110;
         let Inst{11-7} = rd;
@@ -484,7 +494,8 @@ let Predicates = [HasVendorXpulpvect, IsRV32] in {
         bits<5> rs1;
         bits<6> imm6;
         let Inst{31-26} = 0b000111;
-        let Inst{25-20} = imm6;
+        let Inst{25} = imm6{0};
+        let Inst{24-20} = imm6{5-1};
         let Inst{19-15} = rs1;
         let Inst{14-12} = 0b111;
         let Inst{11-7} = rd;
@@ -502,7 +513,8 @@ let Predicates = [HasVendorXpulpvect, IsRV32] in {
         bits<5> rs1;
         bits<6> imm6;
         let Inst{31-26} = 0b000111;
-        let Inst{25-20} = imm6;
+        let Inst{25} = imm6{0};
+        let Inst{24-20} = imm6{5-1};
         let Inst{19-15} = rs1;
         let Inst{14-12} = 0b110;
         let Inst{11-7} = rd;
@@ -560,7 +572,8 @@ let Predicates = [HasVendorXpulpvect, IsRV32] in {
         bits<5> rs1;
         bits<6> imm6;
         let Inst{31-26} = 0b001111;
-        let Inst{25-20} = imm6;
+        let Inst{25} = imm6{0};
+        let Inst{24-20} = imm6{5-1};
         let Inst{19-15} = rs1;
         let Inst{14-12} = 0b111;
         let Inst{11-7} = rd;
@@ -578,7 +591,8 @@ let Predicates = [HasVendorXpulpvect, IsRV32] in {
         bits<5> rs1;
         bits<6> imm6;
         let Inst{31-26} = 0b001111;
-        let Inst{25-20} = imm6;
+        let Inst{25} = imm6{0};
+        let Inst{24-20} = imm6{5-1};
         let Inst{19-15} = rs1;
         let Inst{14-12} = 0b110;
         let Inst{11-7} = rd;
@@ -636,7 +650,8 @@ let Predicates = [HasVendorXpulpvect, IsRV32] in {
         bits<5> rs1;
         bits<6> imm6;
         let Inst{31-26} = 0b000101;
-        let Inst{25-20} = imm6;
+        let Inst{25} = imm6{0};
+        let Inst{24-20} = imm6{5-1};
         let Inst{19-15} = rs1;
         let Inst{14-12} = 0b111;
         let Inst{11-7} = rd;
@@ -654,7 +669,8 @@ let Predicates = [HasVendorXpulpvect, IsRV32] in {
         bits<5> rs1;
         bits<6> imm6;
         let Inst{31-26} = 0b000101;
-        let Inst{25-20} = imm6;
+        let Inst{25} = imm6{0};
+        let Inst{24-20} = imm6{5-1};
         let Inst{19-15} = rs1;
         let Inst{14-12} = 0b110;
         let Inst{11-7} = rd;
@@ -712,7 +728,8 @@ let Predicates = [HasVendorXpulpvect, IsRV32] in {
         bits<5> rs1;
         bits<6> imm6;
         let Inst{31-26} = 0b001101;
-        let Inst{25-20} = imm6;
+        let Inst{25} = imm6{0};
+        let Inst{24-20} = imm6{5-1};
         let Inst{19-15} = rs1;
         let Inst{14-12} = 0b111;
         let Inst{11-7} = rd;
@@ -730,7 +747,8 @@ let Predicates = [HasVendorXpulpvect, IsRV32] in {
         bits<5> rs1;
         bits<6> imm6;
         let Inst{31-26} = 0b001101;
-        let Inst{25-20} = imm6;
+        let Inst{25} = imm6{0};
+        let Inst{24-20} = imm6{5-1};
         let Inst{19-15} = rs1;
         let Inst{14-12} = 0b110;
         let Inst{11-7} = rd;
@@ -788,7 +806,8 @@ let Predicates = [HasVendorXpulpvect, IsRV32] in {
         bits<5> rs1;
         bits<6> imm6;
         let Inst{31-26} = 0b001011;
-        let Inst{25-20} = imm6;
+        let Inst{25} = imm6{0};
+        let Inst{24-20} = imm6{5-1};
         let Inst{19-15} = rs1;
         let Inst{14-12} = 0b111;
         let Inst{11-7} = rd;
@@ -806,7 +825,8 @@ let Predicates = [HasVendorXpulpvect, IsRV32] in {
         bits<5> rs1;
         bits<6> imm6;
         let Inst{31-26} = 0b001011;
-        let Inst{25-20} = imm6;
+        let Inst{25} = imm6{0};
+        let Inst{24-20} = imm6{5-1};
         let Inst{19-15} = rs1;
         let Inst{14-12} = 0b110;
         let Inst{11-7} = rd;
@@ -864,7 +884,8 @@ let Predicates = [HasVendorXpulpvect, IsRV32] in {
         bits<5> rs1;
         bits<6> imm6;
         let Inst{31-26} = 0b010011;
-        let Inst{25-20} = imm6;
+        let Inst{25} = imm6{0};
+        let Inst{24-20} = imm6{5-1};
         let Inst{19-15} = rs1;
         let Inst{14-12} = 0b111;
         let Inst{11-7} = rd;
@@ -882,7 +903,8 @@ let Predicates = [HasVendorXpulpvect, IsRV32] in {
         bits<5> rs1;
         bits<6> imm6;
         let Inst{31-26} = 0b010011;
-        let Inst{25-20} = imm6;
+        let Inst{25} = imm6{0};
+        let Inst{24-20} = imm6{5-1};
         let Inst{19-15} = rs1;
         let Inst{14-12} = 0b110;
         let Inst{11-7} = rd;
@@ -940,7 +962,8 @@ let Predicates = [HasVendorXpulpvect, IsRV32] in {
         bits<5> rs1;
         bits<6> imm6;
         let Inst{31-26} = 0b001001;
-        let Inst{25-20} = imm6;
+        let Inst{25} = imm6{0};
+        let Inst{24-20} = imm6{5-1};
         let Inst{19-15} = rs1;
         let Inst{14-12} = 0b111;
         let Inst{11-7} = rd;
@@ -958,7 +981,8 @@ let Predicates = [HasVendorXpulpvect, IsRV32] in {
         bits<5> rs1;
         bits<6> imm6;
         let Inst{31-26} = 0b001001;
-        let Inst{25-20} = imm6;
+        let Inst{25} = imm6{0};
+        let Inst{24-20} = imm6{5-1};
         let Inst{19-15} = rs1;
         let Inst{14-12} = 0b110;
         let Inst{11-7} = rd;
@@ -1016,7 +1040,8 @@ let Predicates = [HasVendorXpulpvect, IsRV32] in {
         bits<5> rs1;
         bits<6> imm6;
         let Inst{31-26} = 0b010001;
-        let Inst{25-20} = imm6;
+        let Inst{25} = imm6{0};
+        let Inst{24-20} = imm6{5-1};
         let Inst{19-15} = rs1;
         let Inst{14-12} = 0b111;
         let Inst{11-7} = rd;
@@ -1034,7 +1059,8 @@ let Predicates = [HasVendorXpulpvect, IsRV32] in {
         bits<5> rs1;
         bits<6> imm6;
         let Inst{31-26} = 0b010001;
-        let Inst{25-20} = imm6;
+        let Inst{25} = imm6{0};
+        let Inst{24-20} = imm6{5-1};
         let Inst{19-15} = rs1;
         let Inst{14-12} = 0b110;
         let Inst{11-7} = rd;
@@ -1092,7 +1118,8 @@ let Predicates = [HasVendorXpulpvect, IsRV32] in {
         bits<5> rs1;
         bits<6> imm6;
         let Inst{31-26} = 0b000011;
-        let Inst{25-20} = imm6;
+        let Inst{25} = imm6{0};
+        let Inst{24-20} = imm6{5-1};
         let Inst{19-15} = rs1;
         let Inst{14-12} = 0b111;
         let Inst{11-7} = rd;
@@ -1110,7 +1137,8 @@ let Predicates = [HasVendorXpulpvect, IsRV32] in {
         bits<5> rs1;
         bits<6> imm6;
         let Inst{31-26} = 0b000011;
-        let Inst{25-20} = imm6;
+        let Inst{25} = imm6{0};
+        let Inst{24-20} = imm6{5-1};
         let Inst{19-15} = rs1;
         let Inst{14-12} = 0b110;
         let Inst{11-7} = rd;
@@ -1168,7 +1196,8 @@ let Predicates = [HasVendorXpulpvect, IsRV32] in {
         bits<5> rs1;
         bits<6> imm6;
         let Inst{31-26} = 0b100110;
-        let Inst{25-20} = imm6;
+        let Inst{25} = imm6{0};
+        let Inst{24-20} = imm6{5-1};
         let Inst{19-15} = rs1;
         let Inst{14-12} = 0b111;
         let Inst{11-7} = rd;
@@ -1186,7 +1215,8 @@ let Predicates = [HasVendorXpulpvect, IsRV32] in {
         bits<5> rs1;
         bits<6> imm6;
         let Inst{31-26} = 0b100110;
-        let Inst{25-20} = imm6;
+        let Inst{25} = imm6{0};
+        let Inst{24-20} = imm6{5-1};
         let Inst{19-15} = rs1;
         let Inst{14-12} = 0b110;
         let Inst{11-7} = rd;
@@ -1244,7 +1274,8 @@ let Predicates = [HasVendorXpulpvect, IsRV32] in {
         bits<5> rs1;
         bits<6> imm6;
         let Inst{31-26} = 0b100000;
-        let Inst{25-20} = imm6;
+        let Inst{25} = imm6{0};
+        let Inst{24-20} = imm6{5-1};
         let Inst{19-15} = rs1;
         let Inst{14-12} = 0b111;
         let Inst{11-7} = rd;
@@ -1262,7 +1293,8 @@ let Predicates = [HasVendorXpulpvect, IsRV32] in {
         bits<5> rs1;
         bits<6> imm6;
         let Inst{31-26} = 0b100000;
-        let Inst{25-20} = imm6;
+        let Inst{25} = imm6{0};
+        let Inst{24-20} = imm6{5-1};
         let Inst{19-15} = rs1;
         let Inst{14-12} = 0b110;
         let Inst{11-7} = rd;
@@ -1320,7 +1352,8 @@ let Predicates = [HasVendorXpulpvect, IsRV32] in {
         bits<5> rs1;
         bits<6> imm6;
         let Inst{31-26} = 0b100010;
-        let Inst{25-20} = imm6;
+        let Inst{25} = imm6{0};
+        let Inst{24-20} = imm6{5-1};
         let Inst{19-15} = rs1;
         let Inst{14-12} = 0b111;
         let Inst{11-7} = rd;
@@ -1338,7 +1371,8 @@ let Predicates = [HasVendorXpulpvect, IsRV32] in {
         bits<5> rs1;
         bits<6> imm6;
         let Inst{31-26} = 0b100010;
-        let Inst{25-20} = imm6;
+        let Inst{25} = imm6{0};
+        let Inst{24-20} = imm6{5-1};
         let Inst{19-15} = rs1;
         let Inst{14-12} = 0b110;
         let Inst{11-7} = rd;
@@ -1356,7 +1390,8 @@ let Predicates = [HasVendorXpulpvect, IsRV32] in {
         bits<5> rs1;
         bits<6> imm6;
         let Inst{31-26} = 0b011110;
-        let Inst{25-20} = imm6;
+        let Inst{25} = imm6{0};
+        let Inst{24-20} = imm6{5-1};
         let Inst{19-15} = rs1;
         let Inst{14-12} = 0b111;
         let Inst{11-7} = rd;
@@ -1374,7 +1409,8 @@ let Predicates = [HasVendorXpulpvect, IsRV32] in {
         bits<5> rs1;
         bits<6> imm6;
         let Inst{31-26} = 0b011110;
-        let Inst{25-20} = imm6;
+        let Inst{25} = imm6{0};
+        let Inst{24-20} = imm6{5-1};
         let Inst{19-15} = rs1;
         let Inst{14-12} = 0b110;
         let Inst{11-7} = rd;
@@ -1392,7 +1428,8 @@ let Predicates = [HasVendorXpulpvect, IsRV32] in {
         bits<5> rs1;
         bits<6> imm6;
         let Inst{31-26} = 0b100100;
-        let Inst{25-20} = imm6;
+        let Inst{25} = imm6{0};
+        let Inst{24-20} = imm6{5-1};
         let Inst{19-15} = rs1;
         let Inst{14-12} = 0b111;
         let Inst{11-7} = rd;
@@ -1410,7 +1447,8 @@ let Predicates = [HasVendorXpulpvect, IsRV32] in {
         bits<5> rs1;
         bits<6> imm6;
         let Inst{31-26} = 0b100100;
-        let Inst{25-20} = imm6;
+        let Inst{25} = imm6{0};
+        let Inst{24-20} = imm6{5-1};
         let Inst{19-15} = rs1;
         let Inst{14-12} = 0b110;
         let Inst{11-7} = rd;
@@ -1428,7 +1466,8 @@ let Predicates = [HasVendorXpulpvect, IsRV32] in {
         bits<5> rs1;
         bits<6> imm6;
         let Inst{31-26} = 0b101100;
-        let Inst{25-20} = imm6;
+        let Inst{25} = imm6{0};
+        let Inst{24-20} = imm6{5-1};
         let Inst{19-15} = rs1;
         let Inst{14-12} = 0b111;
         let Inst{11-7} = rd;
@@ -1446,7 +1485,8 @@ let Predicates = [HasVendorXpulpvect, IsRV32] in {
         bits<5> rs1;
         bits<6> imm6;
         let Inst{31-26} = 0b101100;
-        let Inst{25-20} = imm6;
+        let Inst{25} = imm6{0};
+        let Inst{24-20} = imm6{5-1};
         let Inst{19-15} = rs1;
         let Inst{14-12} = 0b110;
         let Inst{11-7} = rd;
@@ -1504,7 +1544,8 @@ let Predicates = [HasVendorXpulpvect, IsRV32] in {
         bits<5> rs1;
         bits<6> imm6;
         let Inst{31-26} = 0b001100;
-        let Inst{25-20} = imm6;
+        let Inst{25} = imm6{0};
+        let Inst{24-20} = imm6{5-1};
         let Inst{19-15} = rs1;
         let Inst{14-12} = 0b111;
         let Inst{11-7} = rd;
@@ -1522,7 +1563,8 @@ let Predicates = [HasVendorXpulpvect, IsRV32] in {
         bits<5> rs1;
         bits<6> imm6;
         let Inst{31-26} = 0b001100;
-        let Inst{25-20} = imm6;
+        let Inst{25} = imm6{0};
+        let Inst{24-20} = imm6{5-1};
         let Inst{19-15} = rs1;
         let Inst{14-12} = 0b110;
         let Inst{11-7} = rd;
@@ -1580,7 +1622,8 @@ let Predicates = [HasVendorXpulpvect, IsRV32] in {
         bits<5> rs1;
         bits<6> imm6;
         let Inst{31-26} = 0b001110;
-        let Inst{25-20} = imm6;
+        let Inst{25} = imm6{0};
+        let Inst{24-20} = imm6{5-1};
         let Inst{19-15} = rs1;
         let Inst{14-12} = 0b111;
         let Inst{11-7} = rd;
@@ -1598,7 +1641,8 @@ let Predicates = [HasVendorXpulpvect, IsRV32] in {
         bits<5> rs1;
         bits<6> imm6;
         let Inst{31-26} = 0b001110;
-        let Inst{25-20} = imm6;
+        let Inst{25} = imm6{0};
+        let Inst{24-20} = imm6{5-1};
         let Inst{19-15} = rs1;
         let Inst{14-12} = 0b110;
         let Inst{11-7} = rd;
@@ -1656,7 +1700,8 @@ let Predicates = [HasVendorXpulpvect, IsRV32] in {
         bits<5> rs1;
         bits<6> imm6;
         let Inst{31-26} = 0b001000;
-        let Inst{25-20} = imm6;
+        let Inst{25} = imm6{0};
+        let Inst{24-20} = imm6{5-1};
         let Inst{19-15} = rs1;
         let Inst{14-12} = 0b111;
         let Inst{11-7} = rd;
@@ -1674,7 +1719,8 @@ let Predicates = [HasVendorXpulpvect, IsRV32] in {
         bits<5> rs1;
         bits<6> imm6;
         let Inst{31-26} = 0b001000;
-        let Inst{25-20} = imm6;
+        let Inst{25} = imm6{0};
+        let Inst{24-20} = imm6{5-1};
         let Inst{19-15} = rs1;
         let Inst{14-12} = 0b110;
         let Inst{11-7} = rd;
@@ -1732,7 +1778,8 @@ let Predicates = [HasVendorXpulpvect, IsRV32] in {
         bits<5> rs1;
         bits<6> imm6;
         let Inst{31-26} = 0b001010;
-        let Inst{25-20} = imm6;
+        let Inst{25} = imm6{0};
+        let Inst{24-20} = imm6{5-1};
         let Inst{19-15} = rs1;
         let Inst{14-12} = 0b111;
         let Inst{11-7} = rd;
@@ -1750,7 +1797,8 @@ let Predicates = [HasVendorXpulpvect, IsRV32] in {
         bits<5> rs1;
         bits<6> imm6;
         let Inst{31-26} = 0b001010;
-        let Inst{25-20} = imm6;
+        let Inst{25} = imm6{0};
+        let Inst{24-20} = imm6{5-1};
         let Inst{19-15} = rs1;
         let Inst{14-12} = 0b110;
         let Inst{11-7} = rd;
@@ -1808,7 +1856,8 @@ let Predicates = [HasVendorXpulpvect, IsRV32] in {
         bits<5> rs1;
         bits<6> imm6;
         let Inst{31-26} = 0b010110;
-        let Inst{25-20} = imm6;
+        let Inst{25} = imm6{0};
+        let Inst{24-20} = imm6{5-1};
         let Inst{19-15} = rs1;
         let Inst{14-12} = 0b111;
         let Inst{11-7} = rd;
@@ -1826,7 +1875,8 @@ let Predicates = [HasVendorXpulpvect, IsRV32] in {
         bits<5> rs1;
         bits<6> imm6;
         let Inst{31-26} = 0b010110;
-        let Inst{25-20} = imm6;
+        let Inst{25} = imm6{0};
+        let Inst{24-20} = imm6{5-1};
         let Inst{19-15} = rs1;
         let Inst{14-12} = 0b110;
         let Inst{11-7} = rd;
@@ -1884,7 +1934,8 @@ let Predicates = [HasVendorXpulpvect, IsRV32] in {
         bits<5> rs1;
         bits<6> imm6;
         let Inst{31-26} = 0b101110;
-        let Inst{25-20} = imm6;
+        let Inst{25} = imm6{0};
+        let Inst{24-20} = imm6{5-1};
         let Inst{19-15} = rs1;
         let Inst{14-12} = 0b111;
         let Inst{11-7} = rd;
@@ -1902,7 +1953,8 @@ let Predicates = [HasVendorXpulpvect, IsRV32] in {
         bits<5> rs1;
         bits<6> imm6;
         let Inst{31-26} = 0b101110;
-        let Inst{25-20} = imm6;
+        let Inst{25} = imm6{0};
+        let Inst{24-20} = imm6{5-1};
         let Inst{19-15} = rs1;
         let Inst{14-12} = 0b110;
         let Inst{11-7} = rd;
@@ -1960,7 +2012,8 @@ let Predicates = [HasVendorXpulpvect, IsRV32] in {
         bits<5> rs1;
         bits<6> imm6;
         let Inst{31-26} = 0b101000;
-        let Inst{25-20} = imm6;
+        let Inst{25} = imm6{0};
+        let Inst{24-20} = imm6{5-1};
         let Inst{19-15} = rs1;
         let Inst{14-12} = 0b111;
         let Inst{11-7} = rd;
@@ -1978,7 +2031,8 @@ let Predicates = [HasVendorXpulpvect, IsRV32] in {
         bits<5> rs1;
         bits<6> imm6;
         let Inst{31-26} = 0b101000;
-        let Inst{25-20} = imm6;
+        let Inst{25} = imm6{0};
+        let Inst{24-20} = imm6{5-1};
         let Inst{19-15} = rs1;
         let Inst{14-12} = 0b110;
         let Inst{11-7} = rd;
@@ -2036,7 +2090,8 @@ let Predicates = [HasVendorXpulpvect, IsRV32] in {
         bits<5> rs1;
         bits<6> imm6;
         let Inst{31-26} = 0b101010;
-        let Inst{25-20} = imm6;
+        let Inst{25} = imm6{0};
+        let Inst{24-20} = imm6{5-1};
         let Inst{19-15} = rs1;
         let Inst{14-12} = 0b111;
         let Inst{11-7} = rd;
@@ -2054,7 +2109,8 @@ let Predicates = [HasVendorXpulpvect, IsRV32] in {
         bits<5> rs1;
         bits<6> imm6;
         let Inst{31-26} = 0b101010;
-        let Inst{25-20} = imm6;
+        let Inst{25} = imm6{0};
+        let Inst{24-20} = imm6{5-1};
         let Inst{19-15} = rs1;
         let Inst{14-12} = 0b110;
         let Inst{11-7} = rd;
@@ -2112,7 +2168,8 @@ let Predicates = [HasVendorXpulpvect, IsRV32] in {
         bits<5> rs1;
         bits<6> imm6;
         let Inst{31-26} = 0b010100;
-        let Inst{25-20} = imm6;
+        let Inst{25} = imm6{0};
+        let Inst{24-20} = imm6{5-1};
         let Inst{19-15} = rs1;
         let Inst{14-12} = 0b111;
         let Inst{11-7} = rd;
@@ -2130,7 +2187,8 @@ let Predicates = [HasVendorXpulpvect, IsRV32] in {
         bits<5> rs1;
         bits<6> imm6;
         let Inst{31-26} = 0b010100;
-        let Inst{25-20} = imm6;
+        let Inst{25} = imm6{0};
+        let Inst{24-20} = imm6{5-1};
         let Inst{19-15} = rs1;
         let Inst{14-12} = 0b110;
         let Inst{11-7} = rd;
@@ -2188,7 +2246,8 @@ let Predicates = [HasVendorXpulpvect, IsRV32] in {
         bits<5> rs1;
         bits<6> imm6;
         let Inst{31-26} = 0b010010;
-        let Inst{25-20} = imm6;
+        let Inst{25} = imm6{0};
+        let Inst{24-20} = imm6{5-1};
         let Inst{19-15} = rs1;
         let Inst{14-12} = 0b111;
         let Inst{11-7} = rd;
@@ -2206,7 +2265,8 @@ let Predicates = [HasVendorXpulpvect, IsRV32] in {
         bits<5> rs1;
         bits<6> imm6;
         let Inst{31-26} = 0b010010;
-        let Inst{25-20} = imm6;
+        let Inst{25} = imm6{0};
+        let Inst{24-20} = imm6{5-1};
         let Inst{19-15} = rs1;
         let Inst{14-12} = 0b110;
         let Inst{11-7} = rd;
@@ -2264,7 +2324,8 @@ let Predicates = [HasVendorXpulpvect, IsRV32] in {
         bits<5> rs1;
         bits<6> imm6;
         let Inst{31-26} = 0b010000;
-        let Inst{25-20} = imm6;
+        let Inst{25} = imm6{0};
+        let Inst{24-20} = imm6{5-1};
         let Inst{19-15} = rs1;
         let Inst{14-12} = 0b111;
         let Inst{11-7} = rd;
@@ -2282,7 +2343,8 @@ let Predicates = [HasVendorXpulpvect, IsRV32] in {
         bits<5> rs1;
         bits<6> imm6;
         let Inst{31-26} = 0b010000;
-        let Inst{25-20} = imm6;
+        let Inst{25} = imm6{0};
+        let Inst{24-20} = imm6{5-1};
         let Inst{19-15} = rs1;
         let Inst{14-12} = 0b110;
         let Inst{11-7} = rd;
@@ -2370,7 +2432,8 @@ let Predicates = [HasVendorXpulpvect, IsRV32] in {
         bits<5> rs1;
         bits<6> imm6;
         let Inst{31-26} = 0b000010;
-        let Inst{25-20} = imm6;
+        let Inst{25} = imm6{0};
+        let Inst{24-20} = imm6{5-1};
         let Inst{19-15} = rs1;
         let Inst{14-12} = 0b111;
         let Inst{11-7} = rd;
@@ -2388,7 +2451,8 @@ let Predicates = [HasVendorXpulpvect, IsRV32] in {
         bits<5> rs1;
         bits<6> imm6;
         let Inst{31-26} = 0b000010;
-        let Inst{25-20} = imm6;
+        let Inst{25} = imm6{0};
+        let Inst{24-20} = imm6{5-1};
         let Inst{19-15} = rs1;
         let Inst{14-12} = 0b110;
         let Inst{11-7} = rd;
@@ -2446,7 +2510,8 @@ let Predicates = [HasVendorXpulpvect, IsRV32] in {
         bits<5> rs1;
         bits<6> imm6;
         let Inst{31-26} = 0b011000;
-        let Inst{25-20} = imm6;
+        let Inst{25} = imm6{0};
+        let Inst{24-20} = imm6{5-1};
         let Inst{19-15} = rs1;
         let Inst{14-12} = 0b111;
         let Inst{11-7} = rd;
@@ -2464,7 +2529,8 @@ let Predicates = [HasVendorXpulpvect, IsRV32] in {
         bits<5> rs1;
         bits<6> imm6;
         let Inst{31-26} = 0b011000;
-        let Inst{25-20} = imm6;
+        let Inst{25} = imm6{0};
+        let Inst{24-20} = imm6{5-1};
         let Inst{19-15} = rs1;
         let Inst{14-12} = 0b110;
         let Inst{11-7} = rd;

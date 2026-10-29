@@ -91,6 +91,27 @@ def HasVendorXsmallfloatVb
       AssemblerPredicate<(all_of FeatureVendorXsmallfloatVb),
                          "'Xsmallfloat_vb' (Smallfloat extension; based on Occamy)">;
 
+def FeatureVendorXsmallfloatinx
+    : RISCVExtension<1, 0, "Xsmallfloatinx - Smallfloat extension operating on the integer register file (Zfinx-like)">;
+def HasVendorXsmallfloatinx
+    : Predicate<"Subtarget->hasVendorXsmallfloatinx()">,
+      AssemblerPredicate<(all_of FeatureVendorXsmallfloatinx),
+                         "'Xsmallfloatinx' (Xsmallfloatinx - Smallfloat extension operating on the integer register file (Zfinx-like))">;
+
+def FeatureVendorXsfltinx
+    : RISCVExtension<1, 0, "Xsfltinx - vectorial quarter-precision expanding dot-product extension in integer registers">;
+def HasVendorXsfltinx
+    : Predicate<"Subtarget->hasVendorXsfltinx()">,
+      AssemblerPredicate<(all_of FeatureVendorXsfltinx),
+                         "'Xsfltinx' (Xsfltinx - vectorial quarter-precision expanding dot-product extension in integer registers)">;
+
+def FeatureVendorXfcdotphalfinx
+    : RISCVExtension<1, 0, "Xfcdotphalfinx - half-precision complex dot-product extension in integer registers">;
+def HasVendorXfcdotphalfinx
+    : Predicate<"Subtarget->hasVendorXfcdotphalfinx()">,
+      AssemblerPredicate<(all_of FeatureVendorXfcdotphalfinx),
+                         "'Xfcdotphalfinx' (Xfcdotphalfinx - half-precision complex dot-product extension in integer registers)">;
+
 def FeatureVendorXb
     : RISCVExtension<1, 0, "RV32B: bit manipulation">;
 def HasVendorXb
@@ -139,6 +160,13 @@ def HasVendorXpulpminmax
     : Predicate<"Subtarget->hasVendorXpulpminmax()">,
       AssemblerPredicate<(all_of FeatureVendorXpulpminmax),
                          "'Xpulpminmax' (Xpulp extension subset: general ALU operations: min, max, avg)">;
+
+def FeatureVendorXpulppostmod
+    : RISCVExtension<1, 0, "Xpulp extension subset: post-incrementing load & store operations and register-register loads & store operations">;
+def HasVendorXpulppostmod
+    : Predicate<"Subtarget->hasVendorXpulppostmod()">,
+      AssemblerPredicate<(all_of FeatureVendorXpulppostmod),
+                         "'Xpulppostmod' (Xpulp extension subset: post-incrementing load & store operations and register-register loads & store operations)">;
 
 def FeatureVendorXpulpslet
     : RISCVExtension<1, 0, "Xpulp extension subset: general ALU operations: slet">;
