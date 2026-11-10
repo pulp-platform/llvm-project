@@ -15,16 +15,17 @@
 //===----------------------------------------------------------------------===//
 
 // Matrix Memory Instructions
-class RVMLoadStore<bits<3> ldst, dag outs, dag ins,
+class RVMLoadStore<bits<1> transpose, bits<3> ldst, dag outs, dag ins,
                   string opcodestr, string argstr>
     : RVInst<outs, ins, opcodestr, argstr, [], InstFormatOther> {
   bits<5> rs2;
   bits<5> rs1;
   bits<4> mds3;
 
-  let Inst{31-29} = 0b000;
+  let Inst{31-30} = 0b00;
+  let Inst{29}    = transpose;
   let Inst{28-26} = ldst;
-  let Inst{25}    = 0b0;
+  let Inst{25}    = transpose;
   let Inst{24-20} = rs2;
   let Inst{19-15} = rs1;
   let Inst{14-11} = mds3;
@@ -200,13 +201,17 @@ class RVMCfgDT<dag outs, dag ins, string opcodestr, string argstr>
 
 let Predicates = [HasVendorXTHeadMatrix], DecoderNamespace = "XTHeadMatrix",hasSideEffects = 0, mayLoad = 0, mayStore = 0 in {
 
+  // rw: operand in the standard layout (A MxK, B KxN, C MxN), cw: transposed
   let mayLoad = 1 in {
-    def MLD_LHS : RVMLoadStore<0b100, (outs MR:$mds3), (ins GPR:$rs1, GPR:$rs2), "mld.lhs", "$mds3, (${rs1}), $rs2">;
-    def MLD_RHS : RVMLoadStore<0b001, (outs MR:$mds3), (ins GPR:$rs1, GPR:$rs2), "mld.rhs", "$mds3, (${rs1}), $rs2">;
+    def MLD_CW_LHS : RVMLoadStore<0b0, 0b100, (outs MR:$mds3), (ins GPR:$rs1, GPR:$rs2), "mld.cw.lhs", "$mds3, (${rs1}), $rs2">;
+    def MLD_RW_RHS : RVMLoadStore<0b0, 0b001, (outs MR:$mds3), (ins GPR:$rs1, GPR:$rs2), "mld.rw.rhs", "$mds3, (${rs1}), $rs2">;
+    def MLD_RW_LHS : RVMLoadStore<0b1, 0b100, (outs MR:$mds3), (ins GPR:$rs1, GPR:$rs2), "mld.rw.lhs", "$mds3, (${rs1}), $rs2">;
+    def MLD_CW_RHS : RVMLoadStore<0b1, 0b001, (outs MR:$mds3), (ins GPR:$rs1, GPR:$rs2), "mld.cw.rhs", "$mds3, (${rs1}), $rs2">;
   }
 
   let mayStore = 1 in {
-    def MST : RVMLoadStore<0b010, (outs), (ins MR:$mds3, GPR:$rs1, GPR:$rs2), "mst", "$mds3, (${rs1}), $rs2">;
+    def MST_RW : RVMLoadStore<0b0, 0b010, (outs), (ins MR:$mds3, GPR:$rs1, GPR:$rs2), "mst.rw", "$mds3, (${rs1}), $rs2">;
+    def MST_CW : RVMLoadStore<0b1, 0b010, (outs), (ins MR:$mds3, GPR:$rs1, GPR:$rs2), "mst.cw", "$mds3, (${rs1}), $rs2">;
   }
 
   def MMACC   : RVMMACC <(outs ACC:$md), (ins MR:$ms1, MR:$ms2), "mmacc", "$md, $ms2, $ms1">;
