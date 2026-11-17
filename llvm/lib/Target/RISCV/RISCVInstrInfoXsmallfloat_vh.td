@@ -270,6 +270,18 @@ let Predicates = [HasVendorXsmallfloatVh] in {
                     Sched<[]>;
 
     let hasSideEffects = 0, mayLoad = 0, mayStore = 0, DecoderNamespace = "smallfloat_vh" in
+    def SMALLFLOAT_VH_VFEXP_H : RVInstR<
+                    0b1000111, // funct7 = f2:vecfltop
+                    0b010, // funct3 = r:vfmt
+                    OPC_OP,
+                    (outs FPR16:$rd),
+                    (ins FPR16:$rs1),
+                    "vfexp.h", "$rd, $rs1">,
+                    Sched<[]> {
+        let rs2 = 0b00001;
+    }
+
+    let hasSideEffects = 0, mayLoad = 0, mayStore = 0, DecoderNamespace = "smallfloat_vh" in
     def SMALLFLOAT_VH_VFGE_H : RVInstR<
                     0b1010011, // funct7 = f2:vecfltop
                     0b010, // funct3 = r:vfmt
