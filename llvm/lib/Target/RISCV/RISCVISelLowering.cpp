@@ -24599,6 +24599,11 @@ RISCVTargetLowering::getRegForInlineAsmConstraint(const TargetRegisterInfo *TRI,
     switch (Constraint[0]) {
     case 'r':
       // TODO: Support fixed vectors up to XLen for P extension?
+      // Fixed vectors of XLen bits (e.g. the Xpulpvect v2i16/v4i8 SIMD
+      // operands) are bitcast to XLenVT, as GCC does.
+      if (VT.isFixedLengthVector() &&
+          VT.getSizeInBits() == Subtarget.getXLen())
+        return std::make_pair(0U, &RISCV::GPRNoX0RegClass);
       if (VT.isVector())
         break;
       if (VT == MVT::f16 && Subtarget.hasStdExtZhinxmin())
