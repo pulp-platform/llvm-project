@@ -703,7 +703,6 @@ static constexpr DecoderListEntry DecoderList32[]{
     {DecoderTableXSMT32, XSMTGroup, "SpacemiT extensions"},
     {DecoderTablefcdotphalfinx32, {RISCV::FeatureVendorXfcdotphalfinx}, "PULP Xfcdotphalfinx extensions"},
     {DecoderTablepulppostmod32, {RISCV::FeatureVendorXpulppostmod}, "PULP Xpulppostmod extensions"},
-    {DecoderTablesfltinx32, {RISCV::FeatureVendorXsfltinx}, "PULP Xsfltinx extensions"},
     {DecoderTablesmallfloatinx32, {RISCV::FeatureVendorXsmallfloatinx}, "PULP Xsmallfloatinx extensions"},
     {DecoderTablepace32, {RISCV::FeatureVendorXpace}, "PULP Xpace extensions"},
     {DecoderTablerrpost32, {RISCV::FeatureVendorXrrpost}, "PULP Xrrpost extensions"},

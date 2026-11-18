@@ -1243,6 +1243,46 @@ let Predicates = [HasVendorXsmallfloatinx] in {
                     Sched<[]>;
 
     let hasSideEffects = 0, mayLoad = 0, mayStore = 0, DecoderNamespace = "smallfloatinx" in
+    def SMALLFLOATINX_VFDOTPEXA_S_B : RVInstR<
+                    0b1011100, // funct7 = f2:vecfltop
+                    0b000, // funct3 = r:vfmt
+                    OPC_OP,
+                    (outs GPR:$rd),
+                    (ins GPR:$rs1, GPR:$rs2),
+                    "vfdotpexa.s.b", "$rd, $rs1, $rs2">,
+                    Sched<[]>;
+
+    let hasSideEffects = 0, mayLoad = 0, mayStore = 0, DecoderNamespace = "smallfloatinx" in
+    def SMALLFLOATINX_VFDOTPEXA_S_R_B : RVInstR<
+                    0b1011100, // funct7 = f2:vecfltop
+                    0b100, // funct3 = r:vfmt
+                    OPC_OP,
+                    (outs GPR:$rd),
+                    (ins GPR:$rs1, GPR:$rs2),
+                    "vfdotpexa.s.r.b", "$rd, $rs1, $rs2">,
+                    Sched<[]>;
+
+    let hasSideEffects = 0, mayLoad = 0, mayStore = 0, DecoderNamespace = "smallfloatinx" in
+    def SMALLFLOATINX_VFDOTPEXB_S_B : RVInstR<
+                    0b1011110, // funct7 = f2:vecfltop
+                    0b000, // funct3 = r:vfmt
+                    OPC_OP,
+                    (outs GPR:$rd),
+                    (ins GPR:$rs1, GPR:$rs2),
+                    "vfdotpexb.s.b", "$rd, $rs1, $rs2">,
+                    Sched<[]>;
+
+    let hasSideEffects = 0, mayLoad = 0, mayStore = 0, DecoderNamespace = "smallfloatinx" in
+    def SMALLFLOATINX_VFDOTPEXB_S_R_B : RVInstR<
+                    0b1011110, // funct7 = f2:vecfltop
+                    0b100, // funct3 = r:vfmt
+                    OPC_OP,
+                    (outs GPR:$rd),
+                    (ins GPR:$rs1, GPR:$rs2),
+                    "vfdotpexb.s.r.b", "$rd, $rs1, $rs2">,
+                    Sched<[]>;
+
+    let hasSideEffects = 0, mayLoad = 0, mayStore = 0, DecoderNamespace = "smallfloatinx" in
     def SMALLFLOATINX_VFEQ_B : RVInstR<
                     0b1010000, // funct7 = f2:vecfltop
                     0b011, // funct3 = r:vfmt

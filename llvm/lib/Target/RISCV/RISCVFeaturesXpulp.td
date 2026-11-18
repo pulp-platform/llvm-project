@@ -98,13 +98,6 @@ def HasVendorXsmallfloatinx
       AssemblerPredicate<(all_of FeatureVendorXsmallfloatinx),
                          "'Xsmallfloatinx' (Xsmallfloatinx - Smallfloat extension operating on the integer register file (Zfinx-like))">;
 
-def FeatureVendorXsfltinx
-    : RISCVExtension<1, 0, "Xsfltinx - vectorial quarter-precision expanding dot-product extension in integer registers">;
-def HasVendorXsfltinx
-    : Predicate<"Subtarget->hasVendorXsfltinx()">,
-      AssemblerPredicate<(all_of FeatureVendorXsfltinx),
-                         "'Xsfltinx' (Xsfltinx - vectorial quarter-precision expanding dot-product extension in integer registers)">;
-
 def FeatureVendorXfcdotphalfinx
     : RISCVExtension<1, 0, "Xfcdotphalfinx - half-precision complex dot-product extension in integer registers">;
 def HasVendorXfcdotphalfinx
