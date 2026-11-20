@@ -17,7 +17,7 @@ let Predicates = [HasVendorXipu] in {
                     OPC_CUSTOM_3,
                     (outs GPR:$rd),
                     (ins GPR:$rs1, simm12_lo:$imm12),
-                    "iaddi", "$rd, $rs1, ${imm12}(${rs1})">,
+                    "iaddi", "$rd, $rs1, $imm12">,
                     Sched<[]>;
 
     let hasSideEffects = 0, mayLoad = 0, mayStore = 0, DecoderNamespace = "ipu" in
@@ -36,7 +36,7 @@ let Predicates = [HasVendorXipu] in {
                     OPC_CUSTOM_3,
                     (outs GPR:$rd),
                     (ins GPR:$rs1, simm12_lo:$imm12),
-                    "iandi", "$rd, $rs1, ${imm12}(${rs1})">,
+                    "iandi", "$rd, $rs1, $imm12">,
                     Sched<[]>;
 
     let hasSideEffects = 0, mayLoad = 0, mayStore = 0, DecoderNamespace = "ipu" in
@@ -395,7 +395,7 @@ let Predicates = [HasVendorXipu] in {
                     OPC_CUSTOM_3,
                     (outs GPR:$rd),
                     (ins GPR:$rs1, simm12_lo:$imm12),
-                    "iori", "$rd, $rs1, ${imm12}(${rs1})">,
+                    "iori", "$rd, $rs1, $imm12">,
                     Sched<[]>;
 
     let hasSideEffects = 0, mayLoad = 0, mayStore = 0, DecoderNamespace = "ipu" in
@@ -687,7 +687,7 @@ let Predicates = [HasVendorXipu] in {
                     OPC_CUSTOM_3,
                     (outs GPR:$rd),
                     (ins GPR:$rs1, simm12_lo:$imm12),
-                    "islti", "$rd, $rs1, ${imm12}(${rs1})">,
+                    "islti", "$rd, $rs1, $imm12">,
                     Sched<[]>;
 
     let hasSideEffects = 0, mayLoad = 0, mayStore = 0, DecoderNamespace = "ipu" in
@@ -696,7 +696,7 @@ let Predicates = [HasVendorXipu] in {
                     OPC_CUSTOM_3,
                     (outs GPR:$rd),
                     (ins GPR:$rs1, simm12_lo:$imm12),
-                    "isltiu", "$rd, $rs1, ${imm12}(${rs1})">,
+                    "isltiu", "$rd, $rs1, $imm12">,
                     Sched<[]>;
 
     let hasSideEffects = 0, mayLoad = 0, mayStore = 0, DecoderNamespace = "ipu" in
@@ -825,7 +825,7 @@ let Predicates = [HasVendorXipu] in {
                     OPC_CUSTOM_3,
                     (outs GPR:$rd),
                     (ins GPR:$rs1, simm12_lo:$imm12),
-                    "ixori", "$rd, $rs1, ${imm12}(${rs1})">,
+                    "ixori", "$rd, $rs1, $imm12">,
                     Sched<[]>;
 
 }

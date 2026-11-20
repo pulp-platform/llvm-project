@@ -13,10 +13,13 @@ if [ "x${CCACHE_BUILD}" != "x" ]; then
 fi
 
 # Pointers to install, build and source directories
-INSTALLPREFIX=${PWD}/install
-BUILDPREFIX=${PWD}/build
-LLVMSRC=${PWD}/llvm-project
-NEWLIBSRC=${PWD}/newlib
+INSTALLPREFIX=${INSTALLPREFIX:-${PWD}/install}
+BUILDPREFIX=${BUILDPREFIX:-${PWD}/build}
+LLVMSRC=${LLVMSRC:-${PWD}/llvm-project}
+NEWLIBSRC=${NEWLIBSRC:-${PWD}/newlib}
+
+# LLVM backends to build (e.g. "RISCV;host" to also JIT on the host)
+LLVM_TARGETS=${LLVM_TARGETS:-RISCV}
 
 # If a BUGURL and PKGVERS has been provided, set variables
 NEWLIB_EXTRA_OPTS=""
@@ -59,7 +62,7 @@ cmake \
     -DCMAKE_INSTALL_PREFIX=${INSTALLPREFIX} \
     -DLLVM_ENABLE_PROJECTS="clang;lld" \
     -DLLVM_CCACHE_BUILD=${CCACHE_BUILD} \
-    -DLLVM_TARGETS_TO_BUILD="RISCV" \
+    -DLLVM_TARGETS_TO_BUILD="${LLVM_TARGETS}" \
     -DLLVM_DEFAULT_TARGET_TRIPLE="riscv32-unknown-elf" \
     -DLLVM_OPTIMIZED_TABLEGEN=True \
     -DCMAKE_C_COMPILER=$CC \
@@ -138,7 +141,7 @@ cmake -G"Unix Makefiles"                                                     \
     -DCOMPILER_RT_DEFAULT_TARGET_ONLY=ON                                     \
     -DCOMPILER_RT_OS_DIR="riscv32-unknown-unknown-elf"                       \
     -DLLVM_CONFIG_PATH=${BUILDPREFIX}/llvm/bin/llvm-config                   \
-    ../../llvm-project/compiler-rt
+    ${LLVMSRC}/compiler-rt
 make -j${PARALLEL_JOBS}
 make install
 

@@ -581,3 +581,4 @@ def SysReg_VTLREG : SysReg<"vtlreg", 0x7C8>;
 def SysReg_VTLIDXW : SysReg<"vtlidxw", 0x7C9>;
 def SysReg_VTLBLKS : SysReg<"vtlblks", 0x7CA>;
 def SysReg_VTLRATIO : SysReg<"vtlratio", 0x7CB>;
+def SysReg_TRACE : SysReg<"trace", 0x7D0>;

@@ -2,6 +2,26 @@
 
 let Predicates = [HasVendorXpulpbitop, IsRV32] in {
     let hasSideEffects = 0, mayLoad = 0, mayStore = 0, DecoderNamespace = "pulpbitop" in
+    def PULPBITOP_P_BCLR : RVInst<
+                    (outs GPR:$rd),
+                    (ins GPR:$rs1, uimm5:$Luimm5, uimm5:$imm5),
+                    "p.bclr", "$rd, $rs1, $Luimm5, $imm5",
+                    [], InstFormatR>,
+                    Sched<[]> {
+        bits<5> rd;
+        bits<5> rs1;
+        bits<5> Luimm5;
+        bits<5> imm5;
+        let Inst{31-30} = 0b11;
+        let Inst{29-25} = Luimm5;
+        let Inst{24-20} = imm5;
+        let Inst{19-15} = rs1;
+        let Inst{14-12} = 0b011;
+        let Inst{11-7} = rd;
+        let Inst{6-0} = 0b0110011;
+    }
+
+    let hasSideEffects = 0, mayLoad = 0, mayStore = 0, DecoderNamespace = "pulpbitop" in
     def PULPBITOP_P_BCLRR : RVInstR<
                     0b1000000, // funct7
                     0b011, // funct3
@@ -10,6 +30,26 @@ let Predicates = [HasVendorXpulpbitop, IsRV32] in {
                     (ins GPR:$rs1, GPR:$rs2),
                     "p.bclrr", "$rd, $rs1, $rs2">,
                     Sched<[]>;
+
+    let hasSideEffects = 0, mayLoad = 0, mayStore = 0, DecoderNamespace = "pulpbitop" in
+    def PULPBITOP_P_BSET : RVInst<
+                    (outs GPR:$rd),
+                    (ins GPR:$rs1, uimm5:$Luimm5, uimm5:$imm5),
+                    "p.bset", "$rd, $rs1, $Luimm5, $imm5",
+                    [], InstFormatR>,
+                    Sched<[]> {
+        bits<5> rd;
+        bits<5> rs1;
+        bits<5> Luimm5;
+        bits<5> imm5;
+        let Inst{31-30} = 0b11;
+        let Inst{29-25} = Luimm5;
+        let Inst{24-20} = imm5;
+        let Inst{19-15} = rs1;
+        let Inst{14-12} = 0b100;
+        let Inst{11-7} = rd;
+        let Inst{6-0} = 0b0110011;
+    }
 
     let hasSideEffects = 0, mayLoad = 0, mayStore = 0, DecoderNamespace = "pulpbitop" in
     def PULPBITOP_P_BSETR : RVInstR<
@@ -87,6 +127,26 @@ let Predicates = [HasVendorXpulpbitop, IsRV32] in {
     }
 
     let hasSideEffects = 0, mayLoad = 0, mayStore = 0, DecoderNamespace = "pulpbitop" in
+    def PULPBITOP_P_EXTRACT : RVInst<
+                    (outs GPR:$rd),
+                    (ins GPR:$rs1, uimm5:$Luimm5, uimm5:$imm5),
+                    "p.extract", "$rd, $rs1, $Luimm5, $imm5",
+                    [], InstFormatR>,
+                    Sched<[]> {
+        bits<5> rd;
+        bits<5> rs1;
+        bits<5> Luimm5;
+        bits<5> imm5;
+        let Inst{31-30} = 0b11;
+        let Inst{29-25} = Luimm5;
+        let Inst{24-20} = imm5;
+        let Inst{19-15} = rs1;
+        let Inst{14-12} = 0b000;
+        let Inst{11-7} = rd;
+        let Inst{6-0} = 0b0110011;
+    }
+
+    let hasSideEffects = 0, mayLoad = 0, mayStore = 0, DecoderNamespace = "pulpbitop" in
     def PULPBITOP_P_EXTRACTR : RVInstR<
                     0b1000000, // funct7
                     0b000, // funct3
@@ -95,6 +155,26 @@ let Predicates = [HasVendorXpulpbitop, IsRV32] in {
                     (ins GPR:$rs1, GPR:$rs2),
                     "p.extractr", "$rd, $rs1, $rs2">,
                     Sched<[]>;
+
+    let hasSideEffects = 0, mayLoad = 0, mayStore = 0, DecoderNamespace = "pulpbitop" in
+    def PULPBITOP_P_EXTRACTU : RVInst<
+                    (outs GPR:$rd),
+                    (ins GPR:$rs1, uimm5:$Luimm5, uimm5:$imm5),
+                    "p.extractu", "$rd, $rs1, $Luimm5, $imm5",
+                    [], InstFormatR>,
+                    Sched<[]> {
+        bits<5> rd;
+        bits<5> rs1;
+        bits<5> Luimm5;
+        bits<5> imm5;
+        let Inst{31-30} = 0b11;
+        let Inst{29-25} = Luimm5;
+        let Inst{24-20} = imm5;
+        let Inst{19-15} = rs1;
+        let Inst{14-12} = 0b001;
+        let Inst{11-7} = rd;
+        let Inst{6-0} = 0b0110011;
+    }
 
     let hasSideEffects = 0, mayLoad = 0, mayStore = 0, DecoderNamespace = "pulpbitop" in
     def PULPBITOP_P_EXTRACTUR : RVInstR<
@@ -126,6 +206,26 @@ let Predicates = [HasVendorXpulpbitop, IsRV32] in {
                     "p.fl1", "$rd, $rs1">,
                     Sched<[]> {
         let imm12 = 0b000100000000;
+    }
+
+    let hasSideEffects = 0, mayLoad = 0, mayStore = 0, DecoderNamespace = "pulpbitop" in
+    def PULPBITOP_P_INSERT : RVInst<
+                    (outs GPR:$rd),
+                    (ins GPR:$rs1, uimm5:$Luimm5, uimm5:$imm5),
+                    "p.insert", "$rd, $rs1, $Luimm5, $imm5",
+                    [], InstFormatR>,
+                    Sched<[]> {
+        bits<5> rd;
+        bits<5> rs1;
+        bits<5> Luimm5;
+        bits<5> imm5;
+        let Inst{31-30} = 0b11;
+        let Inst{29-25} = Luimm5;
+        let Inst{24-20} = imm5;
+        let Inst{19-15} = rs1;
+        let Inst{14-12} = 0b010;
+        let Inst{11-7} = rd;
+        let Inst{6-0} = 0b0110011;
     }
 
     let hasSideEffects = 0, mayLoad = 0, mayStore = 0, DecoderNamespace = "pulpbitop" in
